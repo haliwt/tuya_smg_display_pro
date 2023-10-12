@@ -8,7 +8,7 @@
 #include "display.h"
 
 
-
+uint8_t  step_state;
 
 void (*single_ai_fun)(uint8_t cmd);
 void (*single_add_fun)(void);
@@ -256,7 +256,7 @@ static void DisplayPanel_DHT11_Value(void)
 void RunPocess_Command_Handler(void)
 {
    static uint8_t power_off_set_flag;
-   static uint8_t  step_state;
+
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:

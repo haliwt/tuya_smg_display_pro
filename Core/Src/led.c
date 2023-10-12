@@ -157,16 +157,12 @@ void Panel_Led_OnOff_Function(void)
 {
 
    static uint8_t ai_changed_flag;
-   if(run_t.gTimer_run_ico > 30){ //30* 10ms =300ms
-		run_t.gTimer_run_ico=0;
-		
-		LED_POWER_ON();
-		if(run_t.gWifi ==0){
+    if(run_t.gWifi ==0){
        WIFI_LED_OnOff(0);
 
-	   }
-	   else
-		   WIFI_LED_OnOff(1);
+	}
+	else
+		WIFI_LED_OnOff(1);
 	 
 	  
     if(run_t.gDry==1){
@@ -215,8 +211,9 @@ void Panel_Led_OnOff_Function(void)
 	 	TIME_LED_OnOff(0);
 
     
-	}
 }
+
+
 /***************************************************************
 *
 *Function Name: void LED_TempHum(void)
