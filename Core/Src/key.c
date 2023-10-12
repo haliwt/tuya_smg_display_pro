@@ -184,17 +184,16 @@ void Process_Key_Handler(uint8_t keylabel)
 		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
 		  	  
 
-		         // run_t.ai_model_flag =NO_AI_MODE;
-				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
-			      run_t.gTimer_key_timing=0;
-				
-			    //  run_t.input_timer_timing_numbers_flag =1;
-                  run_t.timer_timing_define_ok=0; //WT.EDIT 2023.09.15
-                  run_t.judge_hours_if_zero =0;
-                  run_t.judge_minutes_if_zero =0;
-				  run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
-                 	SendData_Buzzer();//single_buzzer_fun();
-                    HAL_Delay(2);
+			 run_t.ai_model_flag =NO_AI_MODE;
+			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
+			run_t.gTimer_key_timing=0;
+
+			run_t.timer_timing_define_ok=0; //WT.EDIT 2023.09.15
+			run_t.judge_hours_if_zero =0;
+			run_t.judge_minutes_if_zero =0;
+			run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
+			SendData_Buzzer();//single_buzzer_fun();
+			HAL_Delay(2);
 			  
           }
 	       
@@ -359,7 +358,7 @@ void Set_Timing_Temperature_Number_Value(void)
 	if(run_t.temp_set_timer_timing_flag == TIMER_TIMING){
 
 	
-	if(run_t.gTimer_key_timing > 5){
+	if(run_t.gTimer_key_timing > 3){
 		run_t.gTimer_key_timing =0;		
 		
 	   // run_t.input_timer_timing_numbers_flag =0;
@@ -438,7 +437,7 @@ void Set_Timing_Temperature_Number_Value(void)
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
  
-
+   static uint8_t mode_key;
    volatile static  uint8_t set_up_temperature_value;
   switch(GPIO_Pin){
 
@@ -480,26 +479,17 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	      
           run_t.gTimer_time_colon=0;
-          if(run_t.recoder_start_conuter_flag==0){
-			run_t.recoder_start_conuter_flag++;
-			run_t.gTimer_mode_key_start_counter=1;
-			  run_t.gTimer_mode_key_counter=0;
-
-		 }
-		 if(run_t.gTimer_mode_key_counter> 3 || run_t.gTimer_mode_key_counter==3){
-                        
-		       run_t.keyvalue  = MODE_LONG_KEY_ID;
-			   run_t.recoder_start_conuter_flag=0;	
-		       run_t.gTimer_mode_key_start_counter=0;
-
+		  mode_key = mode_key ^ 0x01;
+		  if(mode_key ==1){
+			run_t.keyvalue  = MODE_LONG_KEY_ID;
+			run_t.gTimer_mode_key_start_counter=0;
+			run_t.recoder_start_conuter_flag=0;	
+         
 		}
-
-
-	    
+		else{
 		 
-
+		   run_t.timer_timing_define_ok=1;
 	  }
-
 
 	 break;
 
@@ -756,7 +746,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
     }
  
 }
-
+}
 void Key_TheSecond_Scan(void)
 {
 	
