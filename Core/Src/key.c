@@ -29,18 +29,18 @@ uint8_t KEY_Scan(void)
 	{
 		key_t.read &= ~0x80; // 0x1f & 0x7F =  0x7F
 	}
-    else if(FAN_KEY_VALUE()   ==1 ) //FAN_KEY_ID = 0x10
-	{
-		  key_t.read &= ~0x10; // 0xFf & 0xEF =  0xEF
-	}
-	else if(PLASMA_KEY_VALUE()   ==1 ) //PLASMA_KEY_ID = 0x20
-	{
-		  key_t.read &= ~0x20; // 0xFf & 0xDF =  0xDF
-	}
-	else if(DRY_KEY_VALUE()  ==1 ) //DRY_KEY_ID = 0x40
-	{
-		  key_t.read &= ~0x40; // 0xFf & 0xBF =  0xBF
-	}
+    // else if(FAN_KEY_VALUE()   ==1 ) //FAN_KEY_ID = 0x10
+	// {
+	// 	  key_t.read &= ~0x10; // 0xFf & 0xEF =  0xEF
+	// }
+	// else if(PLASMA_KEY_VALUE()   ==1 ) //PLASMA_KEY_ID = 0x20
+	// {
+	// 	  key_t.read &= ~0x20; // 0xFf & 0xDF =  0xDF
+	// }
+	// else if(DRY_KEY_VALUE()  ==1 ) //DRY_KEY_ID = 0x40
+	// {
+	// 	  key_t.read &= ~0x40; // 0xFf & 0xBF =  0xBF
+	// }
 
 	
 	
@@ -64,7 +64,7 @@ uint8_t KEY_Scan(void)
 		{
 			if(key_t.read == key_t.buffer) //  short  key be down ->continunce be pressed key
 			{
-				if(++key_t.on_time>35 )//25 //10000  0.5us
+				if(++key_t.on_time>70000 )//25 //10000  0.5us
 				{
 					//run_t.power_times++;
                     key_t.value = key_t.buffer^_KEY_ALL_OFF; // key.value = 0xFE ^ 0xFF = 0x01
@@ -87,7 +87,7 @@ uint8_t KEY_Scan(void)
 			{
 				if(++key_t.on_time>70000)// 80000 long key be down
 				{
-				    key_t.value = key_t.value|0x80; //key.value = 0x02 | 0x80  =0x82
+				    key_t.value = key_t.value|0x90; //key.value = 0x02 | 0x80  =0x82
                     key_t.on_time = 0;
 					key_t.state   = finish;
 	               
@@ -151,7 +151,7 @@ uint8_t KEY_Scan(void)
 void Process_Key_Handler(uint8_t keylabel)
 {
    static uint8_t power_on_off_flag;
-
+   uint8_t wifi_look_for;
   
 
     switch(keylabel){
@@ -168,7 +168,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		 }
 		 else{
 
-		    SendData_PowerOff(0);
+		    SendData_PowerOnOff(0);
             HAL_Delay(2);
 		    run_t.gRunCommand_label =RUN_POWER_OFF;
 	        run_t.power_on_recoder_times++ ;
@@ -207,98 +207,36 @@ void Process_Key_Handler(uint8_t keylabel)
         
         if(run_t.gPower_On ==RUN_POWER_ON){
 
-			if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-         switch(run_t.temp_set_timer_timing_flag){
+			SendData_Set_Wifi(0x01);
+			HAL_Delay(1);
+		  	run_t.gWifi =1;
+			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
+			do{
 
-              case 0:
-                   
-					if(run_t.ai_model_flag ==AI_MODE){
-						run_t.ai_model_flag =NO_AI_MODE;
-						 SendData_Set_Command(AI_MODE_OFF);
-                         HAL_Delay(5);
-                      
-						run_t.timer_timing_define_flag=timing_success;
-					     run_t.gTimer_Counter=0;
+               if(run_t.wifi_led_fast_blink_flag==0){
 
-					}
-					else{
-						if(run_t.ai_model_flag ==NO_AI_MODE){
-							run_t.ai_model_flag =AI_MODE;
-							SendData_Set_Command(AI_MODE_ON);
-	                        HAL_Delay(5);
-	                         if(run_t.ptc_warning ==0){
-	                         run_t.gDry= 1;
+                  SendData_Set_Wifi(0x01);
+                  HAL_Delay(1);
+                  wifi_look_for =1;
 
-	                       }
-	                        run_t.gPlasma = 1;
-	                        run_t.fan_stop_flag =0;
-	                        run_t.manual_dry_turn_off=0;
-						    run_t.timer_timing_define_flag=timing_donot;
-					   }
+               }
+               else{
+                  wifi_look_for =0;
 
-					}
-                
-                run_t.keyvalue = 0xFF;
-			    keylabel=0xff;
-				return;
-			break;
+               }
 
-			case 1://set timer timing numbers 
+
+            }while(wifi_look_for);
+         
+			//run_t.wifi_led_fast_blink_flag=1;
+			run_t.wifi_link_cloud_flag =0;
+			run_t.gTimer_wifi_connect_counter=0;
 				
-		    //if(run_t.timer_dispTime_minutes >0 || run_t.timer_dispTime_hours > 0){
-		    if(run_t.judge_hours_if_zero >0 || run_t.judge_minutes_if_zero >20){
-			     SendData_Buzzer();
-                 HAL_Delay(5);
-				 run_t.timer_timing_define_flag=timing_success;
-				 run_t.timer_timing_define_ok = 1;
-				 run_t.temp_set_timer_timing_flag=0;
-                 run_t.ai_model_flag =NO_AI_MODE;
-                
-              
-		    }
-             else{
-
-				run_t.ai_model_flag =AI_MODE;
-				
-		
-				SendData_Buzzer();
-                  HAL_Delay(5);
-
-                  run_t.gDry=1;
-                  run_t.gPlasma=1;
-					run_t.timer_timing_define_flag=timing_donot;
-					
-					run_t.timer_works_transform_flag =0; //at once display AI mode 
-					
-					run_t.timer_timing_define_ok = 0;
-
-					run_t.temp_set_timer_timing_flag=0;
-               
-                  
-                 
-            
-                 SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On
-
-                 HAL_Delay(5);
-
-				}
-					
-		    	run_t.gTimer_Counter=0;
-
-                run_t.keyvalue = 0xFF;
-				keylabel=0xff;
-				//run_t.input_timer_timing_numbers_flag =0;
-				return;
-
-			break;
-
-            }	
-
-		   }
 		}
 	   run_t.keyvalue = 0xFF;
 
 	  break;
+	 
 
       case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
           if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
@@ -442,23 +380,8 @@ void Set_Timing_Temperature_Number_Value(void)
         run_t.gTimer_Counter=0;
 	
 	 }
-     //AI of led blink waiting select
-	// if(run_t.input_timer_timing_numbers_flag ==1){
-     else{
-           if(run_t.gTimer_smg_timing < 26){
-	              LED_AI_ON();
-           	}
-		   else if(run_t.gTimer_smg_timing > 24 && run_t.gTimer_smg_timing < 54){
-		   	     LED_AI_OFF();
-		   	
-		   	}
-		   else if(run_t.gTimer_smg_timing > 53){
-			run_t.gTimer_smg_timing=0;
-
-			
-		   }
-
-	}
+ 
+    
 
 	}
     else if(run_t.temp_set_timer_timing_flag==0){
@@ -533,13 +456,13 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				
                 run_t.gRunCommand_label = RUN_POWER_ON;
                 run_t.display_timer_timing_flag =0;
-				SendData_PowerOff(1);
+				SendData_PowerOnOff(1);
 		   }
            else{
 		   	run_t.gRunCommand_label = RUN_POWER_OFF;
             run_t.display_timer_timing_flag =4;
 		  
-			SendData_PowerOff(0);
+			SendData_PowerOnOff(0);
 			Power_Off_Fun();
 		     
 		   }
@@ -878,15 +801,15 @@ uint8_t KEY_Normal_Scan(uint8_t mode)
 {
     static uint8_t key_up=1;     //�����ɿ���־
     if(mode==1)key_up=1;    //֧������
-    if(key_up&&(AI_KEY_VALUE()==1||PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
+    if(key_up&&(PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
     {
         HAL_Delay(20);
 		run_t.gTimer_time_colon =0;
         key_up=0;
-        if(AI_KEY_VALUE()==1)       return run_t.keyvalue  = AI_KEY_ID;
-        else if(DRY_KEY_VALUE()==1)  return run_t.keyvalue  = DRY_KEY_ID;
+       // if(AI_KEY_VALUE()==1)       return run_t.keyvalue  = AI_KEY_ID;
+        if(DRY_KEY_VALUE()==1)  return run_t.keyvalue  = DRY_KEY_ID;
         else if(PLASMA_KEY_VALUE()==1)  return run_t.keyvalue  = PLASMA_KEY_ID;
-    }else if(AI_KEY_VALUE()==0 && DRY_KEY_VALUE()==0 && PLASMA_KEY_VALUE()==0)key_up=1;
+    }else if(DRY_KEY_VALUE()==0 && PLASMA_KEY_VALUE()==0)key_up=1;
     return 0;   //�ް�������
 }
 

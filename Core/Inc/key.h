@@ -116,7 +116,7 @@ typedef enum{
    FAN_KEY_ID = 0x10,
    PLASMA_KEY_ID = 0x20,
    DRY_KEY_ID = 0x40,
-   AI_KEY_ID =0x80,
+   AI_KEY_ID =0x90,
    MODE_LONG_KEY_ID = 0x82
   
 }key_item_t;

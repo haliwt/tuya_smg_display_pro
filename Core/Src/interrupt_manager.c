@@ -49,6 +49,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	run_t.gTimer_time_colon++ ;
     run_t.gTimer_error_digital++;
 	run_t.gTimer_run_ico++;
+	run_t.gTimer_led_500ms++;
     if(tm0>99){ //100 *10ms = 1000ms = 1s
 		tm0=0;
 		
@@ -61,6 +62,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_key_timing++;
 		run_t.gTimer_temperature++;
 		run_t.gTimer_key_temp_timing++ ;
+		run_t .gTimer_wifi_slowly ++;
 	
 		run_t.gTimer_temp_delay++;
         //usart

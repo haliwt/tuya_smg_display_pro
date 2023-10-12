@@ -2,6 +2,18 @@
 #define __RUN_H_
 #include "main.h"
 
+typedef enum _Signal{
+    POWER_OFF= 0xFD,
+	POWER_ON=0x01,
+    PANEL_DATA,
+	WIFI_INFO,
+	WIFI_TIME,
+	WIFI_TEMP,
+	WIFI_CMD,
+	WIFI_BEIJING_TIME,
+	WIFI_SET_TIMING,
+	WIFI_REF_DATA
+}signal_t;
 
 typedef enum WIFI_STATE_T{
    
@@ -16,7 +28,9 @@ typedef enum WIFI_STATE_T{
     WIFI_SONIC_ON = 0x01,       //ultrasonic
     WIFI_SONIC_OFF = 0x11,
     WIFI_TEMPERATURE = 0xA0,
+	
     WIFI_POWER_ON_NORMAL= 0xB0,
+	WIFI_POWER_OFF_NORMAL = 0xB1,
 
 	PTC_WARNING= 0xE1,
 	FAN_WARNING = 0xE2,
@@ -37,15 +51,7 @@ typedef enum TIMING_T{
 }timing_t;
 
 
-typedef enum _Signal{
-  
-	PANEL_DATA=0x01,
-    ORDER_DATA,
-    ANSWER_DATA,
-   
-    POWER_NULL
 
-}signal_t;
 
 typedef enum _WIFI_POWER_STATE_{
 	WIFI_POWER_ON_ITEM = 0x01,
@@ -67,6 +73,7 @@ typedef struct __RUN{
    uint8_t gPower_On;
    uint8_t gRun_flag;
    uint8_t power_times;
+   uint8_t gWifi;
    
    uint8_t keyAdd_continue;
    uint8_t keyDec_continue;
@@ -78,6 +85,10 @@ typedef struct __RUN{
    uint8_t gTemperature;
  
    uint8_t gTimer_Counter;
+
+   //smg
+   uint8_t hours_two_bit ;
+   uint8_t minutes_one_bit ;
    
   
   
@@ -99,6 +110,7 @@ typedef struct __RUN{
  
    uint8_t  gDry;
    uint8_t  gBug;
+   uint8_t  gUltrasonic;
 
 
    uint8_t  ptc_warning;
@@ -165,8 +177,24 @@ typedef struct __RUN{
     uint8_t process_run_guarantee_flag;
     uint8_t timer_works_transform_flag;
 	
-    
- 
+	//WIFI 
+   uint8_t gTimer_led_500ms;
+   uint8_t gTimer_wifi_couter;
+	 uint8_t wifi_led_fast_blink_flag;
+   uint8_t gTimer_wifi_slowly; 
+   uint8_t wifi_link_cloud_flag;
+	 uint8_t gTimer_wifi_connect_counter;
+    uint8_t wifi_orderByMainboard_label;
+	uint8_t wifi_set_temperature;
+	uint8_t wifiCmd[1];
+
+  /*********wifi end ***********/
+  //timing
+  uint8_t dispTime_hours;
+  uint8_t dispTime_minutes;
+  uint8_t dispTime_seconds;
+   
+  
    /***/
    uint8_t 	gTimer_numbers_one_two_blink;
    uint8_t gTimer_temp_delay;
@@ -189,6 +217,13 @@ typedef struct __RUN{
 
    uint8_t send_app_wokes_minutes_two;
    uint8_t send_app_wokes_minutes_one;
+
+   /***answering response****/
+   uint8_t response_power_on;
+   uint8_t response_power_off;
+
+
+   //
 
    uint8_t send_app_timer_minutes_one;
    uint8_t send_app_timer_minutes_two;
@@ -232,7 +267,7 @@ void SplitDispose_Key(uint8_t value);
 
 
 
-void Decode_Handler(void);
+
 
 
 
@@ -240,7 +275,7 @@ void Power_Off_Fun(void);
 
 
 
-void Receive_MainBoard_Data_Handler(uint8_t cmd);
+
 void Power_On_Fun(void);
 
 

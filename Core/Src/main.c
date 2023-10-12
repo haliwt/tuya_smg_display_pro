@@ -16,22 +16,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "tim.h"
-#include "usart.h"
-#include "gpio.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "smg.h"
-#include "cmd_link.h"
-#include "run.h"
-#include "key.h"
-#include "led.h"
-#include "bsp_display_dynamic.h"
-#include "display.h"
-#include "interrupt_manager.h"
-#include "delay.h"
-//#include "delay.h"
+
+#include "bsp.h"
 
 
 /* USER CODE END Includes */
@@ -74,7 +64,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+ uint8_t ai_key;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -132,8 +122,12 @@ int main(void)
 		  	       
              Decode_Handler();
             if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP){
-              //run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
-              run_t.keyvalue= KEY_Normal_Scan(0);
+              ai_key = KEY_Scan();//Scan_KeyMode();
+              if(ai_key != 0){
+                  run_t.keyvalue = ai_key;
+              }
+              else 
+                run_t.keyvalue= KEY_Normal_Scan(0);
              }
               Key_TheSecond_Scan();
               Process_Key_Handler(run_t.keyvalue);

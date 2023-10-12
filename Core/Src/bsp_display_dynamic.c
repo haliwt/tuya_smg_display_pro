@@ -202,7 +202,7 @@ static void Display_SmgTiming_Value(void)
 
 
 	case timing_power_off:
-        SendData_PowerOff(0);
+        SendData_PowerOnOff(0);
 		HAL_Delay(5);
 		
 	  run_t.power_on_recoder_times++; //this is data must be change if not don't "breath led"
@@ -274,7 +274,7 @@ void RunPocess_Command_Handler(void)
             }
 			else if(run_t.power_on_send_to_mb_times< 10 && run_t.step_run_power_on_tag==0){
 			  run_t.power_on_send_to_mb_times++;
-              SendData_PowerOff(1);
+              SendData_PowerOnOff(1);
 			  HAL_Delay(5);
 
 
@@ -316,7 +316,7 @@ void RunPocess_Command_Handler(void)
 				run_t.power_off_send_to_mb_times++;
 
 				
-	           SendData_PowerOff(0);
+	           SendData_PowerOnOff(0);
 	           HAL_Delay(2);
 		   }
            
