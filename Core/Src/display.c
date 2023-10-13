@@ -159,6 +159,7 @@ static void TimeColon_Smg_Blink_Fun(void)
 	  }
 	  else{
 		 run_t.gTimer_colon =0;
+		 SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,0);
 
 	  }
 }
@@ -167,7 +168,7 @@ static void TimeColon_Smg_Blink_Fun(void)
 void Display_TimeColon_Blink_Fun(void)
 {
 
-   if(run_t.gTimer_time_colon >80){ //10*20ms=300ms
+   if(run_t.gTimer_time_colon >0){ //10*20ms=300ms
 
 	   run_t.gTimer_time_colon =0;
 	   TimeColon_Smg_Blink_Fun();

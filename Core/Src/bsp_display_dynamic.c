@@ -80,17 +80,14 @@ void Display_SmgTiming_Value(void)
 	 	}  
        
 	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-		   if(timer_display_flag==1 || input_tiimes < 5 ){
-			   timer_display_flag=0;
-			   input_tiimes++;
+//		   //if(timer_display_flag==1 || input_tiimes < 5 ){
+//			   timer_display_flag=0;
+//			   input_tiimes++;
 			  
 		    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-			HAL_Delay(10);
+			HAL_Delay(5);
 
-		   }
-		 
-	      
-      }
+	  }
 	  else{
 
 	     if(run_t.gTimer_error_digital < 60){//10ms * 60= 600
@@ -305,7 +302,7 @@ void Led_Panel_OnOff(void)
 	*
 	*
 *******************************************************/
-void Display_SetTemperature_Value(void)
+void Compare_SetTemperature_Value(void)
 {
 	
     static uint8_t set_temperature_value;
@@ -393,7 +390,7 @@ static void Display_Works_Time_Fun(void)
 	        }
 		    
         }
-		else{
+		else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
 
 		    if(run_t.gTimer_error_digital < 60){//10ms * 51= 510
 

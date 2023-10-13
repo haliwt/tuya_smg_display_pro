@@ -160,7 +160,7 @@ void RunPocess_Command_Handler(void)
 
 					case 4:
 
-	                    Display_SetTemperature_Value(); 
+	                   Compare_SetTemperature_Value(); 
 						step_state=5;
 
 					break;

@@ -42,7 +42,7 @@ void Smg_DisplayFan_Leve(void(*fandisplayHandler)(uint8_t fan_level));
 void Set_Timing_Temperature_Number_Value(void);
 void Display_SmgTiming_Value(void);
 
-void Display_SetTemperature_Value(void);
+void Compare_SetTemperature_Value(void);
 
 void Led_Panel_OnOff(void);
 void RunLocal_Dht11_Data_Process(void);
