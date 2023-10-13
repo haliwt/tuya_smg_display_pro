@@ -120,7 +120,8 @@ int main(void)
 
 		  case 1:
 		  	       
-             Decode_Handler();
+            
+			 bsp_Idle();
             if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP){
               ai_key = KEY_Scan();//Scan_KeyMode();
               if(ai_key != 0){

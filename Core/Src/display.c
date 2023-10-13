@@ -174,7 +174,7 @@ static void TimeColon_Smg_Blink_Fun(void)
 	run_t.hours_two_unit_bit =run_t.works_dispTime_hours % 10;
 	run_t.minutes_one_decade_bit =run_t.works_dispTime_minutes /10;
 	 minute_unit = run_t.works_dispTime_minutes % 10;
-
+     Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
 	}
 
 	if(run_t.gTimer_colon < 2){
@@ -196,7 +196,7 @@ static void TimeColon_Smg_Blink_Fun(void)
 void Display_TimeColon_Blink_Fun(void)
 {
 
-   if(run_t.gTimer_time_colon >0){ //10*20ms=300ms
+   if(run_t.gTimer_time_colon >1){ //10*20ms=300ms
 
 	   run_t.gTimer_time_colon =0;
 	   TimeColon_Smg_Blink_Fun();

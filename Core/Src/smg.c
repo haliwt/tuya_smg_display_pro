@@ -462,6 +462,15 @@ void SmgBlink_Colon_Function(uint8_t onebit,uint8_t twobit,uint8_t threebit, uin
     //digital 2
 	TM1639_Start();
 
+	 TM1639_Write_OneByte(0xCA);//0xC1H->GRID_2->BIT_2
+  
+      TM1639_Write_OneByte(segNumber_Low[twobit]); 
+    
+     
+     TM1639_Stop();
+
+	TM1639_Start();
+
     TM1639_Write_OneByte(0xCB);//0xC1H->GRID_2->BIT_2
   
      if(sel==0){
@@ -477,6 +486,14 @@ void SmgBlink_Colon_Function(uint8_t onebit,uint8_t twobit,uint8_t threebit, uin
     TM1639_Stop();
 
     //digital 3
+
+	TM1639_Start();
+    TM1639_Write_OneByte(0xCC);//0xC2H->GRID_3->BIT_3
+    
+	    TM1639_Write_OneByte(segNumber_Low[threebit]);//display ""
+
+ 
+    TM1639_Stop();
 	   //minute 
     TM1639_Start();
     TM1639_Write_OneByte(0xCD);//0xC2H->GRID_3->BIT_3
@@ -487,6 +504,11 @@ void SmgBlink_Colon_Function(uint8_t onebit,uint8_t twobit,uint8_t threebit, uin
     else TM1639_Write_OneByte(segNumber_High[threebit]);
 	
     TM1639_Stop();
+
+
+
+
+	
 
 
 	//digital 4

@@ -2,9 +2,11 @@
 #include "bsp.h"
 
 
-static void Receive_MainBoard_Data_Handler(uint8_t cmd);
+
 
 static void Receive_Wifi_Cmd(uint8_t cmd);
+
+
 
 /**********************************************************************************************************
 **
@@ -34,7 +36,7 @@ void Decode_Handler(void)
 *Return Ref: NO
 *
 **********************************************************************/
-static void Receive_MainBoard_Data_Handler(uint8_t cmd)
+void Receive_MainBoard_Data_Handler(uint8_t cmd)
 {
 	static uint8_t m,n,p,q;
 	static uint8_t hum1,hum2,temp1,temp2; 

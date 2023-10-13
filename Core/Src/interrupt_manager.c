@@ -1,8 +1,5 @@
 #include "interrupt_manager.h"
-#include "run.h"
-#include "usart.h"
-#include "cmd_link.h"
-#include "bsp_display_dynamic.h"
+#include "bsp.h"
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
@@ -73,6 +70,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimes_time_seconds ++;
         run_t.gTimer_display_fan_level++;
 		run_t.gTimer_disp_works_times++;
+		usart_t.gTimer_receive_times ++;
 		
 
 		

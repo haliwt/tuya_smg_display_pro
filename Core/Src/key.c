@@ -150,7 +150,7 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t power_on_off_flag;
+   static uint8_t power_on,power_off, power_on_off_flag;
    uint8_t wifi_look_for;
   
 
@@ -160,21 +160,27 @@ void Process_Key_Handler(uint8_t keylabel)
 	 
            power_on_off_flag = power_on_off_flag ^ 0x01;
 	       if(power_on_off_flag ==1){
- 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value
- 		
-            run_t.gRunCommand_label =RUN_POWER_ON;
-           
+
+		    power_on = Power_ReadParam_OnOff(1);
+			if(power_on ==1){
+	 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value
+	 		
+	            run_t.gRunCommand_label =RUN_POWER_ON;
+			}
               
 		 }
 		 else{
 
-		    SendData_PowerOnOff(0);
-            HAL_Delay(2);
+		    power_off= Power_ReadParam_OnOff(0);
+			if(power_off == 1){
 		    run_t.gRunCommand_label =RUN_POWER_OFF;
 	        run_t.power_on_recoder_times++ ;
-		   }
-	  	 
+
+			}
+		  
+		 }
 	   run_t.keyvalue = 0xff;
+	   
 
 	  break;
 

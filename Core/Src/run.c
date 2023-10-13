@@ -36,83 +36,34 @@ void RunPocess_Command_Handler(void)
             run_t.gTimer_time_colon =0;
 	       run_t.set_temperature_decade_value=40;
            
-           switch(run_t.step_run_power_on_tag){
-
-			case 0:
-           
-			if(run_t.power_on_send_to_mb_times > 9){
-            
-            	run_t.step_run_power_on_tag=1;
-            }
-			else if(run_t.power_on_send_to_mb_times< 10 && run_t.step_run_power_on_tag==0){
-			  run_t.power_on_send_to_mb_times++;
-              SendData_PowerOnOff(1);
-			  HAL_Delay(5);
-
-
-			}
-           
-
-			break;
-
-			case 1:
             run_t.step_run_power_off_tag=0;
             run_t.power_on_send_to_mb_times=36;
 			run_t.timer_timing_define_ok=0;
 			Power_On_Fun();
 			run_t.gRunCommand_label= UPDATE_DATA;
 
-            break;
+         
 
-            }
+            
 	  break;
 
 	  case RUN_POWER_OFF://2
 	  	 run_t.step_run_power_on_tag=0;
 		 run_t.temp_set_timer_timing_flag=0;
-		 switch(run_t.step_run_power_off_tag){
-
-			case 0:
-
-		    run_t.ptc_warning =0;
-		    run_t.fan_warning =0;
-			
-            power_off_set_flag=0;
-		   
-		  if(run_t.power_off_send_to_mb_times >9){
-            
-                run_t.step_run_power_off_tag=1;
-            
-            
-           }
-		   else if(run_t.power_off_send_to_mb_times< 10 ){
-				run_t.power_off_send_to_mb_times++;
-
-				
-	           SendData_PowerOnOff(0);
-	           HAL_Delay(2);
-		   }
-           
-            
-         
-	      	break;
-
-			case 1:
-       
-			run_t.power_off_send_to_mb_times= 20;
-			run_t.gPower_On=RUN_POWER_OFF;
+		 
+         run_t.power_off_send_to_mb_times= 20;
+		 run_t.gPower_On=RUN_POWER_OFF;
 			 
-			
-			 run_t.gFan_RunContinue =1;
-			 run_t.gTimer_fan_continue=0;
+		run_t.gFan_RunContinue =1;
+		run_t.gTimer_fan_continue=0;
 			 
 	
-		     //Power_Off_Fun();
+		   Power_Off_Fun();
 
 		  
 		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
-            break;
-        }
+         
+     
 		break;
 	  break;
 

@@ -282,7 +282,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                     
                       run_t.response_power_on =1;
                        state=0;
-		            run_t.decodeFlag=0;
+		            run_t.decodeFlag=1;
 
                  break;
 
@@ -291,7 +291,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                     
                     run_t.response_power_off =1;
                      state=0;
-		            run_t.decodeFlag=0;
+		            run_t.decodeFlag=1;
 
                   
                  break;

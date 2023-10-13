@@ -18,9 +18,10 @@
 #include "interrupt_manager.h"
 #include "delay.h"
 #include "bsp_decoder.h"
+#include "bsp_uart.h"
 
 
-
+void USART_Poll(void);
 
 
 
