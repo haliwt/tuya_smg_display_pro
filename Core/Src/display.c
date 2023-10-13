@@ -129,11 +129,32 @@ void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 ********************************************************************************/
 static void TimeColon_Smg_Blink_Fun(void)
 {
+    static uint8_t time_hours, minute_unit;
+    if(run_t.timer_timing_define_ok == 1){
+
+	 time_hours =  run_t.timer_dispTime_hours /10 ;
+	 run_t.hours_two_unit_bit =run_t.timer_dispTime_hours % 10 ;
+	
+	  run_t.minutes_one_decade_bit =run_t.timer_dispTime_minutes /10;
+	  minute_unit = run_t.timer_dispTime_minutes % 10;
+
+	}
+	else{
+
+	 time_hours = run_t.works_dispTime_hours / 10;
+
+	run_t.hours_two_unit_bit =run_t.works_dispTime_hours % 10;
+	run_t.minutes_one_decade_bit =run_t.works_dispTime_minutes /10;
+	 minute_unit = run_t.works_dispTime_minutes % 10;
+
+	}
+
 	if(run_t.gTimer_colon < 2){
-		  SmgBlink_Colon_Function(run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,0);
+		 
+		  SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,0);
 	   }
 	   else if(run_t.gTimer_colon >  1	&&	run_t.gTimer_colon < 3){
-		   SmgBlink_Colon_Function(run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,1);
+		   SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
 
 	  }
 	  else{

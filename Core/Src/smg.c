@@ -428,7 +428,7 @@ void TM1639_Write_4Bit_Fan_Level(uint8_t fan_level)
 *
 *
 *************************************************************************/
-void SmgBlink_Colon_Function(uint8_t twobit,uint8_t threebit,uint8_t sel)
+void SmgBlink_Colon_Function(uint8_t onebit,uint8_t twobit,uint8_t threebit, uint8_t fourbit,uint8_t sel)
 {
 
 
@@ -442,6 +442,24 @@ void SmgBlink_Colon_Function(uint8_t twobit,uint8_t threebit,uint8_t sel)
 		TM1639_STB_SetHigh();
 
 
+	//digital 1
+     TM1639_Start();
+     TM1639_Write_OneByte(0xC8);//0xC0H->GRID_1->BIT_1
+   
+     TM1639_Write_OneByte(segNumber_Low[onebit]);//display "10"
+    
+     TM1639_Stop();
+
+	 TM1639_Start();
+     TM1639_Write_OneByte(0XC9);//0xC1H->GRID_1->BIT_1
+ 
+      TM1639_Write_OneByte(segNumber_High[onebit]);//display "01"
+     
+     
+     
+     TM1639_Stop();
+
+    //digital 2
 	TM1639_Start();
 
     TM1639_Write_OneByte(0xCB);//0xC1H->GRID_2->BIT_2
@@ -458,7 +476,7 @@ void SmgBlink_Colon_Function(uint8_t twobit,uint8_t threebit,uint8_t sel)
 	 
     TM1639_Stop();
 
-
+    //digital 3
 	   //minute 
     TM1639_Start();
     TM1639_Write_OneByte(0xCD);//0xC2H->GRID_3->BIT_3
@@ -469,6 +487,28 @@ void SmgBlink_Colon_Function(uint8_t twobit,uint8_t threebit,uint8_t sel)
     else TM1639_Write_OneByte(segNumber_High[threebit]);
 	
     TM1639_Stop();
+
+
+	//digital 4
+	//minute 
+    TM1639_Start();
+    TM1639_Write_OneByte(0xCE);//0xC2H->GRID_4
+   
+	TM1639_Write_OneByte(segNumber_Low[fourbit]);//display ""
+
+   
+    TM1639_Stop();
+    
+    //minute 
+    TM1639_Start();
+    TM1639_Write_OneByte(0xCF);//0xC2H->GRID_4
+  
+	TM1639_Write_OneByte(segNumber_High[fourbit]|seg_h);//display ""
+
+ 
+    TM1639_Stop();
+
+	
 
 
      //open diplay

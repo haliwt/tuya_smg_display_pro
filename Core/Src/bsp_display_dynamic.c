@@ -57,7 +57,7 @@ void Display_SmgTiming_Value(void)
 
 	 if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
-		timer_display_flag=1;
+		
 		run_t.timer_dispTime_minutes -- ;
 	
 	    if(run_t.timer_dispTime_minutes <  0 ){
@@ -76,6 +76,7 @@ void Display_SmgTiming_Value(void)
 			run_t.timer_timing_define_ok =timing_power_off;
 			
 	      }
+		 timer_display_flag=1;
 	 	}  
        
 	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
@@ -513,7 +514,7 @@ static void WorksTime_DonotDisplay_Fun(void)
 		   if(run_t.works_dispTime_minutes> 59){ //1 hour
 		   run_t.works_dispTime_minutes=0;
 		   run_t.works_dispTime_hours++;
-		   if(run_t.works_dispTime_hours > 24){
+		   if(run_t.works_dispTime_hours > 99){
 		   run_t.works_dispTime_hours =0;
 		   }
 	       }
