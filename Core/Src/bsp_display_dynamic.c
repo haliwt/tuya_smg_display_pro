@@ -17,12 +17,12 @@ void (*sendAi_usart_fun)(uint8_t senddat);
 void (*dispose_key)(uint8_t dsdat);
 void (*display_fan_speed_value)(uint8_t fan_level);
 
-static void Led_Panel_OnOff(void);
-static void Display_SmgTiming_Value(void);
-static void RunLocal_Dht11_Data_Process(void);
+//static void Led_Panel_OnOff(void);
+
+//static void RunLocal_Dht11_Data_Process(void);
 
 static void DisplayPanel_DHT11_Value(void);
-static void Display_SetTemperature_Value(void);
+//static void Display_SetTemperature_Value(void);
 static void Display_Works_Time_Fun(void);
 static void WorksTime_DonotDisplay_Fun(void);
 static void Timer_Timing_Donot_Display(void);
@@ -44,7 +44,7 @@ void Smg_DisplayFan_Speed_Level_Init(void)
 *Return Ref:NO
 *
 ******************************************************************************/
-static void Display_SmgTiming_Value(void)
+void Display_SmgTiming_Value(void)
 {
 
    static uint8_t timer_display_flag, alternate_flag;
@@ -213,8 +213,7 @@ static void Display_SmgTiming_Value(void)
 
 
 	case timing_donot:
-		 run_t.ai_model_flag =AI_MODE; 
-		 run_t.timer_timing_define_flag=timing_donot; 
+		
          Timer_Timing_Donot_Display();
 		
 	    Display_Works_Time_Fun();
@@ -245,265 +244,82 @@ static void DisplayPanel_DHT11_Value(void)
 	}
 }
 
-/******************************************************************************
+
+
+/****************************************************************
 	*
-	*Function Name:void RunPocess_Command_Handler(void)
-	*Funcion: display pannel run of process 
-	*Input Ref: NO
-	*Return Ref:NO
+	*Function Name :void Set_Timing_Temperature_Number_Value(void)
+	*Function : set timer timing how many ?
+	*Input Parameters :NO
+	*Retrurn Parameter :NO
 	*
-******************************************************************************/
-void RunPocess_Command_Handler(void)
+*****************************************************************/
+void Set_Timing_Temperature_Number_Value(void)
 {
-   static uint8_t power_off_set_flag;
 
-   switch(run_t.gRunCommand_label){
-
-      case RUN_POWER_ON:
-	  	    run_t.step_run_power_off_tag=0;
-            run_t.gTimer_time_colon =0;
-	       run_t.set_temperature_decade_value=40;
-           
-           switch(run_t.step_run_power_on_tag){
-
-			case 0:
-           
-			if(run_t.power_on_send_to_mb_times > 9){
-            
-            	run_t.step_run_power_on_tag=1;
-            }
-			else if(run_t.power_on_send_to_mb_times< 10 && run_t.step_run_power_on_tag==0){
-			  run_t.power_on_send_to_mb_times++;
-              SendData_PowerOnOff(1);
-			  HAL_Delay(5);
-
-
-			}
-           
-
-			break;
-
-			case 1:
-            run_t.step_run_power_off_tag=0;
-            run_t.power_on_send_to_mb_times=36;
-			run_t.timer_timing_define_ok=0;
-			Power_On_Fun();
-			run_t.gRunCommand_label= UPDATE_DATA;
-
-            break;
-
-            }
-	  break;
-
-	  case RUN_POWER_OFF://2
-	  	 run_t.step_run_power_on_tag=0;
-		 switch(run_t.step_run_power_off_tag){
-
-			case 0:
-
-		    run_t.ptc_warning =0;
-		    run_t.fan_warning =0;
-			
-            power_off_set_flag=0;
-		   
-		  if(run_t.power_off_send_to_mb_times >9){
-            
-                run_t.step_run_power_off_tag=1;
-            
-            
-           }
-		   else if(run_t.power_off_send_to_mb_times< 10 ){
-				run_t.power_off_send_to_mb_times++;
-
-				
-	           SendData_PowerOnOff(0);
-	           HAL_Delay(2);
-		   }
-           
-            
-         
-	      	break;
-
-			case 1:
-       
-			run_t.power_off_send_to_mb_times= 20;
-			run_t.gPower_On=RUN_POWER_OFF;
-			 
-			
-			 run_t.gFan_RunContinue =1;
-			 run_t.gTimer_fan_continue=0;
-			 
+    
+    static uint8_t set_temp_flag, counter_times;
+   
 	
-		     //Power_Off_Fun();
-
-		  
-		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
-            break;
-        }
-		break;
-	  break;
-
-	  case UPDATE_DATA: //3
-
-	           switch(run_t.display_timer_timing_flag){
-
-                case 1:
-					
-                    run_t.display_timer_timing_flag=0;
-                     switch(run_t.gFan){
-
-                     case 0:
-			     
-
-	                    TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
-	                    SendData_Buzzer();
-	                    HAL_Delay(2);
-
-                     break;
-
-                     case 1:
-
-                        display_fan_speed_value(run_t.gFan_level);
-
-                    break;
-
-                     }
-
-                break;
-
-				case 2:
-					
-					run_t.display_timer_timing_flag=0;
-                    
-                    switch(run_t.gFan){
-                    
-                    case 0:
-
-					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
-                    SendData_Buzzer();
-                    HAL_Delay(2);
-
-                    break;
-                      case 1:
-
-                         display_fan_speed_value(run_t.gFan_level);
-                        break;
-                     }
-				break;
-
-                case 0:
-
-				    switch(step_state){
-
-					case 0:
-						Led_Panel_OnOff();
-					    step_state=1;
-					break;
-
-					case 1:
-               			RunLocal_Dht11_Data_Process();
-				        step_state=2;
-	                    
-				   break;
-
-					case 2:
-                      
-                      Set_Timing_Temperature_Number_Value();
-
-                      step_state=3;
-					break;
-
-					case 3:
-                        switch(run_t.gFan){
-
-                         case 0:
-					       Display_SmgTiming_Value();
-                         break;
-
-                         case 1:
-
-                           display_fan_speed_value(run_t.gFan_level);
-
-
-                         break;
-
-
-                        }
-					    step_state=4;
-
-					break;
-
-					case 4:
-
-	                    Display_SetTemperature_Value(); 
-						step_state=5;
-
-					break;
-
-					case 5:
-                    switch(run_t.gFan){
-
-                        case 0:
-                            if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-                                Display_TimeColon_Blink_Fun();
-                            }
-                        break;
-
-                        case 1:
-
-                           display_fan_speed_value(run_t.gFan_level);
-                           
-
-                        break;
-                    }
-                    step_state=0;
-                    break;
-				   }
-                break;
-                    
-                    case 4:
-                        run_t.gRunCommand_label= POWER_OFF_PROCESS;
-                        Power_Off_Fun();
-                    break;
-             }
-
 	
-     break;
+	if(run_t.temp_set_timer_timing_flag == TIMER_TIMING && run_t.timer_timing_define_ok ==0){
 
-	  case POWER_OFF_PROCESS://4
-
-	   if(run_t.gPower_On ==RUN_POWER_OFF && POWER_KEY_VALUE()  ==KEY_UP ){
-	   	     if(power_off_set_flag==0){
-					power_off_set_flag++;
-                   Power_Off_Fun();
-				
-	   	      }
-
-			  if(run_t.first_power_on_times==1)run_t.gTimer_fan_continue =0;
-            
-			 	if(run_t.gTimer_fan_continue < 61 && run_t.gTimer_fan_continue ==1 && run_t.fan_warning==0){
-                   
-					LED_FAN_ON() ;
-				 }
-				 else if(run_t.gTimer_fan_continue > 59){
-                    run_t.gTimer_fan_continue =67;
-				   LED_FAN_OFF() ;
-				   run_t.gFan_RunContinue =0;
-
-				 }
-                 
-
-			 
-                
-				Breath_Led();
-		 
+	         
+        
+		Display_Timing_Blink(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 		
-       }
 
-	  break;
+ 
+    }
+    else if(run_t.temp_set_timer_timing_flag==0){
 
-  }
+	 if(run_t.set_temperature_flag ==set_temperature_value){
+
+	  //waiting for 4 s 
+	  if(run_t.gTimer_key_temp_timing > 3 && run_t.set_temperature_special_value ==0){
+			set_temp_flag++;
+			
+			run_t.set_temperature_special_value =1;
+			run_t.gTimer_set_temp_times =0; //couter time of smg blink timing 
+
+	 }
+	 //temperature of smg of LED blink .
+	  if(run_t.set_temperature_special_value ==1){
+	  	
+	  	
+		  if(run_t.gTimer_set_temp_times < 15 ){ // 4
+		        TM1639_Write_2bit_SetUp_TempData(0,0,1);
+          }
+		  else if(run_t.gTimer_set_temp_times > 14 && run_t.gTimer_set_temp_times < 29){
+		  	
+			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+
+		  }
+		  else{
+		  	 run_t.gTimer_set_temp_times=0;
+             counter_times++ ;  
+
+		  }
+
+
+           if(counter_times > 3){
+			 
+			 set_temp_flag=0;
+		     counter_times=0;
+			  run_t.temperature_set_flag =1;
+			  run_t.set_temperature_special_value =0xff;
+			  run_t.set_temperature_flag= 0; //WT.EDTI 2023.09.27
+			  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
+		
+			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+	       
+	       }
+	     }
+	 }
+	}
+
 }
+
 /*******************************************************
 	*
 	*Function Name: static void RunLocal_Dht11_Data_Process(void)
@@ -512,12 +328,12 @@ void RunPocess_Command_Handler(void)
 	*
 	*
 *******************************************************/
-static void RunLocal_Dht11_Data_Process(void)
+void RunLocal_Dht11_Data_Process(void)
 {
    DisplayPanel_DHT11_Value();
 
 }
-static void Led_Panel_OnOff(void)
+void Led_Panel_OnOff(void)
 {
 	Panel_Led_OnOff_Function() ;
 }
@@ -529,7 +345,7 @@ static void Led_Panel_OnOff(void)
 	*
 	*
 *******************************************************/
-static void Display_SetTemperature_Value(void)
+void Display_SetTemperature_Value(void)
 {
 	
     static uint8_t set_temperature_value;
@@ -591,7 +407,7 @@ static void Display_Works_Time_Fun(void)
 {
      static uint8_t works_timing_flag,alternate_flag;
 
-	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && run_t.timer_timing_define_flag==0){
      if(run_t.gTimes_time_seconds > 59 ){
             run_t.gTimes_time_seconds=0;
             works_timing_flag =1;

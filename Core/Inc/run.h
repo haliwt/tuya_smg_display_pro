@@ -89,6 +89,7 @@ typedef struct __RUN{
    //smg
    uint8_t hours_two_bit ;
    uint8_t minutes_one_bit ;
+   uint8_t modify_input_timer_number;
    
   
   
@@ -211,7 +212,7 @@ typedef struct __RUN{
    //timer timing 
    uint8_t gTimer_set_temp_times;
   
-   uint8_t gTimer_smg_timing;
+   
    uint8_t gTimer_temperature;
    volatile uint8_t gTimer_key_temp_timing;
 
@@ -246,8 +247,8 @@ typedef struct __RUN{
    
  
 
-  volatile int8_t timer_dispTime_hours;
-  volatile int8_t timer_dispTime_minutes;
+  int8_t timer_dispTime_hours;
+  int8_t timer_dispTime_minutes;
 	
 
 	uint16_t gTimer_usart_error;
@@ -278,6 +279,7 @@ void Power_Off_Fun(void);
 
 void Power_On_Fun(void);
 
+void RunPocess_Command_Handler(void);
 
 #endif 
 

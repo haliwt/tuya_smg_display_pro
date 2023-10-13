@@ -44,7 +44,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if(htim->Instance==TIM3){  
     tm0++;
 	
-    run_t.gTimer_smg_timing++;
 	run_t.gTimer_set_temp_times++;
 	run_t.gTimer_time_colon++ ;
     run_t.gTimer_error_digital++;

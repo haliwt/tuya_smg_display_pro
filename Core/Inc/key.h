@@ -116,8 +116,9 @@ typedef enum{
    FAN_KEY_ID = 0x10,
    PLASMA_KEY_ID = 0x20,
    DRY_KEY_ID = 0x40,
-   AI_KEY_ID =0x90,
-   MODE_LONG_KEY_ID = 0x82
+   WIFI_KEY_ID =0x90,
+   MODE_LONG_KEY_ID = 0x82,
+   CONFIRM =0xFD
   
 }key_item_t;
 
@@ -177,7 +178,7 @@ void SplitDispose_Key(uint8_t value);
 
 void Process_Key_Handler(uint8_t keylabel);
 
-void Set_Timing_Temperature_Number_Value(void);
+
 
 void Key_TheSecond_Scan(void);
 

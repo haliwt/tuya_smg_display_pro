@@ -60,7 +60,43 @@ void Display_GMT(uint8_t hours,uint8_t minutes)
 
 
 }
+/**********************************************************************
+*
+*Functin Name: void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
+*Function : Timer of key be pressed handle
+*Input Ref:  key of value
+*Return Ref: NO
+*
+**********************************************************************/
+void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
+{ 
+    static uint8_t m,q,counter;
+	m = hours /10 ;
+	run_t.hours_two_unit_bit =	hours%10; 
+	run_t.minutes_one_decade_bit= minutes/10 ;
+	q=  minutes%10;
+	if(run_t.gTimer_set_temp_times < 15)
+	    TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
+	else if(run_t.gTimer_set_temp_times > 14 && run_t.gTimer_set_temp_times < 29){
+ 		TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,1) ; //timer is default 12 hours "12:00"
 
+	}
+	else{
+		 run_t.gTimer_set_temp_times=0;
+		 run_t.modify_input_timer_number++;
+			
+     }
+
+	if(run_t.modify_input_timer_number > 6){
+	   run_t.modify_input_timer_number =0;
+	   run_t.temp_set_timer_timing_flag =0;
+
+
+	}
+
+
+
+}
 /********************************************************************************
 *
 *Functin Name: void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
