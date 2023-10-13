@@ -197,6 +197,7 @@ typedef struct __RUN{
   uint8_t dispTime_hours;
   uint8_t dispTime_minutes;
   uint8_t dispTime_seconds;
+  uint8_t gTimer_disp_works_times;
    
   
    /***/

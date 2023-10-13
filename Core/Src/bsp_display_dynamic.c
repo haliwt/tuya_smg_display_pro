@@ -76,17 +76,16 @@ void Display_SmgTiming_Value(void)
 			run_t.timer_timing_define_ok =timing_power_off;
 			
 	      }
-		 timer_display_flag=1;
+		 timer_display_flag=0;
 	 	}  
        
 	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-//		   if(timer_display_flag==1 || input_tiimes < 5 ){
-//			   timer_display_flag=0;
-//			   input_tiimes++;
-	   	
+		   if(run_t.gTimer_disp_works_times > 1 || timer_display_flag==0 ){
+			 run_t.gTimer_disp_works_times =0;  
+	   	    timer_display_flag=1;
 		    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 			HAL_Delay(1);
-	     	//}
+	      }
 
 	  }
 	  else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
@@ -382,12 +381,13 @@ static void Display_Works_Time_Fun(void)
 
      	}
        
-	   // if(works_timing_flag ==0){
-			//works_timing_flag=1;
+	    if(works_timing_flag ==0 && run_t.gTimer_disp_works_times > 1){
+			run_t.gTimer_disp_works_times=0;
+		works_timing_flag=1;
 	     Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
-		// HAL_Delay(10);
+		
 		  
-	   // }   
+	   }   
 		    
         }
 		else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
