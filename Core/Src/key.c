@@ -236,6 +236,8 @@ void Process_Key_Handler(uint8_t keylabel)
                run_t.timer_timing_define_ok =1;
 			   run_t.temp_set_timer_timing_flag= 0;
 			   SendData_Buzzer();//single_buzzer_fun();	
+			   Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+			   HAL_Delay(10);
 			}
          			
          }
@@ -381,7 +383,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
          if(run_t.ptc_warning ==0){
 		 	 run_t.gTimer_time_colon=0;
-		// SendData_Buzzer();
+		 SendData_Buzzer();
 	 	 //run_t.keyvalue  = DEC_KEY_ID;
 	 	  switch(run_t.temp_set_timer_timing_flag){
 
@@ -487,8 +489,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 	if(run_t.gPower_On ==RUN_POWER_ON && ADD_KEY_VALUE() ==1){
 
 		  if(run_t.ptc_warning ==0){
-				// SendData_Buzzer();
-
+				 SendData_Buzzer();
+               
                 run_t.gTimer_time_colon=0;
 
 			  switch(run_t.temp_set_timer_timing_flag){
