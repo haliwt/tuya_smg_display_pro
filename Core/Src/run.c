@@ -118,55 +118,7 @@ void RunPocess_Command_Handler(void)
 
 	  case UPDATE_DATA: //3
 
-	           switch(run_t.display_timer_timing_flag){
-
-                case 1:
-					
-                    run_t.display_timer_timing_flag=0;
-                     switch(run_t.gFan){
-
-                     case 0:
-			     
-
-	                    TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
-	                    SendData_Buzzer();
-	                    HAL_Delay(2);
-
-                     break;
-
-                     case 1:
-
-                        display_fan_speed_value(run_t.gFan_level);
-
-                    break;
-
-                     }
-
-                break;
-
-				case 2:
-					
-					run_t.display_timer_timing_flag=0;
-                    
-                    switch(run_t.gFan){
-                    
-                    case 0:
-
-					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
-                    SendData_Buzzer();
-                    HAL_Delay(2);
-
-                    break;
-                      case 1:
-
-                         display_fan_speed_value(run_t.gFan_level);
-                        break;
-                     }
-				break;
-
-                case 0:
-
-				    switch(step_state){
+	        switch(step_state){
 
 					case 0:
 						Led_Panel_OnOff();
@@ -232,14 +184,7 @@ void RunPocess_Command_Handler(void)
                     step_state=0;
                     break;
 				   }
-                break;
-                    
-                    case 4:
-                        run_t.gRunCommand_label= POWER_OFF_PROCESS;
-                        Power_Off_Fun();
-                    break;
-             }
-
+               
 	
      break;
 

@@ -150,7 +150,7 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t power_on_off_flag;
+   static uint8_t power_on_off_flag,mode_key;
    uint8_t wifi_look_for;
   
 
@@ -217,7 +217,17 @@ void Process_Key_Handler(uint8_t keylabel)
       case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
           if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 
-		    if(run_t.keyvalue  == MODEL_KEY_ID){
+		    mode_key ++;
+		    if(mode_key ==1){
+			
+		
+		
+	
+			run_t.timer_timing_define_ok =0;
+	
+			SendData_Buzzer();//single_buzzer_fun();	
+         
+		
 
 			run_t.ai_model_flag =NO_AI_MODE;
 			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
@@ -235,6 +245,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				
                run_t.timer_timing_define_ok =1;
 			   run_t.temp_set_timer_timing_flag= 0;
+			   SendData_Buzzer();//single_buzzer_fun();	
 			}
          			
          }
@@ -338,12 +349,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
             if(run_t.gPower_On ==RUN_POWER_OFF){
 				
                 run_t.gRunCommand_label = RUN_POWER_ON;
-                run_t.display_timer_timing_flag =0;
+         
 				SendData_PowerOnOff(1);
 		   }
            else{
 		   	run_t.gRunCommand_label = RUN_POWER_OFF;
-            run_t.display_timer_timing_flag =4;
+            
 		  
 			SendData_PowerOnOff(0);
 			Power_Off_Fun();
@@ -363,24 +374,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	      
           run_t.gTimer_time_colon=0;
-		  mode_key ++;
-		  if(mode_key ==1){
-			run_t.keyvalue  = MODEL_KEY_ID;
+		 
+		run_t.keyvalue  = MODEL_KEY_ID;
 		
-			run_t.gTimer_mode_key_start_counter=0;
-			run_t.recoder_start_conuter_flag=0;
-			run_t.timer_timing_define_ok =0;
-			run_t.display_timer_timing_flag=1;
-			SendData_Buzzer();//single_buzzer_fun();	
-         
-		}
-		else{
-			mode_key=0;
-		//  run_t.keyvalue  = MODEL_KEY_ID;
-		  run_t.timer_timing_define_ok =1;
-		  run_t.gTimer_Counter=0;
+			
 		
-		  SendData_Buzzer();//single_buzzer_fun();
+		 
 	  }
 
 	 break;
@@ -413,7 +412,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			  run_t.set_temperature_special_value=0;
 			  run_t.gTimer_key_temp_timing=0;
 			  run_t.gTimer_time_colon=0;
-			  run_t.display_timer_timing_flag=2;
+			
 			 
 	    	
 		   break;
@@ -475,7 +474,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 					
 
 					}
-                 run_t.display_timer_timing_flag=1;
+               
 
 
 		     run_t.gTimer_time_colon =0;
@@ -519,7 +518,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			   run_t.set_temperature_special_value=0;
 			  run_t.gTimer_key_temp_timing=0;
 			  run_t.gTimer_time_colon=0;
-			  run_t.display_timer_timing_flag=2;
+			
 			
 			break;
 
@@ -584,7 +583,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 					
 
 					}
-                    run_t.display_timer_timing_flag=1;
+                  
 					// TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
 			
               run_t.gTimer_time_colon =0;
@@ -640,7 +639,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
     }
  
 }
-}
+
+#if 0
 void Key_TheSecond_Scan(void)
 {
 	
@@ -653,7 +653,7 @@ void Key_TheSecond_Scan(void)
 
 				run_t.keyvalue  = MODEL_KEY_ID;
 				run_t.gTimer_mode_key_start_counter=0;
-			    run_t.recoder_start_conuter_flag=0;	
+		
                 return ;
 			}
 		}
@@ -663,7 +663,7 @@ void Key_TheSecond_Scan(void)
 
 			run_t.keyvalue  = MODE_LONG_KEY_ID;
 			run_t.gTimer_mode_key_start_counter=0;
-			run_t.recoder_start_conuter_flag=0;	
+		
 		
 
 			 return ;
@@ -675,6 +675,7 @@ void Key_TheSecond_Scan(void)
 
 }
 
+#endif 
 //������������
 //���ذ���ֵ
 //mode:0,��֧��������;1,֧��������;

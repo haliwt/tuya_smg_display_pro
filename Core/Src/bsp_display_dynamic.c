@@ -48,11 +48,12 @@ void Display_SmgTiming_Value(void)
 {
 
    static uint8_t timer_display_flag, alternate_flag;
-    switch(run_t.timer_timing_define_ok)
+    static uint8_t input_tiimes;
+    switch(run_t.timer_timing_define_ok){
 
 	case timing_success: //0x01
 
-	  run_t.temp_set_timer_timing_flag =0;
+	  
 
 	 if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
@@ -78,12 +79,12 @@ void Display_SmgTiming_Value(void)
 	 	}  
        
 	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-		   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
+		   if(timer_display_flag==1 || input_tiimes < 5 ){
 			   timer_display_flag=0;
-			   run_t.timer_works_transform_flag=0;
-		       
-  
-	           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+			   input_tiimes++;
+			  
+		    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+			HAL_Delay(10);
 
 		   }
 		 
@@ -170,7 +171,7 @@ void Display_SmgTiming_Value(void)
 	case timing_donot:
 
 	   if(run_t.temp_set_timer_timing_flag == 0){
-		
+		input_tiimes=0;
         Timer_Timing_Donot_Display();
 		
 	    Display_Works_Time_Fun();
@@ -365,7 +366,7 @@ static void Display_Works_Time_Fun(void)
 {
      static uint8_t works_timing_flag,alternate_flag;
 
-	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && ){
+	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && run_t.timer_timing_define_ok==0){
      if(run_t.gTimes_time_seconds > 59 ){
             run_t.gTimes_time_seconds=0;
             works_timing_flag =1;
@@ -383,9 +384,9 @@ static void Display_Works_Time_Fun(void)
 
      	}
        
-	       if(works_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
+	       if(works_timing_flag==1  ){
 	          works_timing_flag=0;
-			  run_t.timer_works_transform_flag=1;
+			
 			 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
 		  
 	        }
@@ -503,7 +504,7 @@ static void Timer_Timing_Donot_Display(void)
 static void WorksTime_DonotDisplay_Fun(void)
 {
 //send to APP works times every minute onece
-   if(run_t.gTimes_time_seconds > 59 &&  && run_t.temp_set_timer_timing_flag ==0){
+   if(run_t.gTimes_time_seconds > 59 && run_t.timer_timing_define_ok==1){
 		   run_t.gTimes_time_seconds=0;
 		 
 		   run_t.works_dispTime_minutes++; //1 minute 

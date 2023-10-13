@@ -125,8 +125,8 @@ typedef struct __RUN{
    uint8_t power_off_send_to_mb_times;
   
    //key ref
-   uint8_t recoder_start_conuter_flag;
-   uint8_t gTimer_mode_key_start_counter;
+  
+ 
    uint8_t gTimer_mode_key_counter;
    //fan ref
    uint8_t gFan_level;
@@ -147,7 +147,7 @@ typedef struct __RUN{
    uint8_t set_up_temp_flag;
    uint8_t gSet_up_times;
    uint8_t auto_model_shut_off_ptc_flag;
-   volatile uint8_t display_timer_timing_flag;
+
   
    
 
@@ -176,7 +176,7 @@ typedef struct __RUN{
 
   //usart ref
     uint8_t process_run_guarantee_flag;
-    uint8_t timer_works_transform_flag;
+
 	
 	//WIFI 
    uint8_t gTimer_led_500ms;
