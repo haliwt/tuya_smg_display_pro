@@ -103,26 +103,39 @@ static void Receive_MainBoard_Data_Handler(uint8_t cmd)
       case WIFI_SET_TIMING:
         
        
-            run_t.dispTime_minutes = 0;
-             
-            run_t.temp_set_timer_timing_flag= 1;
-	   
-			run_t.gTimer_key_timing=0;
-		    
-            
-             m=(run_t.dispTime_hours ) /10;
+           
+            run_t.timer_dispTime_hours= run_t.dispTime_hours;
+            run_t.timer_dispTime_minutes = 0;
+	  
+	        run_t.temp_set_timer_timing_flag = TIMER_TIMING ;
+	        run_t.timer_timing_define_ok =0;
+		
+			run_t.gTimer_set_timing_times=0;
+
+		
+             m=(  run_t.timer_dispTime_hours ) /10;
 	       
 
-			 n= (run_t.dispTime_hours ) %10;;
+			 n= (  run_t.timer_dispTime_hours ) %10;;
 			
 	         run_t.hours_two_bit = n;
 			 run_t.minutes_one_bit = 0;
 			 
              TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,0,0) ; // timer   mode  "H0: xx"
             
-	   
+	   		 
 
       break;
+
+	  case WIFI_FAN_DATA:
+
+
+	      if(run_t.wifiCmd[0] > 50)
+               run_t.gFan_level=fan_speed_max;
+		  else
+		  	 run_t.gFan_level=fan_speed_min;
+
+	  break;
 
 	}
 

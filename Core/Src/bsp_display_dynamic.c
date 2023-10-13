@@ -169,7 +169,7 @@ void Display_SmgTiming_Value(void)
 
 	case timing_donot:
 
-	   if(run_t.temp_set_timer_timing_flag == 0){
+	   if(run_t.temp_set_timer_timing_flag != TIMER_TIMING ){
 		input_tiimes=0;
         Timer_Timing_Donot_Display();
 		
@@ -364,10 +364,10 @@ static void Display_Works_Time_Fun(void)
 {
      static uint8_t works_timing_flag,alternate_flag;
 
-	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && run_t.timer_timing_define_ok==0){
+	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
      if(run_t.gTimes_time_seconds > 59 ){
             run_t.gTimes_time_seconds=0;
-            works_timing_flag =1;
+            works_timing_flag =0;
 			run_t.works_dispTime_minutes++; //1 minute 
 		
             run_t.send_app_wokes_minutes_two++;
@@ -382,12 +382,12 @@ static void Display_Works_Time_Fun(void)
 
      	}
        
-	       if(works_timing_flag==1  ){
-	          works_timing_flag=0;
-			
-			 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
+	    if(works_timing_flag ==0){
+			works_timing_flag=1;
+	     Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
+		 HAL_Delay(10);
 		  
-	        }
+	    }   
 		    
         }
 		else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){

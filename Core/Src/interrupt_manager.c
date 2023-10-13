@@ -58,7 +58,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_fan_continue++;
 		//--------------//
 		
-		run_t.gTimer_key_timing++;
+	
 		run_t.gTimer_temperature++;
 		run_t.gTimer_key_temp_timing++ ;
 		run_t .gTimer_wifi_slowly ++;

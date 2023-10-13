@@ -150,7 +150,7 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t power_on_off_flag,mode_key;
+   static uint8_t power_on_off_flag;
    uint8_t wifi_look_for;
   
 
@@ -222,7 +222,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			run_t.timer_timing_define_ok =0;
 			run_t.ai_model_flag =NO_AI_MODE;
 			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
-			run_t.gTimer_key_timing=0;
+		
             run_t.judge_hours_if_zero =0;
 			run_t.judge_minutes_if_zero =0;
 			run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
@@ -249,9 +249,7 @@ void Process_Key_Handler(uint8_t keylabel)
           if(run_t.gPower_On ==RUN_POWER_ON){
 		      if(run_t.ptc_warning ==0){
 
-              switch(run_t.ai_model_flag){ //WT.EDIT 2023.09.12
-
-              case NO_AI_MODE:
+          
 			  if(run_t.gDry== 1){
 				    run_t.gDry =0;
 					SendData_Set_Command(DRY_OFF);
@@ -265,24 +263,18 @@ void Process_Key_Handler(uint8_t keylabel)
                     HAL_Delay(5);
                  }  
 			   
-              break;
+       
 
-              case AI_MODE:
- 
-              break;
+             
               }
 		    }
-           }
+          
 			keylabel= 0xff;	
          break;
 
 		 case PLASMA_KEY_ID: //0x04: //CIN5  -> plasma ->STERILIZATION KEY 
              if(run_t.gPower_On ==RUN_POWER_ON){
-			
-               switch(run_t.ai_model_flag){
-
-               case NO_AI_MODE:
-			   if(run_t.gPlasma ==1){  //turun off kill 
+				if(run_t.gPlasma ==1){  //turun off kill 
 			   	
 			       run_t.gPlasma = 0;
 				   SendData_Set_Command(PLASMA_OFF);
@@ -301,7 +293,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		       
 			 }
 
-            }
+           
           
            run_t.keyvalue = 0xff;
         break;
@@ -413,7 +405,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		   case TIMER_TIMING: //set timer timing value
 	    	
 			
-				run_t.gTimer_key_timing =0;
+				
 				run_t.modify_input_timer_number=0;
 				run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes -30;
 		        if(run_t.timer_dispTime_minutes < 0){
@@ -516,7 +508,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			break;
 
 			case 1: //set timer timing value 
-				 run_t.gTimer_key_timing =0;
+				
 				 run_t.modify_input_timer_number=0;
 				 if(run_t.timer_dispTime_hours !=24)
 				 		run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 30;
@@ -681,7 +673,7 @@ uint8_t KEY_Normal_Scan(uint8_t mode)
     if(mode==1)key_up=1;    //֧������
     if(key_up&&(PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
     {
-        HAL_Delay(20);
+        HAL_Delay(10);
 		run_t.gTimer_time_colon =0;
         key_up=0;
        // if(AI_KEY_VALUE()==1)       return run_t.keyvalue  = WIFI_KEY_ID;

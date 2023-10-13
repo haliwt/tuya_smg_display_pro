@@ -77,17 +77,31 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 	q=  minutes%10;
 	if(run_t.gTimer_set_timing_times < 100)
 	    TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
-	else if(run_t.gTimer_set_timing_times > 99 && run_t.gTimer_set_timing_times < 110){
+	else if(run_t.gTimer_set_timing_times > 99 && run_t.gTimer_set_timing_times < 150){
  		TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,1) ; //timer is default 12 hours "12:00"
 
 	}
 	else{
 		 run_t.gTimer_set_timing_times=0;
 		 run_t.modify_input_timer_number++;
+	    
 			
      }
 
-	if(run_t.modify_input_timer_number > 5){
+	if(run_t.wifi_set_timer_timing ==1){
+
+		if(run_t.modify_input_timer_number > 3){
+		   run_t.modify_input_timer_number=0;
+
+		   run_t.timer_timing_define_ok =1;
+		   run_t.temp_set_timer_timing_flag =0;
+
+		}
+	   return ;
+	}
+
+
+	if(run_t.modify_input_timer_number > 5  ){
 	   run_t.modify_input_timer_number =0;
 	   run_t.temp_set_timer_timing_flag =0;
 	   run_t.mode_key_times =0;
@@ -132,7 +146,7 @@ void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 static void TimeColon_Smg_Blink_Fun(void)
 {
     static uint8_t time_hours, minute_unit;
-    if(run_t.timer_timing_define_ok == 1){
+    if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
 
 	 time_hours =  run_t.timer_dispTime_hours /10 ;
 	 run_t.hours_two_unit_bit =run_t.timer_dispTime_hours % 10 ;
@@ -141,7 +155,9 @@ static void TimeColon_Smg_Blink_Fun(void)
 	  minute_unit = run_t.timer_dispTime_minutes % 10;
 
 	}
-	else{
+	else if(run_t.temp_set_timer_timing_flag !=TIMER_TIMING){
+
+			
 
 	 time_hours = run_t.works_dispTime_hours / 10;
 

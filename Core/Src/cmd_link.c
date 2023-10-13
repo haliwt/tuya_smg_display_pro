@@ -222,7 +222,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			break;
 		case 2://#2
 			if(inputBuf[0]=='D' || inputBuf[0]=='W'   || inputBuf[0]=='P' ||inputBuf[0] =='C' || inputBuf[0] == 'B' \
-			  || inputBuf[0]=='T' || inputBuf[0]=='R' ) //'D'->data , 'W' ->wifi
+			  || inputBuf[0]=='T' || inputBuf[0]=='R' || inputBuf[0]=='S' ) //'D'->data , 'W' ->wifi
 			{
 				
 				if(inputBuf[0]=='D') run_t.wifi_orderByMainboard_label=PANEL_DATA; //receive data is single data
@@ -232,6 +232,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				else if(inputBuf[0]=='B') run_t.wifi_orderByMainboard_label = WIFI_BEIJING_TIME;
 				else if(inputBuf[0]=='T') run_t.wifi_orderByMainboard_label = WIFI_SET_TIMING;
 				else if(inputBuf[0]=='R') run_t.wifi_orderByMainboard_label = WIFI_REF_DATA;
+				else if(inputBuf[0]=='S') run_t.wifi_orderByMainboard_label = WIFI_FAN_DATA;
 			    state=3;
 			}
 			else
@@ -322,7 +323,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
              case WIFI_SET_TIMING:
              	run_t.dispTime_hours  = inputBuf[0];
-				run_t.gTimer_key_timing=0;
+			
+			 
              	state=0;
                 run_t.decodeFlag=1; 
  
@@ -333,6 +335,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			    run_t.gDry = inputBuf[0];
 				state = 4; 
 				 
+			break;
+
+			case WIFI_FAN_DATA:
+				 run_t.wifiCmd[0] =inputBuf[0];
+                 state=0;
+                 run_t.decodeFlag=1; 
+
 			break;
 			 
 			 

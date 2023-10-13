@@ -12,7 +12,8 @@ typedef enum _Signal{
 	WIFI_CMD,
 	WIFI_BEIJING_TIME,
 	WIFI_SET_TIMING,
-	WIFI_REF_DATA
+	WIFI_REF_DATA,
+	WIFI_FAN_DATA
 }signal_t;
 
 typedef enum WIFI_STATE_T{
@@ -189,6 +190,7 @@ typedef struct __RUN{
     uint8_t wifi_orderByMainboard_label;
 	uint8_t wifi_set_temperature;
 	uint8_t wifiCmd[1];
+	uint8_t wifi_set_timer_timing ;
 
   /*********wifi end ***********/
   //timing
@@ -207,7 +209,7 @@ typedef struct __RUN{
    uint8_t ai_model_flag;
 
    volatile uint8_t temp_set_timer_timing_flag;
-   uint8_t gTimer_key_timing;
+  
    uint8_t power_on_recoder_times;
 
    //timer timing 
