@@ -217,8 +217,8 @@ void Process_Key_Handler(uint8_t keylabel)
       case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
           if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 
-		    mode_key ++;
-		    if(mode_key ==1){
+		    run_t.mode_key_times ++;
+		    if(run_t.mode_key_times ==1){
 			run_t.timer_timing_define_ok =0;
 			run_t.ai_model_flag =NO_AI_MODE;
 			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
@@ -232,7 +232,7 @@ void Process_Key_Handler(uint8_t keylabel)
          
            }
 		    else{
-				mode_key =0;
+				run_t.mode_key_times =0;
                run_t.timer_timing_define_ok =1;
 			   run_t.temp_set_timer_timing_flag= 0;
 			   SendData_Buzzer();//single_buzzer_fun();	

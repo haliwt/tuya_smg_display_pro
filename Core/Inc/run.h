@@ -172,7 +172,8 @@ typedef struct __RUN{
    //timer ref
    uint8_t timer_timing_define_ok ;
    uint8_t timer_timing_define_flag;
-  // uint8_t input_timer_timing_numbers_flag;
+   uint8_t gTimer_set_timing_times;
+   uint8_t mode_key_times;
 
   //usart ref
     uint8_t process_run_guarantee_flag;

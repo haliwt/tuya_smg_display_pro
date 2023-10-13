@@ -80,13 +80,13 @@ void Display_SmgTiming_Value(void)
 	 	}  
        
 	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-		   if(timer_display_flag==1 || input_tiimes < 5 ){
-			   timer_display_flag=0;
-			   input_tiimes++;
+//		   if(timer_display_flag==1 || input_tiimes < 5 ){
+//			   timer_display_flag=0;
+//			   input_tiimes++;
 	   	
 		    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-			HAL_Delay(5);
-	     	}
+			HAL_Delay(1);
+	     	//}
 
 	  }
 	  else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
@@ -220,13 +220,11 @@ void Set_Timing_Temperature_Number_Value(void)
    
 	
 	
-	if(run_t.temp_set_timer_timing_flag == TIMER_TIMING && run_t.timer_timing_define_ok ==0){
+	if(run_t.temp_set_timer_timing_flag == TIMER_TIMING){
 
-	         
-        
-		Display_Timing_Blink(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+	    Display_Timing_Blink(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 		
-
+       run_t.gTimer_Counter =0;
  
     }
     else if(run_t.temp_set_timer_timing_flag==0){
