@@ -77,14 +77,14 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 	q=  minutes%10;
 	if(run_t.gTimer_set_timing_times < 100)
 	    TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
-	else if(run_t.gTimer_set_timing_times > 99 && run_t.gTimer_set_timing_times < 150){
+	else if(run_t.gTimer_set_timing_times > 99 && run_t.gTimer_set_timing_times < 115){
  		TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,1) ; //timer is default 12 hours "12:00"
 
 	}
 	else{
 		 run_t.gTimer_set_timing_times=0;
 		 run_t.modify_input_timer_number++;
-	    
+	    TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0);
 			
      }
 

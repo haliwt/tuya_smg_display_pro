@@ -141,8 +141,7 @@ typedef struct __RUN{
    uint8_t  dry_key;
    uint8_t  manual_dry_turn_off;
 
-   uint8_t judge_minutes_if_zero ;
-   uint8_t judge_hours_if_zero  ;
+
 
    uint8_t gTimes_minutes_temp;
    uint8_t set_up_temp_flag;
@@ -173,7 +172,7 @@ typedef struct __RUN{
    //timer ref
    uint8_t timer_timing_define_ok ;
    uint8_t timer_timing_define_flag;
-   uint8_t gTimer_set_timing_times;
+   uint16_t gTimer_set_timing_times;
    uint8_t mode_key_times;
 
   //usart ref

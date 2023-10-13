@@ -223,8 +223,8 @@ void Process_Key_Handler(uint8_t keylabel)
 			run_t.ai_model_flag =NO_AI_MODE;
 			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 		
-            run_t.judge_hours_if_zero =0;
-			run_t.judge_minutes_if_zero =0;
+           
+		
 			run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
 			// SendData_Set_Command(AI_MODE_OFF);
 			 SendData_Buzzer();//single_buzzer_fun();	
@@ -233,7 +233,13 @@ void Process_Key_Handler(uint8_t keylabel)
            }
 		    else{
 				run_t.mode_key_times =0;
-               run_t.timer_timing_define_ok =1;
+			   if(run_t.timer_dispTime_hours !=0){
+                   run_t.timer_timing_define_ok =1;
+			   }
+			   else{
+			       run_t.timer_timing_define_ok =0;
+
+			   }
 			   run_t.temp_set_timer_timing_flag= 0;
 			   SendData_Buzzer();//single_buzzer_fun();	
 			   Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
@@ -406,64 +412,14 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		   case TIMER_TIMING: //set timer timing value
 	    	
 			
-				
 				run_t.modify_input_timer_number=0;
-				run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes -30;
-		        if(run_t.timer_dispTime_minutes < 0){
-					run_t.timer_dispTime_hours--;
-                   if(run_t.timer_dispTime_hours <0){
-                         
-				      run_t.timer_dispTime_hours=24;
-					  run_t.timer_dispTime_minutes=0; //timer_dispTime_hours
-
-				   }
-				   else{
-
-				     run_t.timer_dispTime_minutes =30;
-
-
-				   }
-				  
-				}
-				
-				run_t.judge_minutes_if_zero = run_t.timer_dispTime_minutes;
-                run_t.judge_hours_if_zero  = run_t.timer_dispTime_hours;
-
-			    if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
-					      run_t.hours_two_decade_bit = 1 ;
-					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; 
+				run_t.timer_dispTime_hours --; //=  run_t.timer_dispTime_minutes -30;
+		        if(run_t.timer_dispTime_hours  < 0){
+					
+                   run_t.timer_dispTime_hours=24;
 			    }
-				else if(run_t.timer_dispTime_hours > 19 ){
-					
-				  run_t.hours_two_decade_bit = 2 ;
-				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; 
-
-				}
-				else{
-
-					       run_t.hours_two_decade_bit =0;
-						   run_t.hours_two_unit_bit= run_t.timer_dispTime_hours;
-				}
-
-				switch(run_t.timer_dispTime_minutes){
-
-					   case 30:
-							run_t.minutes_one_decade_bit= 3;
-							run_t.minutes_one_unit_bit= 0;
-					   break;
-
-		
-					   case 0:
-							run_t.minutes_one_decade_bit= 0;
-							run_t.minutes_one_unit_bit= 0;
-					   break;
-					
-
-					}
-               
-
-
-		     run_t.gTimer_time_colon =0;
+				
+		   run_t.gTimer_time_colon =0;
 
 
 		  
@@ -508,76 +464,23 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			
 			break;
 
-			case 1: //set timer timing value 
+			case TIMER_TIMING : //set timer timing value 
 				
 				 run_t.modify_input_timer_number=0;
-				 if(run_t.timer_dispTime_hours !=24)
-				 		run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 30;
-				 else if(run_t.timer_dispTime_hours ==24)
-				 	    run_t.timer_dispTime_minutes =  run_t.timer_dispTime_minutes + 60;
-			     if(run_t.timer_dispTime_minutes >59){
-					 run_t.timer_dispTime_hours ++;
-		             if(run_t.timer_dispTime_hours ==24){
-						run_t.timer_dispTime_minutes=0;
-					}
-					else if(run_t.timer_dispTime_hours >24){
-
-					   run_t.timer_dispTime_hours=0;
-					   run_t.timer_dispTime_minutes=0;
-
-
-					}
-					else{
-
-					   run_t.timer_dispTime_minutes =0;
-
-
-					}
-						
-			     }
-
-                run_t.judge_minutes_if_zero = run_t.timer_dispTime_minutes;
-                run_t.judge_hours_if_zero  = run_t.timer_dispTime_hours;
-
-				if(run_t.timer_dispTime_hours > 9  && run_t.timer_dispTime_hours <20){
-					      run_t.hours_two_decade_bit = 1 ;
-					      run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10 ; 
-			    }
-				else if(run_t.timer_dispTime_hours > 19 ){
-					
-				  run_t.hours_two_decade_bit = 2 ;
-				  run_t.hours_two_unit_bit =run_t.timer_dispTime_hours %10  ; 
-
-				}
-				else{
-
-					       run_t.hours_two_decade_bit =0;
-						   run_t.hours_two_unit_bit= run_t.timer_dispTime_hours;
-				}
-
-					switch(run_t.timer_dispTime_minutes){
-
-					   case 30:
-							run_t.minutes_one_decade_bit= 3;
-							run_t.minutes_one_unit_bit= 0;
-					   break;
-
-					   case 0:
-							run_t.minutes_one_decade_bit= 0;
-							run_t.minutes_one_unit_bit= 0;
-					   break;
-					
-
-					}
-                  
-					// TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is default 12 hours "12:00" 
-			
-              run_t.gTimer_time_colon =0;
+				 run_t.timer_dispTime_hours ++;
+				 if(run_t.timer_dispTime_hours >24){
+				 		
+				     run_t.timer_dispTime_hours =0;
+					 
+		          }
+			run_t.gTimer_time_colon =0;
 				
-	  	    }
+	  	 
+		  	}
+		  
+	     }
 
-		  }
-	  }
+	   }
 
 	 break;
 

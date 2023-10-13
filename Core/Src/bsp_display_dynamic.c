@@ -380,17 +380,19 @@ static void Display_Works_Time_Fun(void)
             }
 
      	}
-       
-	    if(works_timing_flag ==0 && run_t.gTimer_disp_works_times > 1){
+	   }
+	    
+	   
+	   
+	   /******************dispplay works times **********************/
+	   if(works_timing_flag ==0 && run_t.gTimer_disp_works_times > 1){
 			run_t.gTimer_disp_works_times=0;
-		works_timing_flag=1;
+			works_timing_flag=1;
 	     Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
 		
 		  
 	   }   
-		    
-        }
-		else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
+	   else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
 
 		    if(run_t.gTimer_error_digital < 60){//10ms * 51= 510
 
