@@ -90,18 +90,28 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 
 	if(run_t.wifi_set_timer_timing ==1){
 
-		if(run_t.modify_input_timer_number > 3){
+		if(run_t.modify_input_timer_number > 2){ //run_t.temp_set_timer_timing_flag ==TIMER_TIMING
 		   run_t.modify_input_timer_number=0;
 
+		   if(run_t.timer_dispTime_hours==0){
+			
+		     run_t.timer_timing_define_ok =0;
+			 run_t.wifi_set_timer_timing =0;
+			 run_t.temp_set_timer_timing_flag =0;
+
+
+		   }
+		   else{
 		   run_t.timer_timing_define_ok =1;
+		   run_t.wifi_set_timer_timing =0;
 		   run_t.temp_set_timer_timing_flag =0;
 
+		   }
+
 		}
-	   return ;
+	   
 	}
-
-
-	if(run_t.modify_input_timer_number > 5  ){
+    else if(run_t.modify_input_timer_number > 5  ){
 	   run_t.modify_input_timer_number =0;
 	   run_t.temp_set_timer_timing_flag =0;
 	   run_t.mode_key_times =0;

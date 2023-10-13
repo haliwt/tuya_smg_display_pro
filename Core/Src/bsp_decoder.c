@@ -111,6 +111,7 @@ static void Receive_MainBoard_Data_Handler(uint8_t cmd)
 	        run_t.timer_timing_define_ok =0;
 		
 			run_t.gTimer_set_timing_times=0;
+			run_t.wifi_set_timer_timing =1;
 
 		
              m=(  run_t.timer_dispTime_hours ) /10;
