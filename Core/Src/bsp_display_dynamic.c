@@ -80,15 +80,16 @@ void Display_SmgTiming_Value(void)
 	 	}  
        
 	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-//		   //if(timer_display_flag==1 || input_tiimes < 5 ){
-//			   timer_display_flag=0;
-//			   input_tiimes++;
-			  
+		   if(timer_display_flag==1 || input_tiimes < 5 ){
+			   timer_display_flag=0;
+			   input_tiimes++;
+	   	
 		    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 			HAL_Delay(5);
+	     	}
 
 	  }
-	  else{
+	  else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
 
 	     if(run_t.gTimer_error_digital < 60){//10ms * 60= 600
 
@@ -230,7 +231,7 @@ void Set_Timing_Temperature_Number_Value(void)
     }
     else if(run_t.temp_set_timer_timing_flag==0){
 
-	 if(run_t.set_temperature_flag ==set_temperature_value){
+	 if(run_t.set_temperature_flag ==SET_TEMP_VALUE_ITEM){
 
 	  //waiting for 4 s 
 	  if(run_t.gTimer_key_temp_timing > 3 && run_t.set_temperature_special_value ==0){
@@ -263,6 +264,7 @@ void Set_Timing_Temperature_Number_Value(void)
 			 
 			 set_temp_flag=0;
 		     counter_times=0;
+		      run_t.set_temperature_flag = TIMER_TIMING_DONOT_VALUE;
 			  run_t.temperature_set_flag =1;
 			  run_t.set_temperature_special_value =0xff;
 			  run_t.set_temperature_flag= 0; //WT.EDTI 2023.09.27
@@ -305,12 +307,12 @@ void Led_Panel_OnOff(void)
 void Compare_SetTemperature_Value(void)
 {
 	
-    static uint8_t set_temperature_value;
+    static uint8_t SET_TEMP_VALUE_ITEM;
     if(run_t.temperature_set_flag ==1 && run_t.gTimer_temp_delay >60){
                run_t.gTimer_temp_delay =0;
 		 
-		  set_temperature_value= run_t.set_temperature_decade_value*10+ run_t.set_temperature_unit_value;
-		  if(set_temperature_value <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >40){//envirment temperature
+		  SET_TEMP_VALUE_ITEM= run_t.set_temperature_decade_value*10+ run_t.set_temperature_unit_value;
+		  if(SET_TEMP_VALUE_ITEM <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >40){//envirment temperature
 	  
 				run_t.gDry = 0;
                 
@@ -319,7 +321,7 @@ void Compare_SetTemperature_Value(void)
 			    
                 
 		  }
-		  else if((set_temperature_value -3) >= run_t.gReal_humtemp[1]){
+		  else if((SET_TEMP_VALUE_ITEM -3) >= run_t.gReal_humtemp[1]){
 
                 run_t.gDry = 1;
                 SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On

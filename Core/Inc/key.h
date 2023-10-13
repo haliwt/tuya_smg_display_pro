@@ -125,7 +125,7 @@ typedef enum{
 typedef enum{
 	TIMER_TIMING_DONOT_VALUE,
 	TIMER_TIMING ,
-	set_temperature_value
+	SET_TEMP_VALUE_ITEM
 
 
 }set_timer_state;
