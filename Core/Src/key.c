@@ -219,30 +219,20 @@ void Process_Key_Handler(uint8_t keylabel)
 
 		    mode_key ++;
 		    if(mode_key ==1){
-			
-		
-		
-	
 			run_t.timer_timing_define_ok =0;
-	
-			SendData_Buzzer();//single_buzzer_fun();	
-         
-		
-
 			run_t.ai_model_flag =NO_AI_MODE;
 			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 			run_t.gTimer_key_timing=0;
-
-			run_t.timer_timing_define_ok=0; //WT.EDIT 2023.09.15
-			run_t.judge_hours_if_zero =0;
+            run_t.judge_hours_if_zero =0;
 			run_t.judge_minutes_if_zero =0;
 			run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
-			 SendData_Set_Command(AI_MODE_OFF);
+			// SendData_Set_Command(AI_MODE_OFF);
+			 SendData_Buzzer();//single_buzzer_fun();	
              HAL_Delay(2);
          
            }
 		    else{
-				
+				mode_key =0;
                run_t.timer_timing_define_ok =1;
 			   run_t.temp_set_timer_timing_flag= 0;
 			   SendData_Buzzer();//single_buzzer_fun();	

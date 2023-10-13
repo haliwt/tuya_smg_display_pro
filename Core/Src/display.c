@@ -75,9 +75,9 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 	run_t.hours_two_unit_bit =	hours%10; 
 	run_t.minutes_one_decade_bit= minutes/10 ;
 	q=  minutes%10;
-	if(run_t.gTimer_set_temp_times < 15)
+	if(run_t.gTimer_set_temp_times < 30)
 	    TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
-	else if(run_t.gTimer_set_temp_times > 14 && run_t.gTimer_set_temp_times < 29){
+	else if(run_t.gTimer_set_temp_times > 29 && run_t.gTimer_set_temp_times < 59){
  		TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,1) ; //timer is default 12 hours "12:00"
 
 	}
