@@ -237,7 +237,8 @@ void Process_Key_Handler(uint8_t keylabel)
 			   run_t.temp_set_timer_timing_flag= 0;
 			   SendData_Buzzer();//single_buzzer_fun();	
 			   Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-			   HAL_Delay(10);
+			   SendData_Time_Data(run_t.timer_dispTime_hours);
+			   
 			}
          			
          }
@@ -586,9 +587,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
         if(run_t.gPower_On ==RUN_POWER_ON && FAN_KEY_VALUE() ==1){
                 if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
 
-               if(run_t.ai_model_flag== NO_AI_MODE && run_t.fan_stop_flag ==0){
-
-             
                 if(run_t.gFan_level==fan_speed_max){
                     run_t.gFan_level = fan_speed_min;
  					run_t.gFan =1; //tur ON
@@ -598,7 +596,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
             
 						
 			     }
-                else if(run_t.fan_stop_flag ==0){
+                else if(run_t.gFan_level == fan_speed_min){
                     run_t.fan_key_max ++;
                     run_t.gFan_level=fan_speed_max;
 					run_t.gFan =1;
@@ -609,13 +607,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				
                     
                  }
-                break;
-
-              
-               }
-				  
-				 
-			}
+              }
 		 }
      break;
 

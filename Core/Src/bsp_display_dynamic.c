@@ -382,12 +382,12 @@ static void Display_Works_Time_Fun(void)
 
      	}
        
-	    if(works_timing_flag ==0){
-			works_timing_flag=1;
+	   // if(works_timing_flag ==0){
+			//works_timing_flag=1;
 	     Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
-		 HAL_Delay(10);
+		// HAL_Delay(10);
 		  
-	    }   
+	   // }   
 		    
         }
 		else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
