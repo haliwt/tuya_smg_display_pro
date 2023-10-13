@@ -503,15 +503,12 @@ void SmgBlink_Colon_Function(uint8_t onebit,uint8_t twobit,uint8_t threebit, uin
     TM1639_Start();
     TM1639_Write_OneByte(0xCF);//0xC2H->GRID_4
   
-	TM1639_Write_OneByte(segNumber_High[fourbit]|seg_h);//display ""
+	TM1639_Write_OneByte(segNumber_High[fourbit]);//display ""
 
  
     TM1639_Stop();
 
-	
-
-
-     //open diplay
+	//open diplay
     TM1639_Start();
     TM1639_Write_OneByte(OpenDispTM1639|0x8f);//0xC2H->GRID3->BIT_3
     TM1639_Stop();
