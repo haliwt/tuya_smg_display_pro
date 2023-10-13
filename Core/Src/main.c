@@ -130,7 +130,7 @@ int main(void)
                 run_t.keyvalue= KEY_Normal_Scan(0);
 			       //   Process_Key_Handler(run_t.keyvalue);
              }
-             // Key_TheSecond_Scan();
+     
              Process_Key_Handler(run_t.keyvalue);
 			 
               RunPocess_Command_Handler();

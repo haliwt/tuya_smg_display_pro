@@ -48,14 +48,13 @@ void Display_SmgTiming_Value(void)
 {
 
    static uint8_t timer_display_flag, alternate_flag;
-	switch(run_t.timer_timing_define_flag){
+    switch(run_t.timer_timing_define_ok)
 
 	case timing_success: //0x01
 
-	   switch(run_t.timer_timing_define_ok){
+	  run_t.temp_set_timer_timing_flag =0;
 
-	   case 1:
-	   if(run_t.gTimer_Counter > 59){
+	 if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
 		timer_display_flag=1;
 		run_t.timer_dispTime_minutes -- ;
@@ -67,66 +66,22 @@ void Display_SmgTiming_Value(void)
          }
 
 		
-		
+		//power off
 		 if(run_t.timer_dispTime_hours < 0 ){
 		 
 			run_t.gTimer_Counter = 57 ;
 			run_t.timer_dispTime_hours=0;
 			run_t.timer_dispTime_minutes=0;
-			run_t.timer_timing_define_flag=timing_power_off;
-			
+			run_t.timer_timing_define_ok =timing_power_off;
 			
 	      }
-		    
-        }
-	    break;
-
-		case 0: //NO_AI_MODE by timer timing  auto be changed AI_MODE
-			
-			if(run_t.gTimer_Counter > 59){
-	          run_t.gTimer_Counter =0;
-			  run_t.ai_model_flag =AI_MODE; 
-
-			
-		     run_t.timer_works_transform_flag=0;
-		     if(run_t.gDry ==0 && run_t.ptc_warning ==0){
-			 	 run_t.gDry =1;
-	             SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On this is bu 
-
-	             HAL_Delay(1);
-
-			 }
-			 if(run_t.gPlasma ==0){
-
-			     run_t.gPlasma =1;
-			     SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On this is bu 
-			
-				 HAL_Delay(1);
-
-
-            }
-
-             run_t.timer_timing_define_flag=timing_donot; 
-
-             
-             run_t.gDry=1;
-             run_t.gPlasma=1;
-			 run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
-			 run_t.timer_timing_define_ok=0xff; //WT.EDIT.2023.09.21 has a little bug.
-             
-
-         
-		    }
-
-		break;
-
-	   	}
-
-	   
-       if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+	 	}  
+       
+	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 		   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
 			   timer_display_flag=0;
 			   run_t.timer_works_transform_flag=0;
+		       
   
 	           Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
@@ -207,16 +162,19 @@ void Display_SmgTiming_Value(void)
 		
 	  run_t.power_on_recoder_times++; //this is data must be change if not don't "breath led"
 	  run_t.gRunCommand_label = RUN_POWER_OFF;//POWER_OFF_PROCESS; //POWER_OFF_PROCESS ;
-	  run_t.timer_timing_define_flag = 0xff;
+
 
 	break;
 
 
 	case timing_donot:
+
+	   if(run_t.temp_set_timer_timing_flag == 0){
 		
-         Timer_Timing_Donot_Display();
+        Timer_Timing_Donot_Display();
 		
 	    Display_Works_Time_Fun();
+	  }
     break;
 
 	}
@@ -407,7 +365,7 @@ static void Display_Works_Time_Fun(void)
 {
      static uint8_t works_timing_flag,alternate_flag;
 
-	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && run_t.timer_timing_define_flag==0){
+	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && ){
      if(run_t.gTimes_time_seconds > 59 ){
             run_t.gTimes_time_seconds=0;
             works_timing_flag =1;
@@ -525,7 +483,7 @@ static void Timer_Timing_Donot_Display(void)
 				run_t.gTimer_Counter = 57 ;
 				run_t.timer_dispTime_hours=0;
 				run_t.timer_dispTime_minutes=0;
-				run_t.timer_timing_define_flag=timing_power_off;
+			
 			}
 			
         }
@@ -545,7 +503,7 @@ static void Timer_Timing_Donot_Display(void)
 static void WorksTime_DonotDisplay_Fun(void)
 {
 //send to APP works times every minute onece
-   if(run_t.gTimes_time_seconds > 59 && run_t.timer_timing_define_flag ==timing_success && run_t.temp_set_timer_timing_flag ==0){
+   if(run_t.gTimes_time_seconds > 59 &&  && run_t.temp_set_timer_timing_flag ==0){
 		   run_t.gTimes_time_seconds=0;
 		 
 		   run_t.works_dispTime_minutes++; //1 minute 

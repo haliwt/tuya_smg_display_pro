@@ -69,6 +69,7 @@ void RunPocess_Command_Handler(void)
 
 	  case RUN_POWER_OFF://2
 	  	 run_t.step_run_power_on_tag=0;
+		 run_t.temp_set_timer_timing_flag=0;
 		 switch(run_t.step_run_power_off_tag){
 
 			case 0:

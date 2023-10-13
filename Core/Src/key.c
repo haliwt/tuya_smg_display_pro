@@ -178,29 +178,6 @@ void Process_Key_Handler(uint8_t keylabel)
 
 	  break;
 
-//	  case MODE_LONG_KEY_ID:
-//	  	if(run_t.gPower_On ==RUN_POWER_ON){
-//
-//		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
-//		  	  
-//
-//			run_t.ai_model_flag =NO_AI_MODE;
-//			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
-//			run_t.gTimer_key_timing=0;
-//
-//			run_t.timer_timing_define_ok=0; //WT.EDIT 2023.09.15
-//			run_t.judge_hours_if_zero =0;
-//			run_t.judge_minutes_if_zero =0;
-//			run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
-//			SendData_Buzzer();//single_buzzer_fun();
-//			HAL_Delay(2);
-//			  
-//          }
-//	       
-//		 }
-//	  	
-//		 run_t.keyvalue = 0xff;
-//	  break;
 
 	  case WIFI_KEY_ID:
         
@@ -254,10 +231,11 @@ void Process_Key_Handler(uint8_t keylabel)
              HAL_Delay(2);
          
            }
-//		    else{
-//				
-//               run_t.timer_timing_define_ok =1;
-//			}
+		    else{
+				
+               run_t.timer_timing_define_ok =1;
+			   run_t.temp_set_timer_timing_flag= 0;
+			}
          			
          }
 	      run_t.keyvalue = 0xFF;
@@ -388,7 +366,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		  mode_key ++;
 		  if(mode_key ==1){
 			run_t.keyvalue  = MODEL_KEY_ID;
-			run_t.timer_timing_define_flag=timing_success;
+		
 			run_t.gTimer_mode_key_start_counter=0;
 			run_t.recoder_start_conuter_flag=0;
 			run_t.timer_timing_define_ok =0;
@@ -401,7 +379,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		//  run_t.keyvalue  = MODEL_KEY_ID;
 		  run_t.timer_timing_define_ok =1;
 		  run_t.gTimer_Counter=0;
-		  run_t.timer_timing_define_flag=timing_success;
+		
 		  SendData_Buzzer();//single_buzzer_fun();
 	  }
 
