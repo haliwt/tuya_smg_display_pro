@@ -505,12 +505,6 @@ void SmgBlink_Colon_Function(uint8_t onebit,uint8_t twobit,uint8_t threebit, uin
 	
     TM1639_Stop();
 
-
-
-
-	
-
-
 	//digital 4
 	//minute 
     TM1639_Start();

@@ -369,7 +369,7 @@ static void Display_Works_Time_Fun(void)
             works_timing_flag =0;
 			run_t.works_dispTime_minutes++; //1 minute 
 		
-            run_t.send_app_wokes_minutes_two++;
+           // run_t.send_app_wokes_minutes_two++;
 			if(run_t.works_dispTime_minutes> 59){ //1 hour
 			run_t.works_dispTime_minutes=0;
 			run_t.works_dispTime_hours++;
@@ -385,7 +385,7 @@ static void Display_Works_Time_Fun(void)
 	   
 	   
 	   /******************dispplay works times **********************/
-	   if(works_timing_flag ==0 && run_t.gTimer_disp_works_times > 1){
+	   if(run_t.gTimer_disp_works_times > 1){
 			run_t.gTimer_disp_works_times=0;
 			works_timing_flag=1;
 	     Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);

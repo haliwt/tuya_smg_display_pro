@@ -150,7 +150,8 @@ uint8_t KEY_Scan(void)
 ************************************************************************/
 void Process_Key_Handler(uint8_t keylabel)
 {
-   static uint8_t power_on,power_off, power_on_off_flag;
+   uint8_t power_on,power_off;
+   static uint8_t power_on_off_flag;
    uint8_t wifi_look_for;
   
 

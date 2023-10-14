@@ -52,9 +52,10 @@ void Display_DHT11_Value(void)
 void Display_GMT(uint8_t hours,uint8_t minutes)
 { 
     static uint8_t m,q;
-	m = hours /10 ;
+	m = hours /10 %10 ;
 	run_t.hours_two_unit_bit =	hours%10; 
-	run_t.minutes_one_decade_bit= minutes/10 ;
+	
+	run_t.minutes_one_decade_bit= minutes/10%10 ;
 	q=  minutes%10;
 	TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
 
@@ -156,6 +157,7 @@ void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 static void TimeColon_Smg_Blink_Fun(void)
 {
     static uint8_t time_hours, minute_unit;
+	static uint8_t one_bit[2];
     if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
 
 	 time_hours =  run_t.timer_dispTime_hours /10 ;
@@ -163,33 +165,73 @@ static void TimeColon_Smg_Blink_Fun(void)
 	
 	  run_t.minutes_one_decade_bit =run_t.timer_dispTime_minutes /10;
 	  minute_unit = run_t.timer_dispTime_minutes % 10;
+	   one_bit[0] =  run_t.timer_dispTime_minutes;
 
 	}
 	else if(run_t.temp_set_timer_timing_flag !=TIMER_TIMING){
 
 			
-
+    //hours 
 	 time_hours = run_t.works_dispTime_hours / 10;
 
 	run_t.hours_two_unit_bit =run_t.works_dispTime_hours % 10;
+	//minutes
 	run_t.minutes_one_decade_bit =run_t.works_dispTime_minutes /10;
 	 minute_unit = run_t.works_dispTime_minutes % 10;
-     Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
+	  one_bit[1]=run_t.works_dispTime_minutes;
+     
 	}
 
 	if(run_t.gTimer_colon < 2){
-		 
-		  SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,0);
-	   }
-	   else if(run_t.gTimer_colon >  1	&&	run_t.gTimer_colon < 3){
-		   SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
-
-	  }
-	  else{
-		 run_t.gTimer_colon =0;
 		 SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,0);
 
-	  }
+		
+	}
+	else if(run_t.gTimer_colon > 1	&&	run_t.gTimer_colon < 4){
+		   if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
+                 if(one_bit[0] > 0 && run_t.minutes_one_decade_bit >0){
+		            SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
+                 }
+				 else if(one_bit[0] == 0 && run_t.timer_dispTime_minutes ==0){
+
+				     SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
+
+				 }
+				 
+		   	}
+		    else{
+			      if(one_bit[1] > 0 && run_t.minutes_one_decade_bit >0){
+				     SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
+				  }
+				  else if(one_bit[1] == 0 && run_t.minutes_one_decade_bit ==0){
+
+				     SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
+
+				 }
+				  
+
+
+			}
+			
+			
+		   
+
+	}
+	else{
+		 run_t.gTimer_colon =0;
+		
+
+	}
+
+	if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
+		
+	    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+
+	}
+	else{
+
+		Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
+	}
 }
 
 
