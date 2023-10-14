@@ -1,11 +1,5 @@
 #include "key.h"
-#include "gpio.h"
-#include "run.h"
-#include "smg.h"
-#include "cmd_link.h"
-#include "display.h"
-#include "bsp_display_dynamic.h"
-#include "led.h"
+#include "bsp.h"
 
 
 
@@ -306,23 +300,13 @@ void Process_Key_Handler(uint8_t keylabel)
 				}
 
                break;
-
-     
-				   
-		       
 			 }
 
-           
-          
            run_t.keyvalue = 0xff;
         break;
-
-
-
-
-	  default:
+		default:
           
-	  break;
+	  	break;
 
 	}
 	//
@@ -502,7 +486,9 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
         if(run_t.gPower_On ==RUN_POWER_ON && FAN_KEY_VALUE() ==1){
                 if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
 
-                if(run_t.gFan_level==fan_speed_max){
+			//	run_t.keyvalue  = FAN_KEY_ID;
+                
+				if(run_t.gFan_level==fan_speed_max){
                     run_t.gFan_level = fan_speed_min;
  					run_t.gFan =1; //tur ON
  					

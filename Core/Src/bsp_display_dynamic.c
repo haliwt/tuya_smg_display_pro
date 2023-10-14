@@ -546,12 +546,12 @@ static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level)
    }
     
     TM1639_Write_4Bit_Fan_Level(fan_level);
-    if(run_t.gTimer_display_fan_level > 2){
-        run_t.gTimer_display_fan_level=0;
-        run_t.gFan =0;
-        Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+    // if(run_t.gTimer_display_fan_level > 2){
+    //     run_t.gTimer_display_fan_level=0;
+    //     run_t.gFan =0;
+    //     Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 
-    }
+    // }
  
 
 }
