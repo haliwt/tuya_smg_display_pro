@@ -35,6 +35,7 @@ void RunPocess_Command_Handler(void)
 	  	    run_t.step_run_power_off_tag=0;
             run_t.gTimer_time_colon =0;
 	       run_t.set_temperature_decade_value=40;
+		   run_t.gPower_On=RUN_POWER_ON;
            
             run_t.step_run_power_off_tag=0;
             run_t.power_on_send_to_mb_times=36;
@@ -68,7 +69,7 @@ void RunPocess_Command_Handler(void)
 	  break;
 
 	  case UPDATE_DATA: //3
-
+            
 	        switch(step_state){
 
 					case 0:
@@ -216,7 +217,7 @@ void Power_On_Fun(void)
 		run_t.ai_model_flag =AI_MODE;
 
   
-    run_t.gPower_On=RUN_POWER_ON;
+    
 
     run_t.time_led_flag=1;
 	Power_ON_Led();

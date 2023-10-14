@@ -163,6 +163,7 @@ static void Receive_Wifi_Cmd(uint8_t cmd)
              
 				
 		        run_t.gRunCommand_label = RUN_POWER_ON;
+	            run_t.gPower_On=RUN_POWER_ON;
            
 				run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
                 run_t.response_power_on = 1;
@@ -173,7 +174,8 @@ static void Receive_Wifi_Cmd(uint8_t cmd)
              case WIFI_POWER_OFF_NORMAL: //0xB1 //WT.EDIT 2023.08.21
 
     
-			   run_t.gRunCommand_label = POWER_OFF_PROCESS; //RUN_POWER_OFF; //WT.EDIT 2023.08-16
+			   run_t.gRunCommand_label = RUN_POWER_OFF; //RUN_POWER_OFF; //WT.EDIT 2023.08-16
+			   run_t.gPower_On=RUN_POWER_OFF;
 			
 			   run_t.power_on_recoder_times++;
              
