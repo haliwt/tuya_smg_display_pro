@@ -57,35 +57,52 @@ void RunPocess_Command_Handler(void)
 			 
 		run_t.gFan_RunContinue =1;
 		run_t.gTimer_fan_continue=0;
-			 
-	
-		   Power_Off_Fun();
-
-		  
-		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
-         
-     
-		break;
-	  break;
+		Power_Off_Fun();
+		run_t.gRunCommand_label =POWER_OFF_PROCESS;
+      break;
+	 
 
 	  case UPDATE_DATA: //3
             
 	        switch(step_state){
 
 					case 0:
+					 switch(run_t.gFan){
+                       case 0:
 						Led_Panel_OnOff();
+						break;
+						case 1:
+							display_fan_speed_value(run_t.gFan_level);
+						break;
+
+					 }
 					    step_state=1;
 					break;
 
 					case 1:
+					 switch(run_t.gFan){
+                       case 0:
                			RunLocal_Dht11_Data_Process();
+					  break;
+					    case 1:
+							display_fan_speed_value(run_t.gFan_level);
+						break;
+
+					 }
 				        step_state=2;
 	                    
 				   break;
 
 					case 2:
-                      
+					 switch(run_t.gFan){
+                       case 0:
                       Set_Timing_Temperature_Number_Value();
+					  break;
+					   case 1:
+							display_fan_speed_value(run_t.gFan_level);
+						break;
+
+					 }
 
                       step_state=3;
 					break;
@@ -93,46 +110,51 @@ void RunPocess_Command_Handler(void)
 					case 3:
                         switch(run_t.gFan){
 
-                         case 0:
+                        case 0:
 					       Display_SmgTiming_Value();
-                         break;
+                        break;
 
-                         case 1:
-
-                           display_fan_speed_value(run_t.gFan_level);
-
-
-                         break;
+                        case 1:
+							display_fan_speed_value(run_t.gFan_level);
+						break;
 
 
                         }
-					    step_state=4;
+					step_state=4;
 
 					break;
 
 					case 4:
+       					switch(run_t.gFan){
 
-	                   Compare_SetTemperature_Value(); 
-						step_state=5;
+                        case 0:
+	                   		Compare_SetTemperature_Value(); 
+					    break;
+					     case 1:
+							display_fan_speed_value(run_t.gFan_level);
+						break;
+
+					 }
+					step_state=5;
 
 					break;
 
 					case 5:
-                    switch(run_t.gFan){
+						switch(run_t.gFan){
 
-                        case 0:
-                            if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-                                Display_TimeColon_Blink_Fun();
-                            }
-                        break;
+							case 0:
+								if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+									Display_TimeColon_Blink_Fun();
+								}
+							break;
 
-                        case 1:
+							case 1:
 
-                           display_fan_speed_value(run_t.gFan_level);
-                           
+							display_fan_speed_value(run_t.gFan_level);
+							
 
-                        break;
-                    }
+							break;
+						}
                     step_state=0;
                     break;
 				   }

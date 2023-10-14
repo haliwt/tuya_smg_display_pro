@@ -157,38 +157,41 @@ void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 static void TimeColon_Smg_Blink_Fun(void)
 {
     static uint8_t hours_1,hours_2, minute_1,minute_2;
-	static uint8_t one_bit[2];
-    if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
 
-	 hours_1 =  run_t.timer_dispTime_hours /10 ;
-	 hours_2 =run_t.timer_dispTime_hours % 10 ;
+    
 	
-	  minute_1 =run_t.timer_dispTime_minutes /10;
-	  minute_2 = run_t.timer_dispTime_minutes % 10;
-	  one_bit[0] =  run_t.timer_dispTime_minutes;
+	
+		if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
 
-	}
-	else if(run_t.temp_set_timer_timing_flag !=TIMER_TIMING){
+		hours_1 =  run_t.timer_dispTime_hours /10 ;
+		hours_2 =run_t.timer_dispTime_hours % 10 ;
+		
+		minute_1 =run_t.timer_dispTime_minutes /10;
+		minute_2 = run_t.timer_dispTime_minutes % 10;
+		
 
-			
-    //hours 
-	hours_1 =run_t.works_dispTime_hours / 10;
+		}
+		else if(run_t.temp_set_timer_timing_flag !=TIMER_TIMING){
 
-	hours_2 =run_t.works_dispTime_hours % 10;
-	//minutes
-	minute_1 =run_t.works_dispTime_minutes /10;
-	minute_2 = run_t.works_dispTime_minutes % 10;
-	  one_bit[1]=run_t.works_dispTime_minutes;
-     
-	}
+				
+		//hours 
+		hours_1 =run_t.works_dispTime_hours / 10;
 
-    if((one_bit[1]>0 ||one_bit[1] >0 ) && (minute_1 >0 || minute_2 >0)){
-		if(run_t.gTimer_colon < 1){
+		hours_2 =run_t.works_dispTime_hours % 10;
+		//minutes
+		minute_1 =run_t.works_dispTime_minutes /10;
+		minute_2 = run_t.works_dispTime_minutes % 10;
+		
+		
+		}
+
+	 
+		if(run_t.gTimer_colon < 2){
 			 SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,0);
 
 			
 		}
-		else if(run_t.gTimer_colon > 1	&&	run_t.gTimer_colon < 3){
+		else if(run_t.gTimer_colon > 1	&&	run_t.gTimer_colon < 4){
 			 
 
 		     SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,1);
@@ -200,41 +203,15 @@ static void TimeColon_Smg_Blink_Fun(void)
 			
 
 		}
-    }
-
-   if((one_bit[1]==0 ||one_bit[1] ==0 ) && (minute_1 ==0 && minute_2 ==0)){
-
-		if(run_t.gTimer_colon < 1){
-			 SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,0);
-
-			
-		}
-		else if(run_t.gTimer_colon > 1	&&	run_t.gTimer_colon < 3){
-			 
-
-		     SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,1);
-
-				
-		}
-		else{
-			 run_t.gTimer_colon =0;
-			
-
-		}
-
-   	}
+    
 	
 }
 
 
 void Display_TimeColon_Blink_Fun(void)
 {
-
-   if(run_t.gTimer_time_colon >1){ //10*20ms=300ms
-
-	   run_t.gTimer_time_colon =0;
-	   TimeColon_Smg_Blink_Fun();
-	}
+ TimeColon_Smg_Blink_Fun();
+	
 }
 
 
