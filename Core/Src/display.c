@@ -51,13 +51,13 @@ void Display_DHT11_Value(void)
 **********************************************************************/
 void Display_GMT(uint8_t hours,uint8_t minutes)
 { 
-    static uint8_t m,q;
+    static uint8_t m,n,p,q;
 	m = hours /10 %10 ;
-	run_t.hours_two_unit_bit =	hours%10; 
+	n=	hours%10; 
 	
-	run_t.minutes_one_decade_bit= minutes/10%10 ;
+	p = minutes/10%10 ;
 	q=  minutes%10;
-	TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
+	TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
 
 
 }
@@ -71,27 +71,27 @@ void Display_GMT(uint8_t hours,uint8_t minutes)
 **********************************************************************/
 void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 { 
-    static uint8_t m,q,counter;
+    static uint8_t m,n,p,q,counter;
 	m = hours /10 ;
-	run_t.hours_two_unit_bit =	hours%10; 
-	run_t.minutes_one_decade_bit= minutes/10 ;
+	n =	hours%10; 
+	p= minutes/10 ;
 	q=  minutes%10;
 	if(run_t.gTimer_set_timing_times < 100)
-	    TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0) ; //timer is default 12 hours "12:00"
-	else if(run_t.gTimer_set_timing_times > 99 && run_t.gTimer_set_timing_times < 115){
- 		TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,1) ; //timer is default 12 hours "12:00"
+	    TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
+	else if(run_t.gTimer_set_timing_times > 99 && run_t.gTimer_set_timing_times < 120){
+ 		TM1639_Write_4Bit_Time(m,n,p,q,1) ; //timer is default 12 hours "12:00"
 
 	}
 	else{
 		 run_t.gTimer_set_timing_times=0;
 		 run_t.modify_input_timer_number++;
-	    TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,0);
+	    TM1639_Write_4Bit_Time(m,n,p,q,0);
 			
      }
 
 	if(run_t.wifi_set_timer_timing ==1){
 
-		if(run_t.modify_input_timer_number > 2){ //run_t.temp_set_timer_timing_flag ==TIMER_TIMING
+		if(run_t.modify_input_timer_number > 3){ //run_t.temp_set_timer_timing_flag ==TIMER_TIMING
 		   run_t.modify_input_timer_number=0;
 
 		   if(run_t.timer_dispTime_hours==0){
@@ -134,14 +134,14 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 ********************************************************************************/
 void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 { 
-    static uint8_t m,q;
+    static uint8_t m,n,p,q;
 	m = 0x0E;
 	
-	run_t.hours_two_unit_bit= 0x0d;
+	n= 0x0d;
 	
-	run_t.minutes_one_decade_bit= errnumbers/10;
+	p= errnumbers/10;
 	q=errnumbers%10;
-	TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,sel) ; //timer is default 12 hours "12:00"
+	TM1639_Write_4Bit_Time(m,n,p,q,sel) ; //timer is default 12 hours "12:00"
 
 
 }
@@ -156,82 +156,74 @@ void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 ********************************************************************************/
 static void TimeColon_Smg_Blink_Fun(void)
 {
-    static uint8_t time_hours, minute_unit;
+    static uint8_t hours_1,hours_2, minute_1,minute_2;
 	static uint8_t one_bit[2];
     if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
 
-	 time_hours =  run_t.timer_dispTime_hours /10 ;
-	 run_t.hours_two_unit_bit =run_t.timer_dispTime_hours % 10 ;
+	 hours_1 =  run_t.timer_dispTime_hours /10 ;
+	 hours_2 =run_t.timer_dispTime_hours % 10 ;
 	
-	  run_t.minutes_one_decade_bit =run_t.timer_dispTime_minutes /10;
-	  minute_unit = run_t.timer_dispTime_minutes % 10;
-	   one_bit[0] =  run_t.timer_dispTime_minutes;
+	  minute_1 =run_t.timer_dispTime_minutes /10;
+	  minute_2 = run_t.timer_dispTime_minutes % 10;
+	  one_bit[0] =  run_t.timer_dispTime_minutes;
 
 	}
 	else if(run_t.temp_set_timer_timing_flag !=TIMER_TIMING){
 
 			
     //hours 
-	 time_hours = run_t.works_dispTime_hours / 10;
+	hours_1 =run_t.works_dispTime_hours / 10;
 
-	run_t.hours_two_unit_bit =run_t.works_dispTime_hours % 10;
+	hours_2 =run_t.works_dispTime_hours % 10;
 	//minutes
-	run_t.minutes_one_decade_bit =run_t.works_dispTime_minutes /10;
-	 minute_unit = run_t.works_dispTime_minutes % 10;
+	minute_1 =run_t.works_dispTime_minutes /10;
+	minute_2 = run_t.works_dispTime_minutes % 10;
 	  one_bit[1]=run_t.works_dispTime_minutes;
      
 	}
 
-	if(run_t.gTimer_colon < 2){
-		 SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,0);
+    if((one_bit[1]>0 ||one_bit[1] >0 ) && (minute_1 >0 || minute_2 >0)){
+		if(run_t.gTimer_colon < 1){
+			 SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,0);
 
-		
-	}
-	else if(run_t.gTimer_colon > 1	&&	run_t.gTimer_colon < 4){
-		   if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
-                 if(one_bit[0] > 0 && run_t.minutes_one_decade_bit >0){
-		            SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
-                 }
-				 else if(one_bit[0] == 0 && run_t.timer_dispTime_minutes ==0){
-
-				     SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
-
-				 }
-				 
-		   	}
-		    else{
-			      if(one_bit[1] > 0 && run_t.minutes_one_decade_bit >0){
-				     SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
-				  }
-				  else if(one_bit[1] == 0 && run_t.minutes_one_decade_bit ==0){
-
-				     SmgBlink_Colon_Function(time_hours,run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,minute_unit,1);
-
-				 }
-				  
-
-
-			}
 			
+		}
+		else if(run_t.gTimer_colon > 1	&&	run_t.gTimer_colon < 3){
+			 
+
+		     SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,1);
+
+				
+		}
+		else{
+			 run_t.gTimer_colon =0;
 			
-		   
 
-	}
-	else{
-		 run_t.gTimer_colon =0;
-		
+		}
+    }
 
-	}
+   if((one_bit[1]==0 ||one_bit[1] ==0 ) && (minute_1 ==0 && minute_2 ==0)){
 
-	if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
-		
-	    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+		if(run_t.gTimer_colon < 1){
+			 SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,0);
 
-	}
-	else{
+			
+		}
+		else if(run_t.gTimer_colon > 1	&&	run_t.gTimer_colon < 3){
+			 
 
-		Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
-	}
+		     SmgBlink_Colon_Function(hours_1,hours_2 ,minute_1,minute_2,1);
+
+				
+		}
+		else{
+			 run_t.gTimer_colon =0;
+			
+
+		}
+
+   	}
+	
 }
 
 

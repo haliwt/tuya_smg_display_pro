@@ -210,10 +210,6 @@ void Power_Off(void)
 void Power_On_Fun(void)
 {
                 
-   static uint8_t hour_decade,hour_unit,minutes_one,minutes_two;
-
-  
-	
 		run_t.gPlasma=1;
 		run_t.gDry =1;
 		run_t.gBug =1;
@@ -238,20 +234,15 @@ void Power_On_Fun(void)
 		
         
 
-	  hour_decade=0;
-	  hour_unit=0;
-    
-	  minutes_one = 0;
-      minutes_two = 0;
+	 
 	  
 	   SMG_POWER_ON(); //WT.EDIT 2023.03.02
       
 
 
-	  run_t.hours_two_unit_bit = hour_unit;
-	  run_t.minutes_one_decade_bit =  minutes_one;
+	 
       
-	 TM1639_Write_4Bit_Time(hour_decade,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,minutes_two,0);
+	 TM1639_Write_4Bit_Time(0,0,0,0,0);
      Display_DHT11_Value();
     
 }

@@ -57,8 +57,8 @@ void Display_SmgTiming_Value(void)
 
 	 if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
-		
-		run_t.timer_dispTime_minutes -- ;
+		 
+	    run_t.timer_dispTime_minutes --;
 	
 	    if(run_t.timer_dispTime_minutes <  0 ){
 			 
@@ -72,7 +72,6 @@ void Display_SmgTiming_Value(void)
 		 
 			run_t.gTimer_Counter = 57 ;
 			run_t.timer_dispTime_hours=0;
-			run_t.timer_dispTime_minutes=0;
 			run_t.timer_timing_define_ok =timing_power_off;
 			
 	      }
@@ -83,7 +82,7 @@ void Display_SmgTiming_Value(void)
 		   if(run_t.gTimer_disp_works_times > 1 || timer_display_flag==0 ){
 			 run_t.gTimer_disp_works_times =0;  
 	   	    timer_display_flag=1;
-		    Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+		    Display_GMT(run_t.timer_dispTime_hours, run_t.timer_dispTime_minutes);
 			HAL_Delay(1);
 	      }
 

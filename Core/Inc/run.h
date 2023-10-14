@@ -237,10 +237,8 @@ typedef struct __RUN{
    uint8_t works_dispTime_hours;
 
    volatile  uint8_t gTimer_colon;
-   volatile   uint8_t hours_two_decade_bit;
-   volatile   uint8_t hours_two_unit_bit;
-   volatile   uint8_t minutes_one_decade_bit;
-   volatile   uint8_t minutes_one_unit_bit;
+ 
+
    uint8_t set_temperature_special_value;
    uint8_t set_timer_special_value;
    uint8_t gTimer_run_ico;

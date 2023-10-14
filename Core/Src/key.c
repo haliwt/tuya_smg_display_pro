@@ -241,16 +241,21 @@ void Process_Key_Handler(uint8_t keylabel)
 		    else{
 				run_t.mode_key_times =0;
 			   if(run_t.timer_dispTime_hours !=0){
+			   	   run_t.timer_dispTime_minutes =0;
                    run_t.timer_timing_define_ok =1;
+				   
+				   SendData_Buzzer();//single_buzzer_fun();	
+			   	   Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+				   HAL_Delay(5);
+			       SendData_Time_Data(run_t.timer_dispTime_hours);
 			   }
 			   else{
 			       run_t.timer_timing_define_ok =0;
+				   run_t.timer_dispTime_minutes=0;
 
 			   }
 			   run_t.temp_set_timer_timing_flag= 0;
-			   SendData_Buzzer();//single_buzzer_fun();	
-			   Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-			   SendData_Time_Data(run_t.timer_dispTime_hours);
+			   
 			   
 			}
          			
