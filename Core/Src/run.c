@@ -144,7 +144,9 @@ void RunPocess_Command_Handler(void)
 
 							case 0:
 								if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+								if(run_t.temp_set_timer_timing_flag != TIMER_TIMING){
 									Display_TimeColon_Blink_Fun();
+								}
 								}
 							break;
 

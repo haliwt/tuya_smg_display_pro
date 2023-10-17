@@ -23,7 +23,7 @@
 
 void USART_Poll(void);
 
-
+void bsp_Idle(void);
 
 
 

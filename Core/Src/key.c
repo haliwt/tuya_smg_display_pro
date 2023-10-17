@@ -187,19 +187,16 @@ void Process_Key_Handler(uint8_t keylabel)
 		   wifi_look_for=Wifi_LoginParam_On();
 
 			
-		  	run_t.gWifi =1;
+		
 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
 			
             if(wifi_look_for==1){
 				run_t.wifi_led_fast_blink_flag=1;
-				run_t.wifi_link_cloud_flag =0;
+				
 				run_t.gTimer_wifi_connect_counter=0;
 				run_t.wifi_link_cloud_flag =WIFI_CLOUD_FAIL;
-           }
-		   else{
-             // run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
-
-		   }
+            }
+		  
 				
 		}
 	   //run_t.keyvalue = 0xFF;

@@ -10,7 +10,8 @@ volatile uint32_t led_k,led_i;
 
 void (*panel_led_fun)(void);
 
-static void WIFI_LED_OnOff(uint8_t sel);
+static void WIFI_LED_OnOff(void);
+
 static void DRY_LED_OnOff(uint8_t sel);
 static void PLASMA_LED_OnOff(uint8_t sel);
 
@@ -28,7 +29,7 @@ static void Delay(int16_t count);
 *
 *
 ************************************************************/
-static void WIFI_LED_OnOff(uint8_t sel)
+static void WIFI_LED_OnOff(void)
 {
 
     if(run_t.wifi_link_cloud_flag ==1){
@@ -38,12 +39,16 @@ static void WIFI_LED_OnOff(uint8_t sel)
 	}
     else{
 
-	if(run_t.wifi_led_fast_blink_flag==1){
+	if(run_t.wifi_led_fast_blink_flag==1 && run_t.wifi_link_cloud_flag ==0){
 
 	    
 	     LED_WIFI_TOGGLE();
 		 HAL_Delay(1);
-	
+		// delay_us(uint32_t nus)
+	    if(run_t.gTimer_wifi_connect_counter > 125){
+
+			run_t.wifi_led_fast_blink_flag=0;
+		}
 	
 	}
 	else{ //slowly blink LED
@@ -139,12 +144,7 @@ void Panel_Led_OnOff_Function(void)
 {
 
    static uint8_t ai_changed_flag;
-    if(run_t.gWifi ==0){
-       WIFI_LED_OnOff(0);
-
-	}
-	else
-		WIFI_LED_OnOff(1);
+     WIFI_LED_OnOff();
 	 
 	  
     if(run_t.gDry==1){

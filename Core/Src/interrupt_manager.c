@@ -41,9 +41,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if(htim->Instance==TIM3){  
     tm0++;
 	
-	run_t.gTimer_set_temp_times++;
+	run_t.gTimer_set_timing_times++;
     run_t.gTimer_error_digital++;
-	
+	run_t.gTimer_set_temp_times++;
 	
     if(tm0>99){ //100 *10ms = 1000ms = 1s
 		tm0=0;
@@ -52,6 +52,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_display_dht11++;
 		run_t.gTimer_power_key_pressed++;
 		run_t.gTimer_fan_continue++;
+		
 		//--------------//
 		
 	
@@ -70,6 +71,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         run_t.gTimer_display_fan_level++;
 		run_t.gTimer_disp_works_times++;
 		usart_t.gTimer_receive_times ++;
+		run_t.gTimer_wifi_connect_counter++;
 		
 
 		
