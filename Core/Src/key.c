@@ -293,6 +293,35 @@ void Process_Key_Handler(uint8_t keylabel)
 
            run_t.keyvalue = 0xff;
         break;
+
+	    case FAN_KEY_ID:
+            
+           if(run_t.gFan_level==fan_speed_max){
+                    run_t.gFan_level = fan_speed_min;
+ 					run_t.gFan =1; //tur ON
+ 					
+                    run_t.gTimer_display_fan_level=0;
+					SendData_Set_Command(FAN_LEVEL_MIN);
+                   
+						
+			     }
+                else if(run_t.gFan_level == fan_speed_min){
+                  
+                    run_t.gFan_level=fan_speed_max;
+					run_t.gFan =1;
+              
+				  
+                    run_t.gTimer_display_fan_level=0;
+					SendData_Set_Command(FAN_LEVEL_MAX);
+
+             
+				
+                    
+                 }
+			 run_t.keyvalue = 0xff;
+		break;
+
+
 		default:
           
 	  	break;
@@ -464,28 +493,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
         if(run_t.gPower_On ==RUN_POWER_ON && FAN_KEY_VALUE() ==1){
                 if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
 
-			//	run_t.keyvalue  = FAN_KEY_ID;
+				run_t.keyvalue  = FAN_KEY_ID;
+				run_t.gFan =1;
                 
-				if(run_t.gFan_level==fan_speed_max){
-                    run_t.gFan_level = fan_speed_min;
- 					run_t.gFan =1; //tur ON
- 					
-					run_t.fan_key_min ++;
-                    run_t.gTimer_display_fan_level=0;
-            
-						
-			     }
-                else if(run_t.gFan_level == fan_speed_min){
-                    run_t.fan_key_max ++;
-                    run_t.gFan_level=fan_speed_max;
-					run_t.gFan =1;
-              
-				  
-                    run_t.gTimer_display_fan_level=0;
-             
 				
-                    
-                 }
               }
 		 }
      break;
