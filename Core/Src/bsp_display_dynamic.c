@@ -215,7 +215,7 @@ void Set_Timing_Temperature_Number_Value(void)
 {
 
     
-    static uint8_t  counter_times;
+    static uint8_t  counter_times,temp;
 	
 	switch(run_t.temp_set_timer_timing_flag){
    
@@ -261,7 +261,7 @@ void Set_Timing_Temperature_Number_Value(void)
 			 
 		     counter_times=0;
 			  run_t.set_special_temperature_value = 0;
-			 run_t.gTimer_key_temp_timing=0;
+	
 		      run_t.temp_set_timer_timing_flag = SET_TEMP_DISPLAY_VALUE_ITEM;
 		      run_t.set_temperature_flag = 0;
 			 
@@ -269,6 +269,10 @@ void Set_Timing_Temperature_Number_Value(void)
 		      
 			  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
 			  run_t.gTimer_display_dht11 >60;
+
+			  temp = run_t.set_temperature_decade_value*10 +run_t.set_temperature_unit_value;
+
+			  SendData_Temp_Data(temp);
 		
 			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 	         
@@ -279,7 +283,8 @@ void Set_Timing_Temperature_Number_Value(void)
 
 	 case SET_TEMP_DISPLAY_VALUE_ITEM:
 
-	    Display_DHT11_Value(); 
+        
+		Display_DHT11_Value(); 
 	    HAL_Delay(10);
 	    run_t.temp_set_timer_timing_flag = 0;
 
