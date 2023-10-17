@@ -45,6 +45,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     run_t.gTimer_error_digital++;
 	run_t.gTimer_set_temp_times++;
 	
+	
     if(tm0>99){ //100 *10ms = 1000ms = 1s
 		tm0=0;
 		
@@ -64,7 +65,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         //usart
       
 	   run_t.gTimer_usart_error++;
-	   run_t.gTimer_time_colon ++;
+	 
 
 		run_t.gTimer_Counter ++;
 		run_t.gTimes_time_seconds ++;

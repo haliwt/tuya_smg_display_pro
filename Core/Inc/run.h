@@ -187,7 +187,7 @@ typedef struct __RUN{
    uint8_t wifi_link_cloud_flag;
 	 uint8_t gTimer_wifi_connect_counter;
     uint8_t wifi_orderByMainboard_label;
-	uint8_t wifi_set_temperature;
+
 	uint8_t wifiCmd[1];
 	uint8_t wifi_set_timer_timing ;
 
@@ -204,7 +204,7 @@ typedef struct __RUN{
    uint8_t gTimer_temp_delay;
    volatile uint8_t set_temperature_decade_value;
    volatile   uint8_t set_temperature_unit_value;
-   volatile uint8_t gTimer_time_colon;
+   
  
    uint8_t ai_model_flag;
 
@@ -239,7 +239,7 @@ typedef struct __RUN{
    volatile  uint8_t gTimer_colon;
  
 
-   uint8_t set_temperature_special_value;
+
    uint8_t set_timer_special_value;
 
    uint8_t gTimer_fan_continue;

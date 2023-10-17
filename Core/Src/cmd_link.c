@@ -1,9 +1,5 @@
 #include "cmd_link.h"
-#include "usart.h"
-#include "gpio.h"
-#include "run.h"
-#include "display.h"
-#include "led.h"
+#include "bsp.h"
 
 volatile static uint8_t transOngoingFlag; //interrupt Transmit flag bit , 1---stop,0--run
 uint8_t outputBuf[8];
@@ -303,9 +299,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             break;
 
             case WIFI_TEMP ://4 //wifi modify temperature of value
-                 run_t.wifi_set_temperature=inputBuf[0]; 
-                 
-                 state=0;
+            
+				 run_t.set_temperature_decade_value =inputBuf[0]/10;
+				 run_t.set_temperature_unit_value =inputBuf[0]%10;
+				 state=0;
                  run_t.decodeFlag=1;
             break;
 
@@ -401,8 +398,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             
         break;
 
-		
-		
 		default:
 			
 		break;

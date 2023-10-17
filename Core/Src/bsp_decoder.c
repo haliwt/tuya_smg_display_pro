@@ -52,14 +52,13 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 	 case WIFI_TEMP: //5->set temperature value
 	       if(run_t.gPower_On ==1){
-		   	   run_t.set_temperature_flag=1;
-			  
-			   
-           	run_t.gTimer_key_temp_timing=0;
-        	 m= run_t.wifi_set_temperature /10 ;
-			 n= run_t.wifi_set_temperature %10;
+		   	  // run_t.set_temperature_flag=1;
+			run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
+			run_t.gTimer_set_temp_times=0;
+			run_t.gTimer_key_temp_timing=0;
+		
 		   
-	        TM1639_Write_2bit_SetUp_TempData(m,n,0);
+	        TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 			}
     
 	 break;
@@ -74,12 +73,13 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
         temp2 = run_t.gReal_humtemp[1]%10;
 
          //temperature 
+       
           TM1639_Write_2bit_TempData(temp1,temp2);
 	      TM1639_Write_2bit_HumData(hum1,hum2);
 	     HAL_Delay(2);
         }
 	  
-
+      run_t.wifi_orderByMainboard_label =0xfE;
       break;
 
        case WIFI_BEIJING_TIME: 

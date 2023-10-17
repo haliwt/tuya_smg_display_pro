@@ -316,7 +316,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
      case POWER_KEY_Pin:
 
 	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
-	    run_t.gTimer_time_colon=0;
+	
 	   
 	 	if(POWER_KEY_VALUE()  ==KEY_DOWN && run_t.power_times==1){
 			
@@ -349,7 +349,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
       if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1){
 
 	      
-          run_t.gTimer_time_colon=0;
+
 		 
 		run_t.keyvalue  = MODEL_KEY_ID;
 		
@@ -366,7 +366,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 	if(run_t.gPower_On ==RUN_POWER_ON && DEC_KEY_VALUE() == 1){
 
          if(run_t.ptc_warning ==0){
-		 	 run_t.gTimer_time_colon=0;
+	
 		 SendData_Buzzer();
 	 	 //run_t.keyvalue  = DEC_KEY_ID;
 	 	  switch(run_t.temp_set_timer_timing_flag){
@@ -386,13 +386,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			 TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 			
 		   
-			  run_t.set_temperature_special_value=0;
-			  run_t.gTimer_key_temp_timing=0;
-			  run_t.gTimer_time_colon=0;
 			
-			 
-	    	
-		   break;
+			  run_t.gTimer_key_temp_timing=0;
+
+			break;
 
 		   case TIMER_TIMING: //set timer timing value
 	    	
@@ -403,18 +400,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 					
                    run_t.timer_dispTime_hours=24;
 			    }
-				
-		   run_t.gTimer_time_colon =0;
-
-
-		  
-		  break;
+				break;
 	   	  }
 
          }
-
-
-	  }
+		}
 
 	 break;
 
@@ -425,10 +415,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 		  if(run_t.ptc_warning ==0){
 				 SendData_Buzzer();
-               
-                run_t.gTimer_time_colon=0;
-
-		  switch(run_t.temp_set_timer_timing_flag){
+            switch(run_t.temp_set_timer_timing_flag){
 
 		    case 0:  //set temperature value 
 		        run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
@@ -442,9 +429,9 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			   run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
 			   run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
    
-			   run_t.set_temperature_special_value=0;
+			  run_t.gTimer_set_temp_times=0;
 			  run_t.gTimer_key_temp_timing=0;
-			  run_t.gTimer_time_colon=0;
+			
 			 TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 			
 			break;
@@ -458,14 +445,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				     run_t.timer_dispTime_hours =0;
 					 
 		          }
-			run_t.gTimer_time_colon =0;
-				
-	  	 
-		  	}
-		  
-	     }
-
-	   }
+		
+				}
+		  }
+		}
 
 	 break;
 
@@ -556,7 +539,7 @@ uint8_t KEY_Normal_Scan(uint8_t mode)
     if(key_up&&(PLASMA_KEY_VALUE()==1||DRY_KEY_VALUE()==1))
     {
         HAL_Delay(10);
-		run_t.gTimer_time_colon =0;
+	
         key_up=0;
        // if(AI_KEY_VALUE()==1)       return run_t.keyvalue  = WIFI_KEY_ID;
         if(DRY_KEY_VALUE()==1)  return run_t.keyvalue  = DRY_KEY_ID;

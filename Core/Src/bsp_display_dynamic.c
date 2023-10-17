@@ -215,63 +215,64 @@ void Set_Timing_Temperature_Number_Value(void)
 {
 
     
-    static uint8_t set_temp_flag, counter_times;
+    static uint8_t  counter_times;
+	
+	switch(run_t.temp_set_timer_timing_flag){
    
-	
-	
-	if(run_t.temp_set_timer_timing_flag == TIMER_TIMING){
-
-	    Display_Timing_Blink(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+	case TIMER_TIMING:
+		
+		Display_Timing_Blink(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 		
        run_t.gTimer_Counter =0;
  
-    }
-    else if(run_t.temp_set_timer_timing_flag==0){
-
-	 if(run_t.set_temperature_flag ==SET_TEMP_VALUE_ITEM){
+    
+	break;
+	
+	case 0:
+      if(run_t.set_temperature_flag ==SET_TEMP_VALUE_ITEM){
 
 	  //waiting for 4 s 
-	  if(run_t.gTimer_key_temp_timing > 3 && run_t.set_temperature_special_value ==0){
-			set_temp_flag++;
-			
-			run_t.set_temperature_special_value =1;
-			run_t.gTimer_set_temp_times =0; //couter time of smg blink timing 
+	  if(run_t.gTimer_key_temp_timing > 3 ){
+		
+	      counter_times=0 ;  
+		  run_t.gTimer_set_temp_times =0; //couter time of smg blink timing 
+		  run_t.set_temperature_flag = TIMER_TIMING_DONOT_VALUE;
 
 	 }
 	 //temperature of smg of LED blink .
-	  if(run_t.set_temperature_special_value ==1){
-	  	
-	  	
-		  if(run_t.gTimer_set_temp_times < 15 ){ // 4
-		        TM1639_Write_2bit_SetUp_TempData(0,0,1);
+	 
+	 if(run_t.gTimer_set_temp_times < 40 ){ // 4
+		        //
+		        TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
           }
-		  else if(run_t.gTimer_set_temp_times > 14 && run_t.gTimer_set_temp_times < 29){
+		  else if(run_t.gTimer_set_temp_times > 39 && run_t.gTimer_set_temp_times < 79){
 		  	
-			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+			  TM1639_Write_2bit_SetUp_TempData(0,0,1);
 
 		  }
 		  else{
 		  	 run_t.gTimer_set_temp_times=0;
              counter_times++ ;  
+			
 
 		  }
 
 
            if(counter_times > 3){
 			 
-			 set_temp_flag=0;
 		     counter_times=0;
 		      run_t.set_temperature_flag = TIMER_TIMING_DONOT_VALUE;
 			  run_t.temperature_set_flag =1;
-			  run_t.set_temperature_special_value =0xff;
-			  run_t.set_temperature_flag= 0; //WT.EDTI 2023.09.27
+		
 			  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
 		
 			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 	       
 	       }
 	     }
-	 }
+
+	 break;
+	
 	}
 
 }

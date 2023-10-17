@@ -33,7 +33,7 @@ void RunPocess_Command_Handler(void)
 
       case RUN_POWER_ON:
 	  	    run_t.step_run_power_off_tag=0;
-            run_t.gTimer_time_colon =0;
+        
 	       run_t.set_temperature_decade_value=40;
 		   run_t.gPower_On=RUN_POWER_ON;
            
