@@ -168,14 +168,21 @@ void SendData_Works_Time(uint8_t tdata,uint8_t tdata_2)
 
 }
 
-
-void SendData_Remaining_Time(uint8_t tdata,uint8_t tdata_2)
+/*********************************************************
+ * 
+ * Function Name:void SendData_Temp_Data(uint8_t tdata)
+ * Function:send temperature value 
+ * Input Ref:
+ *          0x050 ->power on ,0x51->power off 
+ *          0x52 ->timer value  ,0x53 -> temperature value 
+ *
+*********************************************************/
+void sendData_Response_Signal(uint8_t data)
 {
-
-        outputBuf[0]='T'; //4D
-		outputBuf[1]='R'; //"T"->temperature
-		outputBuf[2]=tdata; //53	//
-		outputBuf[3]=tdata_2;
+	    outputBuf[0]='T'; //4D
+		outputBuf[1]='K'; //"T"->temperature
+		outputBuf[2]='R'; //response
+		outputBuf[3]=data;
 		
 		transferSize=4;
 		if(transferSize)
@@ -184,6 +191,7 @@ void SendData_Remaining_Time(uint8_t tdata,uint8_t tdata_2)
 			transOngoingFlag=1;
 			HAL_UART_Transmit_IT(&huart1,outputBuf,transferSize);
 		}
+
 
 }
 

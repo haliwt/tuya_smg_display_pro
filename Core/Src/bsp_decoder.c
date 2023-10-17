@@ -26,7 +26,10 @@ void Decode_Handler(void)
    }
   
 }
-
+/* Input Ref:
+*		   0x050 ->power on ,0x51->power off 
+*		   0x52 ->timer value  ,0x53 -> temperature value 
+*/
 
 /**********************************************************************
 *
@@ -38,7 +41,7 @@ void Decode_Handler(void)
 **********************************************************************/
 void Receive_MainBoard_Data_Handler(uint8_t cmd)
 {
-	static uint8_t m,n,p,q;
+	static uint8_t m,n,p,q,timer =0xff;
 	static uint8_t hum1,hum2,temp1,temp2; 
 	
     switch(cmd){
@@ -52,8 +55,8 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 	 case WIFI_TEMP: //5->set temperature value
 	       if(run_t.gPower_On ==1){
-		   
-			  run_t.set_special_temperature_value =0;
+		    sendData_Response_Signal(0x53);
+			run_t.set_special_temperature_value =0;
 			run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
 			run_t.gTimer_set_temp_times=0;
 			run_t.gTimer_key_temp_timing=0;
@@ -105,8 +108,10 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
       case WIFI_SET_TIMING:
         
-       
            
+              sendData_Response_Signal(0x52);
+
+            
             run_t.timer_dispTime_hours= run_t.dispTime_hours;
             run_t.timer_dispTime_minutes = 0;
 	  
@@ -145,12 +150,18 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 
 }
+
+/* Input Ref:
+ *          0x050 ->power on ,0x51->power off 
+ *          0x52 ->timer value  ,0x53 -> temperature value 
+ */
 /**********************************************************************
 *
 *Functin Name: void Receive_ManiBoard_Cmd(uint8_t cmd)
 *Function :  wifi recieve data
 *Input Ref:  receive wifi send order
 *Return Ref: NO
+
 *
 **********************************************************************/
 static void Receive_Wifi_Cmd(uint8_t cmd)
@@ -166,7 +177,7 @@ static void Receive_Wifi_Cmd(uint8_t cmd)
 		        run_t.gRunCommand_label = RUN_POWER_ON;
 	            run_t.gPower_On=RUN_POWER_ON;
            
-				
+				sendData_Response_Signal(0x50);
                 run_t.response_power_on = 1;
                 run_t.response_power_off =0;
 			break;
@@ -174,7 +185,7 @@ static void Receive_Wifi_Cmd(uint8_t cmd)
 
              case WIFI_POWER_OFF_NORMAL: //0xB1 //WT.EDIT 2023.08.21
 
-    
+              
 			   run_t.gRunCommand_label = RUN_POWER_OFF; //RUN_POWER_OFF; //WT.EDIT 2023.08-16
 			   run_t.gPower_On=RUN_POWER_OFF;
 			
@@ -184,6 +195,7 @@ static void Receive_Wifi_Cmd(uint8_t cmd)
 			   run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
 			   run_t.response_power_off =1;
                run_t.response_power_on =0;
+			   sendData_Response_Signal(0x51);
 			break;
 
 			
