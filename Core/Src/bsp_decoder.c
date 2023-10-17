@@ -160,12 +160,12 @@ static void Receive_Wifi_Cmd(uint8_t cmd)
 
           case WIFI_POWER_ON_NORMAL: //0xB0
 
-             
+                run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
 				
 		        run_t.gRunCommand_label = RUN_POWER_ON;
 	            run_t.gPower_On=RUN_POWER_ON;
            
-				run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
+				
                 run_t.response_power_on = 1;
                 run_t.response_power_off =0;
 			break;

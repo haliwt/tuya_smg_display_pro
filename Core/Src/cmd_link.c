@@ -246,7 +246,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                  run_t.gReal_humtemp[0]=inputBuf[0]; //Humidity value 
                  state = 4;  
             break;
-            case WIFI_INFO :
+            case WIFI_INFO : //03
 
                  switch(inputBuf[0]){
 
@@ -254,7 +254,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                  
                     run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
                     state=0;
-                    run_t.decodeFlag=1;
+                    //run_t.decodeFlag=1;
 
                  break;
 
@@ -263,7 +263,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                     run_t.wifi_link_cloud_flag =WIFI_CLOUD_FAIL;
                    
                     state=0;
-                    run_t.decodeFlag=1;
+                   // run_t.decodeFlag=1;
 
                  break;
 
@@ -309,7 +309,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                  run_t.decodeFlag=1;
             break;
 
-            case WIFI_CMD:
+            case WIFI_CMD: //
                  run_t.wifiCmd[0] =inputBuf[0];
                  state=0;
                  run_t.decodeFlag=1; 

@@ -2,7 +2,7 @@
 #define __BSP_UART_H
 #include "main.h"
 
-uint8_t Power_ReadParam_OnOff(uint8_t reg);
+
 
 typedef struct{
 
@@ -14,6 +14,10 @@ typedef struct{
 
 extern usart_rx_tx_t usart_t;
 
+uint8_t Power_ReadParam_OnOff(uint8_t reg);
+
+
+uint8_t Wifi_LoginParam_On(void);
 
 #endif 
 

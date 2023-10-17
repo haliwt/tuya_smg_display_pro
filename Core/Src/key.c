@@ -58,7 +58,7 @@ uint8_t KEY_Scan(void)
 		{
 			if(key_t.read == key_t.buffer) //  short  key be down ->continunce be pressed key
 			{
-				if(++key_t.on_time>70000 )//25 //10000  0.5us
+				if(++key_t.on_time>30 )//25 //10000  0.5us
 				{
 					//run_t.power_times++;
                     key_t.value = key_t.buffer^_KEY_ALL_OFF; // key.value = 0xFE ^ 0xFF = 0x01
@@ -79,7 +79,7 @@ uint8_t KEY_Scan(void)
 		{
 			if(key_t.read == key_t.buffer) //long key key if be pressed down 
 			{
-				if(++key_t.on_time>70000)// 80000 long key be down
+				if(++key_t.on_time>30)// 80000 long key be down
 				{
 				    key_t.value = key_t.value|0x90; //key.value = 0x02 | 0x80  =0x82
                     key_t.on_time = 0;
@@ -146,7 +146,7 @@ void Process_Key_Handler(uint8_t keylabel)
 {
    uint8_t power_on,power_off;
    static uint8_t power_on_off_flag;
-   uint8_t wifi_look_for;
+   static uint8_t wifi_look_for;
   
 
     switch(keylabel){
@@ -184,33 +184,25 @@ void Process_Key_Handler(uint8_t keylabel)
         
         if(run_t.gPower_On ==RUN_POWER_ON){
 
-			SendData_Set_Wifi(0x01);
-			HAL_Delay(1);
+		   wifi_look_for=Wifi_LoginParam_On();
+
+			
 		  	run_t.gWifi =1;
 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-			do{
+			
+            if(wifi_look_for==1){
+				run_t.wifi_led_fast_blink_flag=1;
+				run_t.wifi_link_cloud_flag =0;
+				run_t.gTimer_wifi_connect_counter=0;
+				run_t.wifi_link_cloud_flag =WIFI_CLOUD_FAIL;
+           }
+		   else{
+             // run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
 
-               if(run_t.wifi_led_fast_blink_flag==0){
-
-                  SendData_Set_Wifi(0x01);
-                  HAL_Delay(1);
-                  wifi_look_for =1;
-
-               }
-               else{
-                  wifi_look_for =0;
-
-               }
-
-
-            }while(wifi_look_for);
-         
-			//run_t.wifi_led_fast_blink_flag=1;
-			run_t.wifi_link_cloud_flag =0;
-			run_t.gTimer_wifi_connect_counter=0;
+		   }
 				
 		}
-	   run_t.keyvalue = 0xFF;
+	   //run_t.keyvalue = 0xFF;
 
 	  break;
 	 

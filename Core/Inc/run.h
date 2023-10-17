@@ -5,9 +5,9 @@
 typedef enum _Signal{
     POWER_OFF= 0xFD,
 	POWER_ON=0x01,
-    PANEL_DATA,
-	WIFI_INFO,
-	WIFI_TIME,
+    PANEL_DATA=0x02,
+	WIFI_INFO=0x03,
+	WIFI_TIME=0x04,
 	WIFI_TEMP,
 	WIFI_CMD,
 	WIFI_BEIJING_TIME,
@@ -180,8 +180,8 @@ typedef struct __RUN{
 
 	
 	//WIFI 
-   uint8_t gTimer_led_500ms;
-   uint8_t gTimer_wifi_couter;
+
+ 
 	 uint8_t wifi_led_fast_blink_flag;
    uint8_t gTimer_wifi_slowly; 
    uint8_t wifi_link_cloud_flag;
@@ -241,7 +241,7 @@ typedef struct __RUN{
 
    uint8_t set_temperature_special_value;
    uint8_t set_timer_special_value;
-   uint8_t gTimer_run_ico;
+
    uint8_t gTimer_fan_continue;
  
  

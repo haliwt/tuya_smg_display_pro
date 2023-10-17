@@ -40,36 +40,18 @@ static void WIFI_LED_OnOff(uint8_t sel)
 
 	if(run_t.wifi_led_fast_blink_flag==1){
 
-	     if(run_t.gTimer_wifi_couter < 134 ){
+	    
+	     LED_WIFI_TOGGLE();
+		 HAL_Delay(1);
 	
-		 if(run_t.gTimer_led_500ms > 0 && 	run_t.gTimer_led_500ms< 12){ //12
-		     LED_WIFI_OFF();
-
-		 }
-		 else if(run_t.gTimer_led_500ms>11 && run_t.gTimer_led_500ms<23){
-		 	 LED_WIFI_ON();
-		     
-
-        }
-		else{
-		  	run_t.gTimer_led_500ms=0;
-		     LED_WIFI_OFF();
-
-		}
-	    }
-		else{
-		   	run_t.gTimer_wifi_couter=0;
-		    run_t.wifi_led_fast_blink_flag=0;
-		    run_t.gWifi =0;
-
-		}
+	
 	}
-	else{
-		if(run_t .gTimer_wifi_slowly > 0 &&	run_t .gTimer_wifi_slowly< 2){
+	else{ //slowly blink LED
+		if(run_t .gTimer_wifi_slowly< 2){
 				 LED_WIFI_OFF();
 	
 			 }
-			 else if(run_t .gTimer_wifi_slowly>1 && run_t .gTimer_wifi_slowly< 3){
+			 else if(run_t .gTimer_wifi_slowly>1 && run_t .gTimer_wifi_slowly< 4){
 				 LED_WIFI_ON();
 				 
 	

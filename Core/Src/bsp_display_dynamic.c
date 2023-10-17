@@ -53,11 +53,9 @@ void Display_SmgTiming_Value(void)
 
 	case timing_success: //0x01
 
-	  
-
-	 if(run_t.gTimer_Counter > 59){
+	if(run_t.gTimer_Counter > 59){
 	    run_t.gTimer_Counter =0;
-		 
+		
 	    run_t.timer_dispTime_minutes --;
 	
 	    if(run_t.timer_dispTime_minutes <  0 ){
@@ -75,15 +73,18 @@ void Display_SmgTiming_Value(void)
 			run_t.timer_timing_define_ok =timing_power_off;
 			
 	      }
-		 timer_display_flag=0;
+		 timer_display_flag=1;
 	 	}  
+
+	  
        
 	   if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-		   if(run_t.gTimer_disp_works_times > 1 || timer_display_flag==0 ){
-			 run_t.gTimer_disp_works_times =0;  
-	   	    timer_display_flag=1;
+		   if(run_t.gTimer_disp_works_times > 1 || timer_display_flag==1 ){
+			 run_t.gTimer_disp_works_times =0; 
+	   	    timer_display_flag=0;
 		    Display_GMT(run_t.timer_dispTime_hours, run_t.timer_dispTime_minutes);
 			HAL_Delay(1);
+
 	      }
 
 	  }
@@ -431,12 +432,9 @@ static void Display_Works_Time_Fun(void)
                        
 					    Display_Error_Digital(0x02,0);
 			        }
-
-
-			   }
-			   
-
-		   }
+				
+				}
+			}
 		   else if(run_t.gTimer_error_digital > 59 && run_t.gTimer_error_digital  < 121 ){
 		   		alternate_flag++;
  				Display_Error_Digital(0x10,1);
@@ -445,16 +443,10 @@ static void Display_Works_Time_Fun(void)
 		    else if(run_t.gTimer_error_digital > 119){
 
 			  run_t.gTimer_error_digital=0;
-
-
 			 }
 
 		}
-
-
-
 }
-
 /****************************************************************
  * 
  * Function Name: static void Timer_Timing_Donot_Display(void)
@@ -487,11 +479,7 @@ static void Timer_Timing_Donot_Display(void)
 			}
 			
         }
-
-
-
 }
-
 /****************************************************************
  * 
  * Function Name: static void WorksTime_DonotDisplay_Fun(void)
@@ -546,12 +534,12 @@ static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level)
    }
     
     TM1639_Write_4Bit_Fan_Level(fan_level);
-    // if(run_t.gTimer_display_fan_level > 2){
-    //     run_t.gTimer_display_fan_level=0;
-    //     run_t.gFan =0;
-    //     Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
+    if(run_t.gTimer_display_fan_level > 2){
+         run_t.gTimer_display_fan_level=0;
+         run_t.gFan =0;
+     
 
-    // }
+     }
  
 
 }
