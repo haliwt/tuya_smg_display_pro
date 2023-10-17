@@ -298,7 +298,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
              
             break;
 
-            case WIFI_TEMP ://4 //wifi modify temperature of value
+            case WIFI_TEMP ://4 //wifi setup temperature of value
             
 				 run_t.set_temperature_decade_value =inputBuf[0]/10;
 				 run_t.set_temperature_unit_value =inputBuf[0]%10;

@@ -52,7 +52,8 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 	 case WIFI_TEMP: //5->set temperature value
 	       if(run_t.gPower_On ==1){
-		   	  // run_t.set_temperature_flag=1;
+		   
+			  run_t.set_special_temperature_value =0;
 			run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
 			run_t.gTimer_set_temp_times=0;
 			run_t.gTimer_key_temp_timing=0;

@@ -373,13 +373,15 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 		 	case 0: //set temperature value
 
-		     run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
+		    
 			//setup temperature of value,minimum 20,maximum 40
 			set_up_temperature_value--;
 			if(set_up_temperature_value<20) set_up_temperature_value=40;
 	        else if(set_up_temperature_value >40)set_up_temperature_value=40;
-
-	        run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
+ 
+             run_t.set_special_temperature_value =0;
+			 run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
+			run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
 			run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
 
 			
@@ -418,7 +420,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
             switch(run_t.temp_set_timer_timing_flag){
 
 		    case 0:  //set temperature value 
-		        run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
+		       
                 set_up_temperature_value ++;
 	            if(set_up_temperature_value < 20){
 				    set_up_temperature_value=20;
@@ -428,6 +430,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				
 			   run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
 			   run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
+
+			   
+               run_t.set_special_temperature_value =0;
+			  run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
    
 			  run_t.gTimer_set_temp_times=0;
 			  run_t.gTimer_key_temp_timing=0;
