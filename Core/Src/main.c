@@ -89,6 +89,7 @@ int main(void)
   MX_TIM3_Init();
   MX_USART1_UART_Init();
   delay_init(24);
+  MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
     HAL_TIM_Base_Start_IT(&htim3);
      UART_Start_Receive_IT(&huart1,inputBuf,1);
@@ -123,6 +124,7 @@ int main(void)
             
 			 bsp_Idle();
             if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP){
+              run_t.key_pressed_flag =0;
               ai_key = KEY_Scan();//Scan_KeyMode();
               if(ai_key != 0){
                   run_t.keyvalue = ai_key;

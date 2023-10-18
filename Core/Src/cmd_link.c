@@ -207,6 +207,10 @@ void sendData_Response_Signal(uint8_t data)
 *******************************************************************************/
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+
+   	uint32_t isrflags   = READ_REG(USART1->ISR);
+	uint32_t cr1its     = READ_REG(USART1->CR1);
+	uint32_t cr3its     = READ_REG(USART1->CR3);
    
 	if(huart==&huart1) // Motor Board receive data (filter)
 	{
@@ -411,7 +415,20 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		break;
 
 		}
-		HAL_UART_Receive_IT(&huart1,inputBuf,1);//UART receive data interrupt 1 byte
+
+		/* Çå³ýÖÐ¶Ï±êÖ¾ */
+	SET_BIT(USART1->ICR, UART_CLEAR_PEF);
+	SET_BIT(USART1->ICR, UART_CLEAR_FEF);
+	SET_BIT(USART1->ICR, UART_CLEAR_NEF);
+	SET_BIT(USART1->ICR, UART_CLEAR_OREF);
+	SET_BIT(USART1->ICR, UART_CLEAR_IDLEF);
+	SET_BIT(USART1->ICR, UART_CLEAR_TCF);
+	SET_BIT(USART1->ICR, UART_CLEAR_LBDF);
+	SET_BIT(USART1->ICR, UART_CLEAR_CTSF);
+	SET_BIT(USART1->ICR, UART_CLEAR_CMF);
+	SET_BIT(USART1->ICR, UART_CLEAR_WUF);
+	SET_BIT(USART1->ICR, UART_CLEAR_TXFECF);
+	HAL_UART_Receive_IT(&huart1,inputBuf,1);//UART receive data interrupt 1 byte
 	}
 }
 void USART1_Cmd_Error_Handler(void)

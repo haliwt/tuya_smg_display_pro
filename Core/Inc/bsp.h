@@ -19,7 +19,7 @@
 #include "delay.h"
 #include "bsp_decoder.h"
 #include "bsp_uart.h"
-
+#include "iwdg.h"
 
 void USART_Poll(void);
 

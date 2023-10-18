@@ -32,6 +32,7 @@ void RunPocess_Command_Handler(void)
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:
+	  		run_t.key_pressed_flag =0;
 	  	    run_t.step_run_power_off_tag=0;
         
 	       run_t.set_temperature_decade_value=40;
@@ -42,13 +43,10 @@ void RunPocess_Command_Handler(void)
 			run_t.timer_timing_define_ok=0;
 			Power_On_Fun();
 			run_t.gRunCommand_label= UPDATE_DATA;
-
-         
-
-            
-	  break;
+		break;
 
 	  case RUN_POWER_OFF://2
+	     run_t.key_pressed_flag =0;
 	  	 run_t.step_run_power_on_tag=0;
 		 run_t.temp_set_timer_timing_flag=0;
 		 
@@ -174,6 +172,7 @@ void RunPocess_Command_Handler(void)
 				
 	   	      }
 	   	       PowerOff_Bug_Led();
+			   run_t.key_pressed_flag =0;
 
 			  if(run_t.first_power_on_times==1)run_t.gTimer_fan_continue =0;
             

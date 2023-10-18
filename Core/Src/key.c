@@ -152,7 +152,7 @@ void Process_Key_Handler(uint8_t keylabel)
     switch(keylabel){
 
       case POWER_KEY_ID:
-	 
+	    
            power_on_off_flag = power_on_off_flag ^ 0x01;
 	       if(power_on_off_flag ==1){
 
@@ -184,7 +184,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	  case WIFI_KEY_ID:
         
         if(run_t.gPower_On ==RUN_POWER_ON){
-
+		
 		   wifi_look_for=Wifi_LoginParam_On();
 
 			
@@ -206,7 +206,9 @@ void Process_Key_Handler(uint8_t keylabel)
 	 
 
       case MODEL_KEY_ID://model_key: AI_mode to on_AI_mode
+	  
           if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+			
 
 		    run_t.mode_key_times ++;
 		    if(run_t.mode_key_times ==1){
@@ -249,6 +251,7 @@ void Process_Key_Handler(uint8_t keylabel)
       break;
 
 	   case DRY_KEY_ID://0x02: //CIN6  ->DRY KEY 
+	     
           if(run_t.gPower_On ==RUN_POWER_ON){
 		      if(run_t.ptc_warning ==0){
 
@@ -276,6 +279,7 @@ void Process_Key_Handler(uint8_t keylabel)
          break;
 
 		 case PLASMA_KEY_ID: //0x04: //CIN5  -> plasma ->STERILIZATION KEY 
+		    
              if(run_t.gPower_On ==RUN_POWER_ON){
 				if(run_t.gPlasma ==1){  //turun off kill 
 			   	
@@ -296,7 +300,7 @@ void Process_Key_Handler(uint8_t keylabel)
         break;
 
 	    case FAN_KEY_ID:
-            
+         
            if(run_t.gFan_level==fan_speed_max){
                     run_t.gFan_level = fan_speed_min;
  					run_t.gFan =1; //tur ON
@@ -342,7 +346,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    volatile static  uint8_t set_up_temperature_value;
   switch(GPIO_Pin){
 
-     HAL_Delay(30);
+     HAL_Delay(20);
+  
      case POWER_KEY_Pin:
 
 	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
@@ -355,12 +360,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
             if(run_t.gPower_On ==RUN_POWER_OFF){
 				
                 run_t.gRunCommand_label = RUN_POWER_ON;
-         
+             
 				SendData_PowerOnOff(1);
 		   }
            else{
 		   	run_t.gRunCommand_label = RUN_POWER_OFF;
-            
+          
 		  
 			SendData_PowerOnOff(0);
 			Power_Off_Fun();
@@ -376,25 +381,19 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(MODEL_KEY_Pin);
 	
-      if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1){
+      if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1 ){
 
-	      
-
-		 
-		run_t.keyvalue  = MODEL_KEY_ID;
+	    	run_t.keyvalue  = MODEL_KEY_ID;
 		
-			
-		
-		 
-	  }
+		}
 
 	 break;
 
 	 case DEC_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(DEC_KEY_Pin);
 
-	 	if(run_t.gPower_On ==RUN_POWER_ON && DEC_KEY_VALUE() == 1){
-
+	 	if(run_t.gPower_On ==RUN_POWER_ON && DEC_KEY_VALUE() == 1 ){
+       
          if(run_t.ptc_warning ==0){
 	
 		 SendData_Buzzer();
@@ -443,8 +442,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 case ADD_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
 	
-	 	if(run_t.gPower_On ==RUN_POWER_ON && ADD_KEY_VALUE() ==1){
-
+	 	if(run_t.gPower_On ==RUN_POWER_ON && ADD_KEY_VALUE() ==1 ){
+			
 		  if(run_t.ptc_warning ==0){
 				 SendData_Buzzer();
             switch(run_t.temp_set_timer_timing_flag){
@@ -492,6 +491,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
      case FAN_KEY_Pin :
          __HAL_GPIO_EXTI_CLEAR_RISING_IT(FAN_KEY_Pin);
         if(run_t.gPower_On ==RUN_POWER_ON && FAN_KEY_VALUE() ==1){
+			
                 if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
 
 				run_t.keyvalue  = FAN_KEY_ID;
