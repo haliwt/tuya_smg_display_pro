@@ -168,7 +168,7 @@ void Display_SmgTiming_Value(void)
 
 	case timing_donot:
 
-	   if(run_t.temp_set_timer_timing_flag != TIMER_TIMING ){
+	   if(run_t.set_timer_value_flag != TIMER_TIMING ){
 		input_tiimes=0;
         Timer_Timing_Donot_Display();
 		
@@ -198,13 +198,13 @@ static void DisplayPanel_DHT11_Value(void)
 	   
   
   }
-  if(run_t.gTimer_display_dht11 > 32 && run_t.set_temperature_flag==0){
+  if(run_t.gTimer_display_dht11 > 32 && run_t.set_temperature_value_flag==0){
 	   run_t.gTimer_display_dht11=0;
         Display_DHT11_Temperature_Value();
      
   }
 
-  if(run_t.gTimer_display_dht11_hum > 35){
+  if(run_t.gTimer_display_dht11_hum > 35 && run_t.set_temperature_value_flag==0){
 	run_t.gTimer_display_dht11_hum =0;
 
 	Display_DHT11_Humidity_Value();
@@ -222,32 +222,51 @@ static void DisplayPanel_DHT11_Value(void)
 	*Retrurn Parameter :NO
 	*
 *****************************************************************/
-void Set_Timing_Temperature_Number_Value(void)
+void Set_Timing_Number_Value(void)
 {
 
     
-    static uint8_t  counter_times,temp;
+
 	
-	switch(run_t.temp_set_timer_timing_flag){
+	if(run_t.set_timer_value_flag==1){
    
-	case TIMER_TIMING:
+	
 		
 		Display_Timing_Blink(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
 		
        run_t.gTimer_Counter =0;
  
     
-	break;
+	}
 	
-	case 0:
+}
 
-      if(run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1){
-	      TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
-	  }
-	  if(run_t.set_temperature_flag ==SET_TEMP_VALUE_ITEM){
+/****************************************************************
+	*
+	*Function Name :void Set_Timing_Temperature_Number_Value(void)
+	*Function : set timer timing how many ?
+	*Input Parameters :NO
+	*Retrurn Parameter :NO
+	*
+*****************************************************************/
+void Set_Temperature_Number_Value(void)
+{
+
+    
+    static uint8_t  counter_times,temp;
+
+	switch(run_t.set_temperature_value_flag){
+   
+	
+	case SET_TEMP_VALUE_ITEM://2
+	
+
+	if(run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1 ){
+	    TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+	}
 
 	  //waiting for 4 s 
-	  if(run_t.gTimer_key_temp_timing > 3 && run_t.set_special_temperature_value ==0){
+	  if(run_t.gTimer_key_temp_timing > 3 && run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1){
 		
 	      run_t.gTimer_key_temp_timing=0;
 	      run_t.set_special_temperature_value = 1;
@@ -278,13 +297,13 @@ void Set_Timing_Temperature_Number_Value(void)
 			  run_t.set_special_temperature_value = 0;
 		      run_t.temp_key_pressed_flag =0;
 	
-		      run_t.temp_set_timer_timing_flag = SET_TEMP_DISPLAY_VALUE_ITEM;
-		      run_t.set_temperature_flag = 0;
+		      run_t.set_temperature_value_flag= SET_TEMP_DISPLAY_VALUE_ITEM;
+		      //run_t.set_temperature_flag = 0;
 			 
 			  run_t.temperature_set_flag =1;
 		      
 			  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
-			  run_t.gTimer_display_dht11 >60;
+			  run_t.gTimer_display_dht11 =60;
 
 			  temp = run_t.set_temperature_decade_value*10 +run_t.set_temperature_unit_value;
 
@@ -294,7 +313,8 @@ void Set_Timing_Temperature_Number_Value(void)
 	         
 	       }
 	     }
-      }
+
+	 
 	 break;
 
 	 case SET_TEMP_DISPLAY_VALUE_ITEM:
@@ -303,7 +323,8 @@ void Set_Timing_Temperature_Number_Value(void)
 		Display_DHT11_Temperature_Value(); 
 	    HAL_Delay(10);
 	    run_t.temp_key_pressed_flag =0;
-	    run_t.temp_set_timer_timing_flag = 0;
+		run_t.set_temperature_value_flag=0;
+	  
 
 	 break;
 	
@@ -312,7 +333,6 @@ void Set_Timing_Temperature_Number_Value(void)
 	
 
 }
-
 /*******************************************************
 	*
 	*Function Name: static void RunLocal_Dht11_Data_Process(void)

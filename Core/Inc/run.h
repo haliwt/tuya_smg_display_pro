@@ -127,6 +127,7 @@ typedef struct __RUN{
    uint8_t power_off_send_to_mb_times;
   
    //key ref
+   uint8_t set_temperature_value_flag;
   
  
    uint8_t gTimer_mode_key_counter;
@@ -163,7 +164,7 @@ typedef struct __RUN{
    uint8_t temperature_set_flag;
 
    uint8_t gTimes_time_seconds;
-   volatile uint8_t set_temperature_flag;
+
   
 	
    uint8_t gReal_humtemp[2];
@@ -210,7 +211,7 @@ typedef struct __RUN{
  
    uint8_t ai_model_flag;
 
-   volatile uint8_t temp_set_timer_timing_flag;
+   volatile uint8_t set_timer_value_flag;
   
    uint8_t power_on_recoder_times;
 

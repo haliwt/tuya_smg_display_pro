@@ -39,7 +39,9 @@ void SplitDispose_Key_RunCmd(void(*keyHandler)(uint8_t dat));
 void Smg_DisplayFan_Leve(void(*fandisplayHandler)(uint8_t fan_level));
 
 
-void Set_Timing_Temperature_Number_Value(void);
+void Set_Timing_Number_Value(void);
+
+void Set_Temperature_Number_Value(void);
 void Display_SmgTiming_Value(void);
 
 void Compare_SetTemperature_Value(void);

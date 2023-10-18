@@ -210,7 +210,7 @@ void Process_Key_Handler(uint8_t keylabel)
           if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 			
 
-		       if(run_t.temp_set_timer_timing_flag==0){
+		       if(run_t.set_timer_value_flag==0){
 				
 			   if(run_t.timer_dispTime_hours !=0){
 			   	   run_t.timer_dispTime_minutes =0;
@@ -226,7 +226,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				   run_t.timer_dispTime_minutes=0;
 
 			   }
-			   run_t.temp_set_timer_timing_flag= 0;
+			  
 			   
 			   
 			}
@@ -377,9 +377,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			if(run_t.mode_key_times==1){
 		
 				run_t.timer_timing_define_ok =0;
+				run_t.set_timer_value_flag =1;
 				run_t.ai_model_flag =NO_AI_MODE;
-				run_t.temp_set_timer_timing_flag= TIMER_TIMING;
-				run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
+				run_t.set_timer_value_flag= TIMER_TIMING;
+				run_t.set_temperature_value_flag = 0xff;
+			
+			//	run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
 				SendData_Buzzer();//single_buzzer_fun();	
             
 			
@@ -388,7 +391,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			else{
 				run_t.keyvalue  = MODEL_KEY_ID;
 				run_t.mode_key_times =0;
-				run_t.temp_set_timer_timing_flag=0;
+				run_t.set_timer_value_flag=0;
 				
 			}
 		
@@ -405,18 +408,20 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	
 		SendData_Buzzer();
 	
-	 	  switch(run_t.temp_set_timer_timing_flag){
+	 	  switch(run_t.set_timer_value_flag){
 
 		 	case 0: //set temperature value
 			
 		     run_t.temp_key_pressed_flag=1;
+		     if(run_t.set_timer_value_flag==0 )
+			 	run_t.set_temperature_value_flag =SET_TEMP_VALUE_ITEM;
 			//setup temperature of value,minimum 20,maximum 40
 			set_up_temperature_value--;
 			if(set_up_temperature_value<20) set_up_temperature_value=40;
 	        else if(set_up_temperature_value >40)set_up_temperature_value=40;
  
              run_t.set_special_temperature_value =0;
-			 run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
+			// run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
 			run_t.set_temperature_decade_value = set_up_temperature_value / 10 ;
 			run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
             run_t.gTimer_key_temp_timing=0;
@@ -427,7 +432,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 		   case TIMER_TIMING: //set timer timing value
 	    	
-			 SendData_Buzzer();
 				run_t.modify_input_timer_number=0;
 				run_t.timer_dispTime_hours --; //=  run_t.timer_dispTime_minutes -30;
 		        if(run_t.timer_dispTime_hours  < 0){
@@ -449,10 +453,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			
 		  if(run_t.ptc_warning ==0){
 			 SendData_Buzzer();
-            switch(run_t.temp_set_timer_timing_flag){
+            switch(run_t.set_timer_value_flag){
 
 		    case 0:  //set temperature value 
 		         run_t.temp_key_pressed_flag=1;
+			    if(run_t.set_timer_value_flag==0 )
+			 	run_t.set_temperature_value_flag =SET_TEMP_VALUE_ITEM;
                 set_up_temperature_value ++;
 	            if(set_up_temperature_value < 20){
 				    set_up_temperature_value=20;
@@ -465,7 +471,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 			   
                run_t.set_special_temperature_value =0;
-			  run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
+			 // run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
    
 			  run_t.gTimer_set_temp_times=0;
 			  run_t.gTimer_key_temp_timing=0;

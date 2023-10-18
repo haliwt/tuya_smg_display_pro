@@ -123,10 +123,12 @@ typedef enum{
 }key_item_t;
 
 typedef enum{
+
 	TIMER_TIMING_DONOT_VALUE,
 	TIMER_TIMING ,
 	SET_TEMP_VALUE_ITEM,
 	SET_TEMP_DISPLAY_VALUE_ITEM,
+	
 
 
 }set_timer_state;

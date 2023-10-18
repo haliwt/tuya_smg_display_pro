@@ -49,7 +49,7 @@ void RunPocess_Command_Handler(void)
 	  case RUN_POWER_OFF://2
 	    
 	  	 run_t.step_run_power_on_tag=0;
-		 run_t.temp_set_timer_timing_flag=0;
+		 run_t.set_timer_value_flag=0;
 		 
          run_t.power_off_send_to_mb_times= 20;
 		 run_t.gPower_On=RUN_POWER_OFF;
@@ -95,7 +95,7 @@ void RunPocess_Command_Handler(void)
 					case 2:
 					 switch(run_t.gFan){
                        case 0:
-                      Set_Timing_Temperature_Number_Value();
+                      Set_Timing_Number_Value();
 					  break;
 					   case 1:
 							display_fan_speed_value(run_t.gFan_level);
@@ -107,6 +107,20 @@ void RunPocess_Command_Handler(void)
 					break;
 
 					case 3:
+				       switch(run_t.gFan){
+                       case 0:
+                           Set_Temperature_Number_Value();
+					  break;
+					   case 1:
+							display_fan_speed_value(run_t.gFan_level);
+						break;
+
+					 }
+
+						step_state=4;
+					break;
+
+					case 4:
                         switch(run_t.gFan){
 
                         case 0:
@@ -119,11 +133,11 @@ void RunPocess_Command_Handler(void)
 
 
                         }
-					step_state=4;
+					step_state=5;
 
 					break;
 
-					case 4:
+					case 5:
        					switch(run_t.gFan){
 
                         case 0:
@@ -134,16 +148,16 @@ void RunPocess_Command_Handler(void)
 						break;
 
 					 }
-					step_state=5;
+					step_state=6;
 
 					break;
 
-					case 5:
+					case 6:
 						switch(run_t.gFan){
 
 							case 0:
 								if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-								if(run_t.temp_set_timer_timing_flag != TIMER_TIMING){
+								if(run_t.set_timer_value_flag != TIMER_TIMING){
 									Display_TimeColon_Blink_Fun();
 								}
 								}

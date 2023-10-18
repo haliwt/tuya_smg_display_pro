@@ -57,7 +57,9 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 	       if(run_t.gPower_On ==1){
 		    sendData_Response_Signal(0x53);
 			run_t.set_special_temperature_value =0;
-			run_t.set_temperature_flag =SET_TEMP_VALUE_ITEM;
+		    run_t.set_timer_value_flag =0;
+		
+			run_t.set_temperature_value_flag=SET_TEMP_VALUE_ITEM;
 			run_t.gTimer_set_temp_times=0;
 			run_t.gTimer_key_temp_timing=0;
 		
@@ -115,7 +117,7 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
             run_t.timer_dispTime_hours= run_t.dispTime_hours;
             run_t.timer_dispTime_minutes = 0;
 	  
-	        run_t.temp_set_timer_timing_flag = TIMER_TIMING ;
+	        run_t.set_timer_value_flag = TIMER_TIMING ;
 	        run_t.timer_timing_define_ok =0;
 		
 			run_t.gTimer_set_timing_times=0;

@@ -102,21 +102,21 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 
 	if(run_t.wifi_set_timer_timing ==1){
 
-		if(run_t.modify_input_timer_number > 3){ //run_t.temp_set_timer_timing_flag ==TIMER_TIMING
+		if(run_t.modify_input_timer_number > 3){ //run_t.set_timer_value_flag ==TIMER_TIMING
 		   run_t.modify_input_timer_number=0;
 
 		   if(run_t.timer_dispTime_hours==0){
 			
 		     run_t.timer_timing_define_ok =0;
 			 run_t.wifi_set_timer_timing =0;
-			 run_t.temp_set_timer_timing_flag =0;
+			 run_t.set_timer_value_flag =0;
 
 
 		   }
 		   else{
 		   run_t.timer_timing_define_ok =1;
 		   run_t.wifi_set_timer_timing =0;
-		   run_t.temp_set_timer_timing_flag =0;
+		   run_t.set_timer_value_flag =0;
 
 		   }
 
@@ -125,7 +125,8 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 	}
     else if(run_t.modify_input_timer_number > 5  ){
 	   run_t.modify_input_timer_number =0;
-	   run_t.temp_set_timer_timing_flag =0;
+	   run_t.set_timer_value_flag =0;
+	
 	   run_t.mode_key_times =0;
 	    TM1639_Write_4Bit_Time(0x00,0x00,0x00,0x00,0);
 
@@ -172,7 +173,7 @@ static void TimeColon_Smg_Blink_Fun(void)
     
 	
 	
-		if(run_t.timer_timing_define_ok == 1 || run_t.temp_set_timer_timing_flag ==TIMER_TIMING){
+		if(run_t.timer_timing_define_ok == 1 || run_t.set_timer_value_flag ==TIMER_TIMING){
 
 		hours_1 =  run_t.timer_dispTime_hours /10 ;
 		hours_2 =run_t.timer_dispTime_hours % 10 ;
@@ -182,7 +183,7 @@ static void TimeColon_Smg_Blink_Fun(void)
 		
 
 		}
-		else if(run_t.temp_set_timer_timing_flag !=TIMER_TIMING){
+		else if(run_t.set_timer_value_flag !=TIMER_TIMING){
 
 				
 		//hours 
