@@ -115,7 +115,8 @@ int main(void)
 				
 				run_t.power_times=1;
 				run_t.gTimer_fan_continue =0;
-                run_t.first_power_on_times=1;
+                run_t.first_power_on_fan_off=1;
+				run_t.first_power_on_times=0;
 
 	      break;
 

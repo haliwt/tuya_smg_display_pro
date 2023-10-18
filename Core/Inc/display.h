@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-void Display_DHT11_Value(void);
+//void Display_DHT11_Value(void);
 
 //void DisplaySMG_LED(void);
 

@@ -241,7 +241,7 @@ void Set_Timing_Temperature_Number_Value(void)
 	
 	case 0:
 
-      if(run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1)
+      if(run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1){
 	      TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 
 	  if(run_t.set_temperature_flag ==SET_TEMP_VALUE_ITEM){
@@ -300,7 +300,7 @@ void Set_Timing_Temperature_Number_Value(void)
 	 case SET_TEMP_DISPLAY_VALUE_ITEM:
 
         
-		Display_DHT11_Value(); 
+		Display_DHT11_Temperature_Value(); 
 	    HAL_Delay(10);
 	    run_t.temp_key_pressed_flag =0;
 	    run_t.temp_set_timer_timing_flag = 0;

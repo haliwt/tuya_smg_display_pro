@@ -133,8 +133,8 @@ typedef struct __RUN{
    //fan ref
    uint8_t gFan_level;
    uint8_t gTimer_display_fan_level;
- 
- 
+   uint8_t first_power_on_fan_off;
+  
    uint8_t fan_stop_flag;
 
 

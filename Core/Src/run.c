@@ -37,6 +37,7 @@ void RunPocess_Command_Handler(void)
         
 	       run_t.set_temperature_decade_value=40;
 		   run_t.gPower_On=RUN_POWER_ON;
+		   run_t.first_power_on_times=0;
            
             run_t.step_run_power_off_tag=0;
             run_t.power_on_send_to_mb_times=36;
@@ -174,7 +175,10 @@ void RunPocess_Command_Handler(void)
 	   	       PowerOff_Bug_Led();
 			  
 
-			  if(run_t.first_power_on_times==1)run_t.gTimer_fan_continue =0;
+			  if(run_t.first_power_on_fan_off==1){
+			  	  run_t.gTimer_fan_continue =0;
+
+			  	}
             
 			 	if(run_t.gTimer_fan_continue < 61 && run_t.gTimer_fan_continue ==1 && run_t.fan_warning==0){
                    
@@ -265,7 +269,11 @@ void Power_On_Fun(void)
 	 
       
 	 TM1639_Write_4Bit_Time(0,0,0,0,0);
-     Display_DHT11_Value();
+
+	// Display_DHT11_Humidity_Value();
+    
+      
+	 
     
 }
 
