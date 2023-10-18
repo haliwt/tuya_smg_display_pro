@@ -243,7 +243,7 @@ void Set_Timing_Temperature_Number_Value(void)
 
       if(run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1){
 	      TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
-
+	  }
 	  if(run_t.set_temperature_flag ==SET_TEMP_VALUE_ITEM){
 
 	  //waiting for 4 s 

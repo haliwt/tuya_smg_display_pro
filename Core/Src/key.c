@@ -210,22 +210,8 @@ void Process_Key_Handler(uint8_t keylabel)
           if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 			
 
-		    run_t.mode_key_times ++;
-		    if(run_t.mode_key_times ==1){
-			run_t.timer_timing_define_ok =0;
-			run_t.ai_model_flag =NO_AI_MODE;
-			run_t.temp_set_timer_timing_flag= TIMER_TIMING;
-		
-           
-		
-			run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
-			// SendData_Set_Command(AI_MODE_OFF);
-			 SendData_Buzzer();//single_buzzer_fun();	
-             HAL_Delay(2);
-         
-           }
-		    else{
-				run_t.mode_key_times =0;
+		       if(run_t.temp_set_timer_timing_flag==0){
+				
 			   if(run_t.timer_dispTime_hours !=0){
 			   	   run_t.timer_dispTime_minutes =0;
                    run_t.timer_timing_define_ok =1;
@@ -245,7 +231,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			   
 			}
          			
-         }
+		}
 	      run_t.keyvalue = 0xFF;
 
       break;
@@ -386,7 +372,25 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	
       if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1 ){
 
-	    	run_t.keyvalue  = MODEL_KEY_ID;
+	    	
+			run_t.mode_key_times++;
+			if(run_t.mode_key_times==1){
+		
+				run_t.timer_timing_define_ok =0;
+				run_t.ai_model_flag =NO_AI_MODE;
+				run_t.temp_set_timer_timing_flag= TIMER_TIMING;
+				run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
+				SendData_Buzzer();//single_buzzer_fun();	
+            
+			
+		
+			}
+			else{
+				run_t.keyvalue  = MODEL_KEY_ID;
+				run_t.mode_key_times =0;
+				run_t.temp_set_timer_timing_flag=0;
+				
+			}
 		
 		}
 
