@@ -341,8 +341,21 @@ void Power_Off_Led_Off(void)
    LED_TIME_OFF();
    LED_PLASMA_OFF();
    LED_FAN_OFF();
-   LED_POWER_OFF();
+ 
    SMG_POWER_OFF();
+
+   LED_POWER_OFF();
+
+}
+
+void PowerOff_Bug_Led(void)
+{
+	  LED_WIFI_OFF();
+	  LED_DRY_OFF();
+	  LED_TIME_OFF();
+	  LED_PLASMA_OFF();
+	
+	  SMG_POWER_OFF();
 
 }
 

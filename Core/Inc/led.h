@@ -57,6 +57,7 @@ void Power_Off_Led_Off(void);
 
 void Power_ON_Led(void);
 
+void PowerOff_Bug_Led(void);
 
 
 

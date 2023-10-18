@@ -63,7 +63,7 @@ void RunPocess_Command_Handler(void)
 	 
 
 	  case UPDATE_DATA: //3
-            
+            if(run_t.gPower_On==RUN_POWER_ON){
 	        switch(step_state){
 
 					case 0:
@@ -161,17 +161,19 @@ void RunPocess_Command_Handler(void)
                     break;
 				   }
                
-	
+           }
      break;
 
 	  case POWER_OFF_PROCESS://4
 
 	   if(run_t.gPower_On ==RUN_POWER_OFF && POWER_KEY_VALUE()  ==KEY_UP ){
-	   	     if(power_off_set_flag==0){
+
+	          if(power_off_set_flag==0){
 					power_off_set_flag++;
                    Power_Off_Fun();
 				
 	   	      }
+	   	       PowerOff_Bug_Led();
 
 			  if(run_t.first_power_on_times==1)run_t.gTimer_fan_continue =0;
             

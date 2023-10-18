@@ -172,6 +172,7 @@ void Process_Key_Handler(uint8_t keylabel)
 	        run_t.power_on_recoder_times++ ;
 
 			}
+			Power_Off_Fun();
 		  
 		 }
 	   run_t.keyvalue = 0xff;
