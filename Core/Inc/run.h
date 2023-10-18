@@ -67,7 +67,7 @@ typedef struct __RUN{
 
    uint8_t keyvalue;
  
-   uint8_t key_pressed_flag ;
+
 
    uint8_t power_key;
    uint8_t gTemperature_timer_flag;
@@ -243,7 +243,7 @@ typedef struct __RUN{
 
    uint8_t set_timer_special_value;
 
-   uint8_t gTimer_key_pressed_times;
+  
 
    uint8_t gTimer_fan_continue;
  

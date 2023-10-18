@@ -180,8 +180,8 @@ void EXTI4_15_IRQHandler(void)
   /* USER CODE BEGIN EXTI4_15_IRQn 0 */
 
   /* USER CODE END EXTI4_15_IRQn 0 */
-  run_t.key_pressed_flag =1;
-  run_t.gTimer_key_pressed_times=0;
+
+
   HAL_GPIO_EXTI_IRQHandler(POWER_KEY_Pin);
  
   HAL_GPIO_EXTI_IRQHandler(MODEL_KEY_Pin);

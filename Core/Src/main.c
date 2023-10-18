@@ -124,7 +124,7 @@ int main(void)
             
 			 bsp_Idle();
             if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP){
-              run_t.key_pressed_flag =0;
+            
               ai_key = KEY_Scan();//Scan_KeyMode();
               if(ai_key != 0){
                   run_t.keyvalue = ai_key;
