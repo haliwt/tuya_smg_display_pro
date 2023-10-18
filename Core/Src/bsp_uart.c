@@ -4,7 +4,7 @@
 usart_rx_tx_t usart_t;
 
 
-#define TIMEOUT		0		/* 接收命令超时时间, 单位ms */
+#define BSP_TIMEOUT		1		/* 接收命令超时时间, 单位ms */
 #define NUM			1			/* 循环发送次数 */
 uint8_t ADD_NUM ;
 /**********************************************************************************************************
@@ -15,7 +15,7 @@ uint8_t ADD_NUM ;
 **********************************************************************************************************/
 uint8_t Power_ReadParam_OnOff(uint8_t reg)
 {	
-	uint8_t i;
+	uint8_t i,j;
 	
 	for (i = 0; i < (NUM+ADD_NUM); i++)
 	{
@@ -27,7 +27,7 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 		{
 			bsp_Idle();
 
-			if (usart_t.gTimer_receive_times > TIMEOUT)		
+			if (usart_t.gTimer_receive_times > BSP_TIMEOUT)		
 			{
 				break;		/* 通信超时了 */
 			}
@@ -48,14 +48,30 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 		{
            if(run_t.response_power_on ==1)
 			break;		/* 接收到应答 */
-		   else
-		   ADD_NUM++;
+		   else{
+		   	  if(j==0){
+			  	j++;
+		      ADD_NUM++;
+
+		   	  }
+			  else 
+			  	break;
+
+		   }
 		}
 		else{
 			if(run_t.response_power_off ==1)
 			break;		/* 接收到应答 */
-			else
-				ADD_NUM++;
+			else{
+				if(j==0){
+			  	j++;
+		      ADD_NUM++;
+
+		   	  }
+			  else 
+			  	break;
+
+			}
 
 		}
 	}
@@ -98,7 +114,7 @@ uint8_t Wifi_LoginParam_On(void)
 		{
 			bsp_Idle();
 
-			if (usart_t.gTimer_receive_times > TIMEOUT)		
+			if (usart_t.gTimer_receive_times > BSP_TIMEOUT)		
 			{
 				break;		/* 通信超时了 */
 			}
