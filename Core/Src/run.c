@@ -199,10 +199,6 @@ void RunPocess_Command_Handler(void)
 
   }
 }
-
-
-
-
 /**********************************************************************
 *
 *Functin Name: void Display_DHT11_Value(void)

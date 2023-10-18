@@ -326,6 +326,38 @@ void Process_Key_Handler(uint8_t keylabel)
 			 run_t.keyvalue = 0xff;
 		break;
 
+		case DEC_KEY_ID:
+		 switch(run_t.temp_set_timer_timing_flag){
+			case 0:
+
+			TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+
+			break;
+
+			case TIMER_TIMING: //set timer timing value
+     
+			break;
+
+
+		 }
+			 run_t.keyvalue = 0xff;
+		break;
+
+		case ADD_KEY_ID:
+		 switch(run_t.temp_set_timer_timing_flag){
+			case 0:
+
+			TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+			
+			break;
+			default:
+			break;
+		 }
+
+		 run_t.keyvalue = 0xff;
+
+		break;
+
 
 		default:
           
@@ -346,7 +378,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    volatile static  uint8_t set_up_temperature_value;
   switch(GPIO_Pin){
 
-     HAL_Delay(20);
+     HAL_Delay(30);
   
      case POWER_KEY_Pin:
 
@@ -368,7 +400,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
           
 		  
 			SendData_PowerOnOff(0);
-			Power_Off_Fun();
+			//Power_Off_Fun();
 		     
 		   }
 		
@@ -397,7 +429,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
          if(run_t.ptc_warning ==0){
 	
 		 SendData_Buzzer();
-	 	 //run_t.keyvalue  = DEC_KEY_ID;
+	 	 run_t.keyvalue  = DEC_KEY_ID;
 	 	  switch(run_t.temp_set_timer_timing_flag){
 
 		 	case 0: //set temperature value
@@ -414,7 +446,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			run_t.set_temperature_unit_value  =set_up_temperature_value % 10; //
 
 			
-			 TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+			// TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 			
 		   
 			
@@ -445,6 +477,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 	if(run_t.gPower_On ==RUN_POWER_ON && ADD_KEY_VALUE() ==1 ){
 			
 		  if(run_t.ptc_warning ==0){
+		  	 run_t.keyvalue  = ADD_KEY_ID;
 				 SendData_Buzzer();
             switch(run_t.temp_set_timer_timing_flag){
 
@@ -467,7 +500,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			  run_t.gTimer_set_temp_times=0;
 			  run_t.gTimer_key_temp_timing=0;
 			
-			 TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+			// TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
 			
 			break;
 
