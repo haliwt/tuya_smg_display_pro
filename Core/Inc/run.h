@@ -66,6 +66,7 @@ typedef enum _WIFI_POWER_STATE_{
 typedef struct __RUN{
 
    uint8_t keyvalue;
+   uint8_t temp_key_pressed_flag;
  
 
 
@@ -240,7 +241,7 @@ typedef struct __RUN{
    volatile  uint8_t gTimer_colon;
  
     
-
+  
    uint8_t set_timer_special_value;
 
   

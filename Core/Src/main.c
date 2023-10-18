@@ -131,7 +131,7 @@ int main(void)
               }
               else 
                 run_t.keyvalue= KEY_Normal_Scan(0);
-			       //   Process_Key_Handler(run_t.keyvalue);
+			     
              }
      
              Process_Key_Handler(run_t.keyvalue);

@@ -72,7 +72,7 @@ void Display_GMT(uint8_t hours,uint8_t minutes)
 **********************************************************************/
 void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 { 
-    static uint8_t m,n,p,q,counter;
+    static uint8_t m,n,p,q;
 	m = hours /10 ;
 	n =	hours%10; 
 	p= minutes/10 ;
