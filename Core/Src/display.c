@@ -41,6 +41,46 @@ void Display_DHT11_Value(void)
 
 }  
 
+/**********************************************************************
+*
+*Functin Name: void Display_DHT11_Value(void)
+*Function : Timer of key be pressed handle
+*Input Ref:  key of value
+*Return Ref: NO
+*
+**********************************************************************/
+void Display_DHT11_Temperature_Value(void)
+{
+    
+
+  static uint8_t temp1,temp2;
+
+	//hum1 =  run_t.gReal_humtemp[0]/10;  //Humidity 
+	//hum2 =  run_t.gReal_humtemp[0]%10;
+
+	temp1 = run_t.gReal_humtemp[1]/10 ;  // temperature
+	temp2 = run_t.gReal_humtemp[1]%10;
+
+   
+	TM1639_Write_2bit_TempData(temp1,temp2);
+
+    
+	
+
+
+}  
+
+void Display_DHT11_Humidity_Value(void)
+{
+	  static uint8_t hum1,hum2; 
+	  hum1 =  run_t.gReal_humtemp[0]/10;  //Humidity 
+	  hum2 =  run_t.gReal_humtemp[0]%10;
+	  
+	  
+	  TM1639_Write_2bit_HumData(hum1,hum2);
+
+
+}
 
 /**********************************************************************
 *

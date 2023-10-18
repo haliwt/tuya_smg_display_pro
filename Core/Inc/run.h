@@ -247,6 +247,7 @@ typedef struct __RUN{
   
 
    uint8_t gTimer_fan_continue;
+   uint8_t gTimer_display_dht11_hum ;
  
  
    

@@ -441,16 +441,16 @@ void USART1_Cmd_Error_Handler(void)
 	  if(run_t.gTimer_usart_error >6){
 	  	run_t.gTimer_usart_error=0;
 	
-        //   __HAL_UART_CLEAR_OREFLAG(&huart1);
-        //    __HAL_UART_CLEAR_NEFLAG(&huart1);
-        //    __HAL_UART_CLEAR_FEFLAG(&huart1);
+           __HAL_UART_CLEAR_OREFLAG(&huart1);
+            __HAL_UART_CLEAR_NEFLAG(&huart1);
+            __HAL_UART_CLEAR_FEFLAG(&huart1);
            
           
-       //   temp=USART1->ISR;
-       //   temp = USART1->RDR;
+          temp=USART1->ISR;
+          temp = USART1->RDR;
 		  
      
-		//  UART_Start_Receive_IT(&huart1,inputBuf,1);
+		  UART_Start_Receive_IT(&huart1,inputBuf,1);
        
 		  
           

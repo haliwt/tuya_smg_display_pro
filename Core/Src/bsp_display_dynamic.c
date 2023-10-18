@@ -189,16 +189,27 @@ void Display_SmgTiming_Value(void)
 ******************************************************************************/
 static void DisplayPanel_DHT11_Value(void)
 {
-  if(run_t.first_power_on_times==1){
+  if(run_t.first_power_on_times < 3){
       run_t.first_power_on_times++;
-       Display_DHT11_Value();
+      Display_DHT11_Temperature_Value();
+      HAL_Delay(10);
+	  Display_DHT11_Humidity_Value();
+
+	   
   
   }
   if(run_t.gTimer_display_dht11 > 32 && run_t.set_temperature_flag==0){
-	    run_t.gTimer_display_dht11=0;
-       	Display_DHT11_Value();
+	   run_t.gTimer_display_dht11=0;
+        Display_DHT11_Temperature_Value();
      
-	}
+  }
+
+  if(run_t.gTimer_display_dht11_hum > 35){
+	run_t.gTimer_display_dht11_hum =0;
+
+	Display_DHT11_Humidity_Value();
+
+  	}
 }
 
 

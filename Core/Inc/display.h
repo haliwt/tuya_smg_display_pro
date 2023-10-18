@@ -8,7 +8,8 @@ void Display_DHT11_Value(void);
 //void DisplaySMG_LED(void);
 
 
-
+void Display_DHT11_Temperature_Value(void);
+void Display_DHT11_Humidity_Value(void);
 
 void Display_GMT(uint8_t hours,uint8_t minutes);
 

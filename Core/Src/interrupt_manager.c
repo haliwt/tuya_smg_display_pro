@@ -54,6 +54,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_power_key_pressed++;
 		run_t.gTimer_fan_continue++;
 		run_t.gTimer_dogfood_times++;
+		run_t.gTimer_display_dht11_hum ++;
 		//--------------//
 		
 	
