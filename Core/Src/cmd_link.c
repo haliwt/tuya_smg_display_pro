@@ -438,12 +438,12 @@ void USART1_Cmd_Error_Handler(void)
 
 	
 
-	  if(run_t.gTimer_usart_error >6){
+	  if(run_t.gTimer_usart_error >10){
 	  	run_t.gTimer_usart_error=0;
 	
            __HAL_UART_CLEAR_OREFLAG(&huart1);
-            __HAL_UART_CLEAR_NEFLAG(&huart1);
-            __HAL_UART_CLEAR_FEFLAG(&huart1);
+         //   __HAL_UART_CLEAR_NEFLAG(&huart1);
+         //   __HAL_UART_CLEAR_FEFLAG(&huart1);
            
           
           temp=USART1->ISR;

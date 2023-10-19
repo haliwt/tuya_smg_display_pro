@@ -337,7 +337,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    static  uint8_t set_up_temperature_value;
   switch(GPIO_Pin){
 
-     HAL_Delay(20);
+     HAL_Delay(30);
   
      case POWER_KEY_Pin:
 
@@ -380,9 +380,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		
 				run_t.timer_timing_define_ok =0;
 				run_t.set_timer_value_flag =1;
+			    run_t.set_temperature_value_flag = 0xff;
 				run_t.ai_model_flag =NO_AI_MODE;
 				run_t.set_timer_value_flag= TIMER_TIMING;
-				run_t.set_temperature_value_flag = 0xff;
+				
 			
 			//	run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
 				SendData_Buzzer();//single_buzzer_fun();	
@@ -394,7 +395,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				run_t.keyvalue  = MODEL_KEY_ID;
 				run_t.mode_key_times =0;
 				run_t.set_timer_value_flag=0;
-				
+				run_t.set_temperature_value_flag = 0;
 			}
 		
 		}
