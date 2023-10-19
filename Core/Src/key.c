@@ -372,9 +372,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(MODEL_KEY_Pin);
 	
-      if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1 ){
+      if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1 && DEC_KEY_VALUE() == 0 && ADD_KEY_VALUE() ==0 ){
+			if(run_t.ptc_warning ==0){
 
-	    	
+	    	SendData_Buzzer();//single_buzzer_fun();	
+   		
 			run_t.mode_key_times++;
 			if(run_t.mode_key_times==1){
 		
@@ -386,8 +388,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				
 			
 			//	run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
-				SendData_Buzzer();//single_buzzer_fun();	
-            
+				
 			
 		
 			}
@@ -399,18 +400,18 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			}
 		
 		}
-
+      	}
 	 break;
 
 	 case DEC_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(DEC_KEY_Pin);
 
-	 	if(run_t.gPower_On ==RUN_POWER_ON && DEC_KEY_VALUE() == 1 ){
+	 	if(run_t.gPower_On ==RUN_POWER_ON && DEC_KEY_VALUE() == 1 && ADD_KEY_VALUE() ==0 && MODEL_KEY_VALUE() ==0){
        
          if(run_t.ptc_warning ==0){
 	
 		SendData_Buzzer();
-	
+	 
 	 	  switch(run_t.set_timer_value_flag){
 
 		 	case 0: //set temperature value
@@ -452,10 +453,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 case ADD_KEY_Pin:
 	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
 	
-	 	if(run_t.gPower_On ==RUN_POWER_ON && ADD_KEY_VALUE() ==1 ){
+	 	if(run_t.gPower_On ==RUN_POWER_ON && ADD_KEY_VALUE() ==1 && DEC_KEY_VALUE() == 0 && MODEL_KEY_VALUE() ==0){
 			
 		  if(run_t.ptc_warning ==0){
 			 SendData_Buzzer();
+			
             switch(run_t.set_timer_value_flag){
 
 		    case 0:  //set temperature value 
@@ -495,7 +497,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		
 				}
 		  }
+
+
 		}
+		
 
 	 break;
 

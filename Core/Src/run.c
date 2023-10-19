@@ -281,9 +281,9 @@ void Power_On_Fun(void)
 
 
 	 
-      
 	 TM1639_Write_4Bit_Time(0,0,0,0,0);
 
+      
 	// Display_DHT11_Humidity_Value();
     
       
