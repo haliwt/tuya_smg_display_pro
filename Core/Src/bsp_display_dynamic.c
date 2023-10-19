@@ -266,12 +266,14 @@ void Set_Temperature_Number_Value(void)
 	}
 
 	  //waiting for 4 s 
-	  if(run_t.gTimer_key_temp_timing > 3 && run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1){
+	  if(run_t.gTimer_key_temp_timing > 2 && run_t.set_special_temperature_value ==0 && run_t.temp_key_pressed_flag ==1){
 		
 	      run_t.gTimer_key_temp_timing=0;
 	      run_t.set_special_temperature_value = 1;
 
 	 }
+
+	 #if 0
 	 //temperature of smg of LED blink .
 	 if( run_t.set_special_temperature_value == 1){
 	 if(run_t.gTimer_set_temp_times < 90){ // 4
@@ -313,7 +315,7 @@ void Set_Temperature_Number_Value(void)
 	         
 	       }
 	     }
-
+       #endif 
 	 
 	 break;
 
@@ -330,6 +332,47 @@ void Set_Temperature_Number_Value(void)
 	
 	}
 
+	
+	if( run_t.set_special_temperature_value == 1){
+		 if(run_t.gTimer_set_temp_times < 90){ // 4
+					//
+					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+			  }
+			  else if(run_t.gTimer_set_temp_times > 89 && run_t.gTimer_set_temp_times < 110){
+				
+				  TM1639_Write_2bit_SetUp_TempData(0,0,1);
+	
+			  }
+			  else{
+				 run_t.gTimer_set_temp_times=0;
+				 counter_times++ ;	
+				
+	
+			  }
+	
+	
+			   if(counter_times > 4){
+				 
+				 counter_times=0;
+				  run_t.set_special_temperature_value = 0;
+				  run_t.temp_key_pressed_flag =0;
+		
+				  run_t.set_temperature_value_flag= SET_TEMP_DISPLAY_VALUE_ITEM;
+				  //run_t.set_temperature_flag = 0;
+				 
+				  run_t.temperature_set_flag =1;
+				  
+				  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
+				  run_t.gTimer_display_dht11 =60;
+	
+				  temp = run_t.set_temperature_decade_value*10 +run_t.set_temperature_unit_value;
+	
+				  SendData_Temp_Data(temp);
+			
+				  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+				 
+			   }
+	}
 	
 
 }

@@ -96,7 +96,7 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 	else{
 		 run_t.gTimer_set_timing_times=0;
 		 run_t.modify_input_timer_number++;
-	   // TM1639_Write_4Bit_Time(m,n,p,q,0);
+	   
 			
      }
 
@@ -110,13 +110,14 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 		     run_t.timer_timing_define_ok =0;
 			 run_t.wifi_set_timer_timing =0;
 			 run_t.set_timer_value_flag =0;
-
+			 Display_DHT11_Temperature_Value(); //WTI.EDIT 
 
 		   }
 		   else{
 		   run_t.timer_timing_define_ok =1;
 		   run_t.wifi_set_timer_timing =0;
 		   run_t.set_timer_value_flag =0;
+		   Display_DHT11_Temperature_Value(); //WT.EDIT
 
 		   }
 
@@ -129,9 +130,12 @@ void Display_Timing_Blink(uint8_t hours,uint8_t minutes)
 	
 	   run_t.mode_key_times =0;
 	    TM1639_Write_4Bit_Time(0x00,0x00,0x00,0x00,0);
+		Display_DHT11_Temperature_Value(); //WT.EDIT 
 
 
 	}
+
+	
 
 
 
