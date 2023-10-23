@@ -149,6 +149,14 @@ void Process_Key_Handler(uint8_t keylabel)
    static uint8_t wifi_look_for;
    static  uint8_t set_up_temperature_value;
 
+
+   if(run_t.send_buzzer_signal_flag ==1){
+       run_t.send_buzzer_signal_flag =0;
+	   SendData_Buzzer();
+
+
+   }
+
     switch(keylabel){
 
       case POWER_KEY_ID:
@@ -287,34 +295,34 @@ void Process_Key_Handler(uint8_t keylabel)
            run_t.keyvalue = 0xff;
         break;
 
-	    case FAN_KEY_ID:
-         
-           if(run_t.gFan_level==fan_speed_max){
-                    run_t.gFan_level = fan_speed_min;
- 					run_t.gFan =1; //tur ON
- 					
-                    run_t.gTimer_display_fan_level=0;
-					SendData_Set_Command(FAN_LEVEL_MIN);
-                   
-						
-			     }
-                else if(run_t.gFan_level == fan_speed_min){
-                  
-                    run_t.gFan_level=fan_speed_max;
-					run_t.gFan =1;
-              
-				  
-                    run_t.gTimer_display_fan_level=0;
-					SendData_Set_Command(FAN_LEVEL_MAX);
-
-             
-				
-                    
-                 }
-			 run_t.keyvalue = 0xff;
-		break;
-
-		
+//	    case FAN_KEY_ID:
+//         
+//           if(run_t.gFan_level==fan_speed_max){
+//                    run_t.gFan_level = fan_speed_min;
+// 					run_t.gFan =1; //tur ON
+// 					
+//                    run_t.gTimer_display_fan_level=0;
+//					SendData_Set_Command(FAN_LEVEL_MIN);
+//                   
+//						
+//			     }
+//                else if(run_t.gFan_level == fan_speed_min){
+//                  
+//                    run_t.gFan_level=fan_speed_max;
+//					run_t.gFan =1;
+//              
+//				  
+//                    run_t.gTimer_display_fan_level=0;
+//					SendData_Set_Command(FAN_LEVEL_MAX);
+//
+//             
+//				
+//                    
+//                 }
+//			 run_t.keyvalue = 0xff;
+//		break;
+//
+//		
 
 	
 
@@ -341,7 +349,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
   
      case POWER_KEY_Pin:
 
-	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
+	
 	
 	   
 	 	if(POWER_KEY_VALUE()  ==KEY_DOWN && run_t.power_times==1){
@@ -365,17 +373,57 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		
 
 		}
+        __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
+     break;
 
+	   case FAN_KEY_Pin :
+       
+        if(run_t.gPower_On ==RUN_POWER_ON && FAN_KEY_VALUE() ==1){
+			
+			
+                if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
+
+				
+				run_t.gFan =1;
+                
+
+			if(run_t.gFan_level==fan_speed_max){
+                    run_t.gFan_level = fan_speed_min;
+ 					run_t.gFan =1; //tur ON
+ 					
+                    run_t.gTimer_display_fan_level=0;
+					SendData_Set_Command(FAN_LEVEL_MIN);
+                   
+						
+			     }
+                else if(run_t.gFan_level == fan_speed_min){
+                  
+                    run_t.gFan_level=fan_speed_max;
+					run_t.gFan =1;
+              
+				  
+                    run_t.gTimer_display_fan_level=0;
+					SendData_Set_Command(FAN_LEVEL_MAX);
+
+             
+				
+                    
+                 }
+              }
+			 
+		 }
+		  __HAL_GPIO_EXTI_CLEAR_RISING_IT(FAN_KEY_Pin);
      break;
 
 	 case MODEL_KEY_Pin:
 
-	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(MODEL_KEY_Pin);
+	  
 	
-      if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1 && DEC_KEY_VALUE() == 0 && ADD_KEY_VALUE() ==0 ){
+      if(run_t.gPower_On ==RUN_POWER_ON && MODEL_KEY_VALUE() ==1 && DEC_KEY_VALUE() == 0 && ADD_KEY_VALUE() ==0 &&  FAN_KEY_VALUE() ==0){
 			if(run_t.ptc_warning ==0){
 
-	    	SendData_Buzzer();//single_buzzer_fun();	
+	        // SendData_Buzzer();//single_buzzer_fun();	
+	        run_t.send_buzzer_signal_flag =1;
    		
 			run_t.mode_key_times++;
 			if(run_t.mode_key_times==1){
@@ -401,16 +449,19 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		
 		}
       	}
+	  
+	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(MODEL_KEY_Pin);
 	 break;
 
 	 case DEC_KEY_Pin:
-	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(DEC_KEY_Pin);
+	 	
 
-	 	if(run_t.gPower_On ==RUN_POWER_ON && DEC_KEY_VALUE() == 1 && ADD_KEY_VALUE() ==0 && MODEL_KEY_VALUE() ==0){
+	 	if(run_t.gPower_On ==RUN_POWER_ON && DEC_KEY_VALUE() == 1 && ADD_KEY_VALUE() ==0 && MODEL_KEY_VALUE() ==0 ){
        
          if(run_t.ptc_warning ==0){
 	
-		SendData_Buzzer();
+		  //SendData_Buzzer();
+		  run_t.send_buzzer_signal_flag =1;
 	 
 	 	  switch(run_t.set_timer_value_flag){
 
@@ -447,16 +498,18 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
          }
 		}
+	   __HAL_GPIO_EXTI_CLEAR_RISING_IT(DEC_KEY_Pin);
 
 	 break;
 
 	 case ADD_KEY_Pin:
-	 	  __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
+	 	 
 	
 	 	if(run_t.gPower_On ==RUN_POWER_ON && ADD_KEY_VALUE() ==1 && DEC_KEY_VALUE() == 0 && MODEL_KEY_VALUE() ==0){
 			
 		  if(run_t.ptc_warning ==0){
-			 SendData_Buzzer();
+			   //SendData_Buzzer();
+			   run_t.send_buzzer_signal_flag =1;
 			
             switch(run_t.set_timer_value_flag){
 
@@ -481,7 +534,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			  run_t.gTimer_set_temp_times=0;
 			  run_t.gTimer_key_temp_timing=0;
 			
-			
+			 __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
 			
 			break;
 
@@ -501,23 +554,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 		}
 		
-
+       __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
 	 break;
 
 
-     case FAN_KEY_Pin :
-         __HAL_GPIO_EXTI_CLEAR_RISING_IT(FAN_KEY_Pin);
-        if(run_t.gPower_On ==RUN_POWER_ON && FAN_KEY_VALUE() ==1){
-			
-                if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
-
-				run_t.keyvalue  = FAN_KEY_ID;
-				run_t.gFan =1;
-                
-				
-              }
-		 }
-     break;
+ 
 
 	
 

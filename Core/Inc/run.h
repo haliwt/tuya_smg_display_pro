@@ -164,7 +164,7 @@ typedef struct __RUN{
    uint8_t temperature_set_flag;
 
    uint8_t gTimes_time_seconds;
-
+   uint8_t send_buzzer_signal_flag;
   
 	
    uint8_t gReal_humtemp[2];
