@@ -134,8 +134,13 @@ uint8_t Wifi_LoginParam_On(void)
 		 
 		}
 		else{
-			
-		   ADD_NUM++;
+			if(i==0){
+              i++;
+			  ADD_NUM ++;
+
+			}
+			else
+		       break;
         }
 	}
 	

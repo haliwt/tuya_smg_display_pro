@@ -209,7 +209,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		  
 				
 		}
-	   //run_t.keyvalue = 0xFF;
+	   run_t.keyvalue = 0xFF;
 
 	  break;
 	 
