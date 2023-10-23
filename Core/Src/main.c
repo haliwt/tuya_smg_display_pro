@@ -124,14 +124,14 @@ int main(void)
 		  	       
             
 			 bsp_Idle();
-            if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP){
+            if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP \
+									&& PLASMA_KEY_VALUE()==KEY_UP && DRY_KEY_VALUE() == KEY_UP){
             
               ai_key = KEY_Scan();//Scan_KeyMode();
               if(ai_key != 0){
                   run_t.keyvalue = ai_key;
-              }
-              else 
-                run_t.keyvalue= KEY_Normal_Scan(0);
+               }
+             
 			     
              }
      

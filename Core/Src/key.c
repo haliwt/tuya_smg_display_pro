@@ -153,6 +153,7 @@ void Process_Key_Handler(uint8_t keylabel)
    if(run_t.send_buzzer_signal_flag ==1){
        run_t.send_buzzer_signal_flag =0;
 	   SendData_Buzzer();
+       HAL_Delay(5);
 
 
    }
@@ -246,83 +247,56 @@ void Process_Key_Handler(uint8_t keylabel)
 
       break;
 
-	   case DRY_KEY_ID://0x02: //CIN6  ->DRY KEY 
-	     
-          if(run_t.gPower_On ==RUN_POWER_ON){
-		      if(run_t.ptc_warning ==0){
-
-          
-			  if(run_t.gDry== 1){
-				    run_t.gDry =0;
-					SendData_Set_Command(DRY_OFF);
-                    HAL_Delay(5);
-                    run_t.manual_dry_turn_off=1;
-               }
-               else{
-                    run_t.gDry =1;
-					run_t.manual_dry_turn_off=0;
-					SendData_Set_Command(DRY_ON);
-                    HAL_Delay(5);
-                 }  
-			   
-       
-
-             
-              }
-		    }
-          
-			keylabel= 0xff;	
-         break;
-
-		 case PLASMA_KEY_ID: //0x04: //CIN5  -> plasma ->STERILIZATION KEY 
-		    
-             if(run_t.gPower_On ==RUN_POWER_ON){
-				if(run_t.gPlasma ==1){  //turun off kill 
-			   	
-			       run_t.gPlasma = 0;
-				   SendData_Set_Command(PLASMA_OFF);
-                   HAL_Delay(5);
-			   	}  
-                else{
-                   run_t.gPlasma = 1;
-				   SendData_Set_Command(PLASMA_ON);
-                   HAL_Delay(5);
-				}
-
-               break;
-			 }
-
-           run_t.keyvalue = 0xff;
-        break;
-
-//	    case FAN_KEY_ID:
-//         
-//           if(run_t.gFan_level==fan_speed_max){
-//                    run_t.gFan_level = fan_speed_min;
-// 					run_t.gFan =1; //tur ON
-// 					
-//                    run_t.gTimer_display_fan_level=0;
-//					SendData_Set_Command(FAN_LEVEL_MIN);
-//                   
-//						
-//			     }
-//                else if(run_t.gFan_level == fan_speed_min){
-//                  
-//                    run_t.gFan_level=fan_speed_max;
-//					run_t.gFan =1;
-//              
-//				  
-//                    run_t.gTimer_display_fan_level=0;
-//					SendData_Set_Command(FAN_LEVEL_MAX);
+//	   case DRY_KEY_ID://0x02: //CIN6  ->DRY KEY 
+//	     
+//          if(run_t.gPower_On ==RUN_POWER_ON){
+//		      if(run_t.ptc_warning ==0){
+//
+//          
+//			  if(run_t.gDry== 1){
+//				    run_t.gDry =0;
+//					SendData_Set_Command(DRY_OFF);
+//                    HAL_Delay(5);
+//                    run_t.manual_dry_turn_off=1;
+//               }
+//               else{
+//                    run_t.gDry =1;
+//					run_t.manual_dry_turn_off=0;
+//					SendData_Set_Command(DRY_ON);
+//                    HAL_Delay(5);
+//                 }  
+//			   
+//       
 //
 //             
-//				
-//                    
-//                 }
-//			 run_t.keyvalue = 0xff;
-//		break;
+//              }
+//		    }
+//          
+//			keylabel= 0xff;	
+//         break;
 //
-//		
+//		 case PLASMA_KEY_ID: //0x04: //CIN5  -> plasma ->STERILIZATION KEY 
+//		    
+//             if(run_t.gPower_On ==RUN_POWER_ON){
+//				if(run_t.gPlasma ==1){  //turun off kill 
+//			   	
+//			       run_t.gPlasma = 0;
+//				   SendData_Set_Command(PLASMA_OFF);
+//                   HAL_Delay(5);
+//			   	}  
+//                else{
+//                   run_t.gPlasma = 1;
+//				   SendData_Set_Command(PLASMA_ON);
+//                   HAL_Delay(5);
+//				}
+//
+//               break;
+//			 }
+//
+//           run_t.keyvalue = 0xff;
+//        break;
+
+
 
 	
 
@@ -555,6 +529,56 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 		}
 		
        __HAL_GPIO_EXTI_CLEAR_RISING_IT(ADD_KEY_Pin);
+	 break;
+
+
+	 case PLASMA_KEY_Pin:
+	 if(run_t.gPower_On ==RUN_POWER_ON && PLASMA_KEY_VALUE()==KEY_DOWN){
+				if(run_t.gPlasma ==1){  //turun off kill 
+			   	
+			       run_t.gPlasma = 0;
+				   SendData_Set_Command(PLASMA_OFF);
+                  // HAL_Delay(2);
+			   	}  
+                else{
+                   run_t.gPlasma = 1;
+				   SendData_Set_Command(PLASMA_ON);
+                   //HAL_Delay(2);
+				}
+
+               break;
+			 }
+
+
+
+	__HAL_GPIO_EXTI_CLEAR_RISING_IT(PLASMA_KEY_Pin);
+	 break;
+
+	 case DRY_KEY_Pin:
+	  if(run_t.gPower_On ==RUN_POWER_ON && DRY_KEY_VALUE() ==KEY_DOWN){
+		      if(run_t.ptc_warning ==0){
+
+          
+			  if(run_t.gDry== 1){
+				    run_t.gDry =0;
+					SendData_Set_Command(DRY_OFF);
+                  //1  HAL_Delay(2);
+                    run_t.manual_dry_turn_off=1;
+               }
+               else{
+                    run_t.gDry =1;
+					run_t.manual_dry_turn_off=0;
+					SendData_Set_Command(DRY_ON);
+                   // HAL_Delay(2);
+                 }  
+			   
+       
+
+             
+              }
+		    }
+          
+		__HAL_GPIO_EXTI_CLEAR_RISING_IT(DRY_KEY_Pin);
 	 break;
 
 

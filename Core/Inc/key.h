@@ -15,8 +15,11 @@
 
 
 #define FAN_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,FAN_KEY_Pin)
+
 #define PLASMA_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,PLASMA_KEY_Pin)
+
 #define DRY_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,DRY_KEY_Pin)
+
 #define AI_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,AI_KEY_Pin)
 
 
